@@ -8,8 +8,8 @@ ColumnLimit: 100
 
 Standard: c++14
 
-IndentWidth: 2
-TabWidth:    2
+IndentWidth: 4
+TabWidth:    4
 UseTab:      Never
 
 PointerAlignment: Left
