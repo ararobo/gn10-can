@@ -1,0 +1,37 @@
+# .clang-format
+Language: Cpp
+
+BasedOnStyle: Google
+
+# Explicitly set column limit (Google default is 80, but 100 is common for modern screens)
+ColumnLimit: 100
+
+Standard: c++14
+
+IndentWidth: 2
+TabWidth:    2
+UseTab:      Never
+
+PointerAlignment: Left
+# Enforce pointer alignment strictly
+DerivePointerAlignment: false
+
+SortIncludes:  true
+IncludeBlocks: Regroup
+
+IndentCaseLabels: true
+
+AccessModifierOffset: -2
+
+BinPackArguments: false
+BinPackParameters: false
+
+AlignConsecutiveMacros: true
+
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+
+FixNamespaceComments: true
+
+# Allow simple inline getters (e.g., int get_id() { return id_; }) on one line
+AllowShortFunctionsOnASingleLine: Inline
