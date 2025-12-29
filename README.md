@@ -61,3 +61,6 @@ To ensure cross-platform compatibility:
 - **Code & Commits**: English.
 - **Documentation**: English (Japanese translation allowed).
 - **Internal Comments**: English preferred, but Japanese is allowed for complex logic explanations.
+
+## License
+This project is licensed under the GNU General Public License v3.0 (GPL-3.0) - see the [LICENSE](LICENSE) file for details.
