@@ -1,0 +1,15 @@
+@startuml class diagram
+
+class DataCore {
+    +init()
+    #receive()
+}
+
+class MDDataMaster {
+    +send_targets()
+    +send_gain()
+}
+
+DataCore <|-- MDDataMaster
+
+@enduml
