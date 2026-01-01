@@ -1,14 +1,17 @@
 cmake_minimum_required(VERSION 3.8)
 project(gn10_can_models)
 
-set(CMAKE_CXX_STANDARD 14)
+# Default to C++14 (C++17 is also fine, but 14 is safer for older embedded compilers)
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 14)
+endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Enable compiler warnings
-if(MSVC)
-  add_compile_options(/W4)
-else()
+# Compiler warnings
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
+elseif(MSVC)
+  add_compile_options(/W4)
 endif()
 
 file(GLOB_RECURSE SOURCES "src/*.cpp")
