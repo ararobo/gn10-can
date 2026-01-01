@@ -1,6 +1,7 @@
 #include <iostream>
 #include <queue>
 #include <iomanip>
+#include <cstring>
 #include "gn10_can_models/can_manager.hpp"
 #include "gn10_can_models/motor_driver.hpp"
 #include "gn10_can_models/servo_driver.hpp"
