@@ -23,6 +23,12 @@ IndentCaseLabels: true
 
 AccessModifierOffset: -3
 
+# Put binary operators (except assignments) at the start of wrapped lines
+# BreakBeforeBinaryOperators: NonAssignment
+
+# Align parameters/operands after an open bracket to keep shifts lined up
+# AlignAfterOpenBracket: Align
+
 BinPackArguments: false
 BinPackParameters: false
 
