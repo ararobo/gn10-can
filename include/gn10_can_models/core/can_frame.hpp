@@ -6,9 +6,31 @@
 namespace gn10_can {
 
 struct CANFrame {
+    static constexpr uint8_t MAX_DLC = 8;
     uint32_t id = 0;
-    std::array<uint8_t, 8> data{};
+    std::array<uint8_t, MAX_DLC> data{};
     uint8_t len = 0;
+
+    // additional attribute
+    bool is_extended = false;
+    bool is_rtr = false;
+    bool is_error = false;
+
+    bool operator==(const CANFrame& other) const {
+        if (id != other.id || len != other.len || is_extended != other.is_extended ||
+            is_rtr != other.is_rtr || is_error != other.is_error) {
+            return false;
+        }
+
+        size_t loop_limit = (len > MAX_DLC) ? MAX_DLC : len;
+
+        for (size_t i = 0; i < loop_limit; i++) {
+            if (data[i] != other.data[i]) return false;
+        }
+        return true;
+    }
+
+    bool operator!=(const CANFrame& other) const { return !(*this == other); }
 };
 
 }  // namespace gn10_can
