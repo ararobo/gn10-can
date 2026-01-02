@@ -6,7 +6,7 @@ BasedOnStyle: Google
 # Explicitly set column limit (Google default is 80, but 100 is common for modern screens)
 ColumnLimit: 100
 
-Standard: c++14
+Standard: Latest
 
 IndentWidth: 4
 TabWidth:    4

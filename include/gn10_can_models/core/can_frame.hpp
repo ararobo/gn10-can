@@ -1,16 +1,14 @@
 #pragma once
 
-#include <cstdint>
 #include <array>
+#include <cstdint>
 
-namespace gn10_can
-{
+namespace gn10_can {
 
-struct CANFrame
-{
+struct CANFrame {
     uint32_t id = 0;
     std::array<uint8_t, 8> data;
     uint8_t len;
 };
 
-} // namespace gn10_can
+}  // namespace gn10_can
