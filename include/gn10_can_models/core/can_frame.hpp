@@ -5,11 +5,15 @@
 
 namespace gn10_can {
 
+/**
+ * @brief CAN frame structure
+ *
+ */
 struct CANFrame {
     static constexpr uint8_t MAX_DLC = 8;
-    uint32_t id = 0;
-    std::array<uint8_t, MAX_DLC> data{};
-    uint8_t len = 0;
+    uint32_t id = 0;                      // CAN ID
+    std::array<uint8_t, MAX_DLC> data{};  // Data payload
+    uint8_t len = 0;                      // Data length code (DLC)
 
     // additional attribute
     bool is_extended = false;
