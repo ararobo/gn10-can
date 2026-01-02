@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <vector>
 
-#include "gn10_can_models/core/can_id.hpp"
+#include "gn10_can/core/can_id.hpp"
 
 namespace gn10_can {
 

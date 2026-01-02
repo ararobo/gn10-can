@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include "gn10_can_models/core/can_frame.hpp"
+#include "gn10_can/core/can_frame.hpp"
 
 namespace gn10_can {
 

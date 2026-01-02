@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(gn10_can_models)
+project(gn10_can)
 
 # Default to C++14 (C++17 is also fine, but 14 is safer for older embedded compilers)
 if(NOT CMAKE_CXX_STANDARD)

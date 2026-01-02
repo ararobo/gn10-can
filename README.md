@@ -14,7 +14,7 @@ This library is designed to work across multiple platforms:
 ## Project Structure
 ```text
 GN10CANModels/
-├── include/gn10_can_models/ # Header files (API definitions)
+├── include/gn10_can/ # Header files (API definitions)
 ├── src/                     # Implementation files
 ├── tests/                   # Unit tests (GTest)
 ├── uml/                     # UML diagrams
