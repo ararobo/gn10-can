@@ -10,14 +10,14 @@ class CANManager;
 
 class CANDevice {
  public:
-    CANDevice(CANManager& manager, uint8_t device_type, uint8_t device_id);
+    CANDevice(CANManager& manager, id::DeviceType device_type, uint8_t device_id);
     virtual ~CANDevice() = default;
 
     virtual void on_receive(const CANFrame& frame) = 0;
 
     virtual void update() {}
 
-    uint8_t get_device_type() const { return device_type_; }
+    id::DeviceType get_device_type() const { return device_type_; }
 
     uint8_t get_device_id() const { return device_id_; }
 
@@ -25,7 +25,7 @@ class CANDevice {
     bool send(const uint8_t* data, uint8_t len, uint8_t command);
 
     CANManager& manager_;
-    uint8_t device_type_;
+    id::DeviceType device_type_;
     uint8_t device_id_;
 };
 
