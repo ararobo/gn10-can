@@ -8,4 +8,8 @@
         "markdown": false,
         "scminput": false
     },
+    "plantuml.exportFormat": "png",
+    "plantuml.exportOutDir": "uml/",
+    "plantuml.diagramsRoot": "uml/",
+    "plantuml.exportSubFolder": false
 }
