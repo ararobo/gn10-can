@@ -1,7 +1,7 @@
 #pragma once
 
-#include <algorithm>
 #include <cstdint>
+#include <cstring>
 #include <type_traits>
 
 #include "gn10_can/core/can_frame.hpp"
