@@ -15,6 +15,8 @@ class CANDevice {
 
     virtual void on_receive(const CANFrame& frame) = 0;
 
+    virtual void update() {}
+
     uint8_t get_device_type() const { return device_type_; }
 
     uint8_t get_device_id() const { return device_id_; }
