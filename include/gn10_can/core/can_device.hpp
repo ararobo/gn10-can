@@ -22,7 +22,7 @@ class CANDevice {
     uint8_t get_device_id() const { return device_id_; }
 
  protected:
-    bool send(const uint8_t* data, uint8_t len, uint8_t command);
+    bool send(uint8_t command, const uint8_t* data, uint8_t len);
 
     CANManager& manager_;
     id::DeviceType device_type_;
