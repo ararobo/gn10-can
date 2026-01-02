@@ -3,10 +3,9 @@
 #include <cstdint>
 
 #include "gn10_can/core/can_frame.hpp"
+#include "gn10_can/core/can_manager.hpp"
 
 namespace gn10_can {
-
-class CANManager;
 
 class CANDevice {
  public:
@@ -22,7 +21,16 @@ class CANDevice {
     uint8_t get_device_id() const { return device_id_; }
 
  protected:
-    bool send(uint8_t command, const uint8_t* data, uint8_t len);
+    template <typename CmdEnum>
+    bool send(CmdEnum command, const uint8_t* data = nullptr, uint8_t len = 0) {
+        auto frame = CANFrame::make(device_type_, device_id_, command, data, len);
+        return manager_.send_frame(frame);
+    }
+
+    template <typename CmdEnum>
+    bool send(CmdEnum command, std::initializer_list<uint8_t> data) {
+        return send(command, data.begin(), data.size());
+    }
 
     CANManager& manager_;
     id::DeviceType device_type_;
