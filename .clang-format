@@ -28,7 +28,7 @@ BinPackParameters: false
 
 AlignConsecutiveMacros: true
 
-AlignConsecutiveAssignments: false
+AlignConsecutiveAssignments: true
 AlignConsecutiveDeclarations: false
 
 FixNamespaceComments: true

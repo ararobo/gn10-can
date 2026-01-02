@@ -18,8 +18,8 @@ struct CANFrame {
 
     // additional attribute
     bool is_extended = false;
-    bool is_rtr = false;
-    bool is_error = false;
+    bool is_rtr      = false;
+    bool is_error    = false;
 
     bool operator==(const CANFrame& other) const {
         if (id != other.id || len != other.len || is_extended != other.is_extended ||
