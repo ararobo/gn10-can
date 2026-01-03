@@ -7,8 +7,7 @@ namespace devices {
 
 class MotorDriver : public CANDevice {
   public:
-    MotorDriver(CANManager& manager, uint8_t dev_id)
-        : CANDevice(manager, id::DeviceType::MotorDriver, dev_id) {}
+    MotorDriver(CANManager& manager, uint8_t dev_id);
 
   private:
 };
