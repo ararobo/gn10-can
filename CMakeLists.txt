@@ -17,6 +17,7 @@ endif()
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
 find_package(ament_cmake QUIET)
+find_package(ament_cmake_auto QUIET)
 
 # Allow users to force non-ROS build even if ament_cmake is present
 option(BUILD_FOR_ROS2 "Build with ament_cmake for ROS 2" ${ament_cmake_FOUND})
