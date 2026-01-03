@@ -53,7 +53,7 @@ struct CANFrame {
             std::copy(payload, payload + size, data.begin());
         }
         if (size < MAX_DLC) {
-            std::fill(data.begin() + size, data.end(), 0);
+            std::fill(data.begin() + size, data.end(), static_cast<uint8_t>(0));
         }
 
         this->dlc = static_cast<uint8_t>(size);

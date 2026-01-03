@@ -79,6 +79,9 @@ class MotorConfig {
   private:
     static uint8_t map_ratio_to_u8(float ratio);
 
+#ifdef _MSC_VER
+#pragma pack(push, 1)
+#endif
     struct PackedData {
         /**
          * @brief Maximum Output Limit (Normalized).
@@ -110,7 +113,12 @@ class MotorConfig {
         uint8_t limit_sw_config;
         uint8_t user_option;
         uint8_t reserved[2];
+#ifdef _MSC_VER
+    };
+#pragma pack(pop)
+#else
     } __attribute__((__packed__));
+#endif
 
     PackedData data_{};
 };
