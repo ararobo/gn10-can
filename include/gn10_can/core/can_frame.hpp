@@ -48,7 +48,7 @@ struct CANFrame {
     }
 
     void set_data(const uint8_t* payload, std::size_t length) {
-        std::size_t size = std::min(length, MAX_DLC);
+        std::size_t size = (length < MAX_DLC) ? length : MAX_DLC;
         if (payload != nullptr && size > 0) {
             std::copy(payload, payload + size, data.begin());
         }
