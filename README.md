@@ -1,4 +1,7 @@
 # GN10 CAN Library
+![Platform](https://img.shields.io/badge/Platform-STM32%20|%20ESP32%20|%20ROS2-blue)
+![License](https://img.shields.io/badge/License-GPLv3-green)
+
 CAN bus data models, ID definitions, and handling classes.
 
 This repository is started by @aiba-gento for the robotics communication ecosystem.
