@@ -32,6 +32,11 @@ class CANDevice {
         return send(command, data.begin(), data.size());
     }
 
+    template <typename CmdEnum, std::size_t N>
+    bool send(CmdEnum command, const std::array<uint8_t, N>& data) {
+        return send(command, data.data(), static_cast<uint8_t>(data.size()));
+    }
+
     CANManager& manager_;
     id::DeviceType device_type_;
     uint8_t device_id_;
