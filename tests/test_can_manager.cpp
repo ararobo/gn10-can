@@ -4,7 +4,6 @@
 #include "gn10_can/core/can_manager.hpp"
 #include "mock_driver.hpp"
 
-
 using namespace gn10_can;
 
 class MockDevice : public CANDevice {
@@ -33,7 +32,7 @@ TEST_F(CANManagerTest, RegisterDevice) {
 
 TEST_F(CANManagerTest, RegisterMaxDevices) {
     std::vector<std::unique_ptr<MockDevice>> devices;
-    for (int i = 0; i < CANManager::MAX_DEVICES; ++i) {
+    for (std::size_t i = 0; i < CANManager::MAX_DEVICES; ++i) {
         devices.push_back(std::make_unique<MockDevice>(manager, id::DeviceType::MotorDriver, i));
         EXPECT_TRUE(manager.register_device(devices.back().get()));
     }

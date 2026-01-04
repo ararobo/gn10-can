@@ -6,7 +6,6 @@
 #include "gn10_can/utils/can_converter.hpp"
 #include "mock_driver.hpp"
 
-
 using namespace gn10_can;
 using namespace gn10_can::devices;
 
@@ -28,7 +27,7 @@ TEST_F(MotorDriverTest, SendTarget) {
     auto id_fields = id::unpack(frame.id);
     EXPECT_EQ(id_fields.type, id::DeviceType::MotorDriver);
     EXPECT_EQ(id_fields.dev_id, 1);
-    EXPECT_EQ(id_fields.msg_type, static_cast<uint8_t>(id::MsgTypeMotorDriver::Target));
+    EXPECT_EQ(id_fields.command, static_cast<uint8_t>(id::MsgTypeMotorDriver::Target));
 
     // Verify Data
     float unpacked_target = 0.0f;
