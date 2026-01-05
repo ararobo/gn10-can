@@ -8,6 +8,8 @@
 
 CAN bus data models, ID definitions, and handling classes.
 
+Primarily intended for robot contests, this library simplifies firmware development for custom PCBs by centralizing CAN data frame and ID definitions. It aims to reduce configuration effort while enhancing reliability, reproducibility, and development efficiency.
+
 ## Supported Platforms
 
 This library is designed to work across multiple platforms:
