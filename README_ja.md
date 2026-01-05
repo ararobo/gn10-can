@@ -1,0 +1,142 @@
+# GN10 CAN ライブラリ
+[![CI](https://github.com/ararobo/gn10-can/actions/workflows/test.yml/badge.svg)](https://github.com/ararobo/gn10-can/actions/workflows/test.yml)
+![ROS 2 Version](https://img.shields.io/badge/ROS%202-Humble-blue)
+![Platform](https://img.shields.io/badge/Platform-STM32%20|%20ESP32%20|%20ROS2-blue)
+![License](https://img.shields.io/badge/License-GPLv3-green)
+
+CANバスのデータモデル、ID定義、およびハンドリングクラス。
+
+## 対応プラットフォーム
+
+このライブラリは、複数のプラットフォームで動作するように設計されています：
+
+- **ESP32** - Arduino環境
+- **STM32** - Makefile/CubeIDE
+- **ROS 2** - CMake/Linux
+
+## ビルドとテスト
+
+### 汎用 C++ (CMake)
+
+```bash
+mkdir build && cd build
+cmake -DBUILD_FOR_ROS2=OFF -DBUILD_TESTS=ON .. # -DCMAKE_BUILD_TYPE=Release
+cmake --build .
+ctest  # テストの実行
+```
+
+### ROS 2 (Colcon)
+
+```bash
+colcon build --packages-select gn10_can
+colcon test --packages-select gn10_can
+colcon test-result --all
+```
+
+## 使用方法
+
+### 1. ドライバーインターフェースの実装
+特定のハードウェア（例：STM32、ESP32、SocketCANなど）用に `gn10_can::drivers::DriverInterface` を実装する必要があります。
+
+```cpp
+#include "gn10_can/drivers/driver_interface.hpp"
+
+class MyCANDriver : public gn10_can::drivers::DriverInterface {
+public:
+    bool send(const gn10_can::CANFrame& frame) override {
+        // ハードウェア送信の実装
+        return true;
+    }
+    bool receive(gn10_can::CANFrame& out_frame) override {
+        // ハードウェア受信の実装
+        return true;
+    }
+};
+```
+
+### 2. マネージャーとデバイスのセットアップ
+
+```cpp
+#include "gn10_can/core/can_manager.hpp"
+#include "gn10_can/devices/motor_driver.hpp"
+
+// ... メインループまたはセットアップ内 ...
+
+MyCANDriver driver;
+gn10_can::CANManager manager(driver);
+
+// ID 0 のモータードライバーインスタンスを作成
+gn10_can::devices::MotorDriver motor(manager, 0);
+manager.register_device(&motor);
+
+// コマンドの送信
+motor.send_target(100.0f); // 目標速度/位置を設定
+
+// メインループ
+while (true) {
+    // 受信メッセージの処理
+    // (注: 低遅延のために、CAN受信割り込みやドライバーの受信コールバック関数内で
+    //  manager.update() を直接呼び出すことも可能です)
+    manager.update();
+
+    // ... アプリケーションロジック ...
+}
+```
+
+## プロジェクト構造
+```text
+gn10-can/
+├── include/gn10_can/
+│   ├── core/        # コアロジック (Manager, Device base, Frame)
+│   ├── devices/     # デバイス実装 (MotorDriver, etc.)
+│   ├── drivers/     # ハードウェアインターフェース
+│   └── utils/       # ユーティリティ (Converter, etc.)
+├── src/             # 実装ファイル
+├── tests/           # ユニットテスト (GTest)
+├── uml/             # UML図
+└── CMakeLists.txt   # ビルド設定
+```
+
+## クラス図
+
+![Class Diagram](uml/class_diagram.png)
+
+## 開発ルール
+
+### 1. 命名規則
+変数名と関数名は説明的である必要があります。基本的には **Google C++ Style Guide** に従います：
+- **クラス/構造体名**: `PascalCase` (例: `SpeedMsg`, `BatteryStatus`)
+- **関数/変数名**: `snake_case` (例: `get_id()`, `target_velocity`)
+- **定数/列挙値**: `kPascalCase` または `ALL_CAPS` (例: `kMaxSpeed`, `BATTERY_LOW`)
+- **プライベートメンバ変数**: ローカル変数と区別するために、末尾にアンダースコアを付ける必要があります (例: `speed_`, `voltage_`)。
+
+### 2. コードフォーマット
+- IDEのデフォルト設定に依存しないでください。
+- すべてのコードは **Clang-Format** を使用してフォーマットする必要があります。
+- ルートディレクトリに `.clang-format` ファイルが用意されています。保存時にこれを使用するようにエディタを設定してください。
+
+### 3. 標準ライブラリのみ使用
+クロスプラットフォームの互換性を確保するため：
+- `include/gn10_can_models/` 以下のファイルは、`<Arduino.h>`、`<rclcpp/rclcpp.h>`、`<hal_driver.h>` などのプラットフォーム固有のヘッダーを含んでは**いけません**。
+- 標準C++ヘッダーのみが許可されます：`<cstdint>`, `<cstring>`, `<cmath>`, `<algorithm>` など。
+
+### 4. ハードウェア抽象化
+- このライブラリは、**データパッキング（シリアライズ）/ アンパッキング（デシリアライズ）関数**と**ドライバーインターフェース**を提供します。
+- 実際のCANバスとのやり取りは、`gn10_can::drivers::DriverInterface` を継承して実装する必要があります。
+- これにより、ライブラリはプラットフォームに依存しない（ESP32、Linux/SocketCAN、STM32などで動作する）ようになります。
+
+### 5. データ表現（エンディアン）
+- 特定のモデルで指定されていない限り、マルチバイトデータはデフォルトで **リトルエンディアン (Intel形式)** でパックされます。
+- **注**: 実装はホストCPUのエンディアン（通常、ARM/x86ではリトルエンディアン）に依存します。
+
+### 6. メモリ管理（動的割り当てなし）
+- 組み込みシステム（STM32/ESP32）での安定性を確保するため、モデル内での動的メモリ割り当て（`new`, `malloc`, `std::vector`, `std::string`）の使用は避けてください。
+- 固定サイズの配列とプリミティブ型を使用してください。
+
+### 7. 言語ポリシー（要検討）
+- **コードとコミット**: 英語。
+- **ドキュメント**: 英語（日本語訳は許可）。
+- **内部コメント**: 英語推奨ですが、複雑なロジックの説明には日本語も許可されます。
+
+## ライセンス
+このプロジェクトは GNU General Public License v3.0 (GPL-3.0) の下でライセンスされています - 詳細は [LICENSE](LICENSE) ファイルを参照してください。
