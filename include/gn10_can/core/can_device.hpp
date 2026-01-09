@@ -1,3 +1,13 @@
+/**
+ * @file can_device.hpp
+ * @author Gento Aiba (aiba-gento)
+ * @brief デバイス（MotorDriverやServoDriverなど）の抽象化クラスのヘッダーファイル
+ * @version 0.1
+ * @date 2026-01-10
+ *
+ * @copyright Copyright (c) 2026 Gento Aiba
+ * SPDX-License-Identifier: GPL-3.0
+ */
 #pragma once
 
 #include <cstdint>
