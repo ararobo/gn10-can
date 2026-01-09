@@ -27,7 +27,7 @@ enum class GainType : uint8_t {
 
 class MotorConfig {
   public:
-    MotorConfig() {}
+    MotorConfig() = default;
 
     /**
      * @brief Set the maximum duty cycle limit using a ratio (0.0 - 1.0).
