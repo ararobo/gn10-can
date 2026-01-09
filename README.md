@@ -140,7 +140,7 @@ To ensure cross-platform compatibility:
 ### 7. Language Policy
 - **Code & Commits**: English.
 - **Documentation**: English (Japanese translation allowed).
-- **Internal Comments**: English preferred, but Japanese is allowed for complex logic explanations.
+- **Internal Comments**: Japanese
 
 ## License
 This project is licensed under the GNU General Public License v3.0 (GPL-3.0) - see the [LICENSE](LICENSE) file for details.
