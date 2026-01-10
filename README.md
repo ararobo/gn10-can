@@ -18,10 +18,16 @@ This library is designed to work across multiple platforms:
 - **STM32** - Makefile/CubeIDE
 - **ROS 2** - CMake/Linux
 
-## Build & Test
+## Build
 
 ### Generic C++ (CMake)
 
+```bash
+mkdir build && cd build
+cmake -DBUILD_FOR_ROS2=OFF .. # -DCMAKE_BUILD_TYPE=Release
+cmake --build .
+```
+test
 ```bash
 mkdir build && cd build
 cmake -DBUILD_FOR_ROS2=OFF -DBUILD_TESTS=ON .. # -DCMAKE_BUILD_TYPE=Release
@@ -33,6 +39,9 @@ ctest  # Run tests
 
 ```bash
 colcon build --packages-select gn10_can
+```
+test
+```bash
 colcon test --packages-select gn10_can
 colcon test-result --all
 ```
