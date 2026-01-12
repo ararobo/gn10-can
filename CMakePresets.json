@@ -1,0 +1,31 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 20,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "windows-host",
+            "displayName": "Windows (Host)",
+            "description": "Windows上で動作する汎用ライブラリとしてビルド",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/host",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "stm32-cross",
+            "displayName": "STM32 (Cross Compile)",
+            "description": "STM32CubeCLTを使用してクロスコンパイル",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/stm32",
+            "toolchainFile": "${sourceDir}/stm32_toolchain.cmake",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        }
+    ]
+}

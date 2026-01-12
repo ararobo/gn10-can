@@ -12,7 +12,4 @@
     "plantuml.exportOutDir": "uml/",
     "plantuml.diagramsRoot": "uml/",
     "plantuml.exportSubFolder": false,
-    "cmake.configureArgs": [
-        "-DCMAKE_TOOLCHAIN_FILE=${workspaceFolder}/stm32_toolchain.cmake"
-    ]
 }
