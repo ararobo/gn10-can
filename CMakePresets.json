@@ -7,11 +7,11 @@
     },
     "configurePresets": [
         {
-            "name": "windows-host",
-            "displayName": "Windows (Host)",
-            "description": "Windows上で動作する汎用ライブラリとしてビルド",
+            "name": "Ninja-Host",
+            "displayName": "Ninja Host Build",
+            "description": "Windows/Linuxホスト用ビルド(Ninjaが必要)",
             "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/host",
+            "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
             }
