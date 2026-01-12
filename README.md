@@ -42,8 +42,9 @@ Install a C++ Compiler(Visual Studio or MinGW), CMake, and Ninja, and add them t
 ### CMake (`FetchContent` or Submodule)
 Add the following to your `CMakeLists.txt`:
 ```cmake
-add_subdirectory(lib/gn10-can)
-target_link_libraries(${PROJECT_NAME} PRIVATE gn10_can)
+# Example: If placed under 'libs' folder
+add_subdirectory(libs/gn10-can)
+target_link_libraries(<your_target_name> PRIVATE gn10_can)
 ```
 
 ## Build
