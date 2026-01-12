@@ -18,6 +18,34 @@ This library is designed to work across multiple platforms:
 - **STM32** - Makefile/CubeIDE
 - **ROS 2** - CMake/Linux
 
+## Development Environment Setup
+
+### Common
+Install **CMake Tools** extension for VSCode.
+
+### Ubuntu
+```bash
+sudo apt update
+sudo apt install build-essential cmake ninja-build
+```
+
+### Windows(for STM32)
+
+Install STM32CubeCLT.
+
+### Windows(Generic)
+
+Install a C++ Compiler(Visual Studio or MinGW), CMake, and Ninja, and add them to your PATH.
+
+## Integration
+
+### CMake (`FetchContent` or Submodule)
+Add the following to your `CMakeLists.txt`:
+```cmake
+add_subdirectory(lib/gn10-can)
+target_link_libraries(${PROJECT_NAME} PRIVATE gn10_can)
+```
+
 ## Build
 
 ### Generic C++ (CMake)
@@ -133,20 +161,11 @@ To ensure cross-platform compatibility:
 - Files under `include/gn10_can_models/` must **NOT** include platform-specific headers such as `<Arduino.h>`, `<rclcpp/rclcpp.h>`, or `<hal_driver.h>`.
 - Only standard C++ headers are allowed: `<cstdint>`, `<cstring>`, `<cmath>`, `<algorithm>`, etc.
 
-### 4. Hardware Abstraction
-- This library provides **data packing (serialize) / unpacking (deserialize) functions** and a **Driver Interface**.
-- Actual CAN bus interaction must be implemented by inheriting from `gn10_can::drivers::DriverInterface`.
-- This allows the library to be platform-agnostic (running on ESP32, Linux/SocketCAN, STM32, etc.).
-
-### 5. Data Representation (Endianness)
-- Unless otherwise specified in a specific model, multi-byte data is packed in **Little-Endian (Intel format)** by default.
-- **Note**: The implementation relies on the host CPU's endianness (typically Little-Endian on ARM/x86).
-
-### 6. Memory Management (No Dynamic Allocation)
+### 4. Memory Management (No Dynamic Allocation)
 - To ensure stability on embedded systems (STM32/ESP32), avoid using dynamic memory allocation (`new`, `malloc`, `std::vector`, `std::string`) inside the models.
 - Use fixed-size arrays and primitive types.
 
-### 7. Language Policy
+### 5. Language Policy
 - **Code & Commits**: English.
 - **Documentation**: English (Japanese translation allowed).
 - **Internal Comments**: Japanese
