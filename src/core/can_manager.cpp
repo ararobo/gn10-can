@@ -23,10 +23,6 @@ void CANManager::update() {
             devices_[i]->on_receive(rx_frame);
         }
     }
-
-    for (size_t i = 0; i < device_count_; ++i) {
-        devices_[i]->update();
-    }
 }
 
 bool CANManager::send_frame(const CANFrame& frame) {

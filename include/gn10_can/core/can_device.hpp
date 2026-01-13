@@ -17,7 +17,6 @@
 #include "gn10_can/core/can_frame.hpp"
 #include "gn10_can/core/can_manager.hpp"
 
-
 namespace gn10_can {
 
 /**
@@ -45,12 +44,6 @@ class CANDevice {
      * @param frame 受信したCANパケット
      */
     virtual void on_receive(const CANFrame& frame) = 0;
-
-    /**
-     * @brief on_receive関数と同じ周期で呼ばれる関数
-     *
-     */
-    virtual void update() {}
 
     /**
      * @brief デバイスの種類を取得
