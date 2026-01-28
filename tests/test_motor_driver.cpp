@@ -56,24 +56,19 @@ TEST_F(MotorDriverTest, ReceiveFeedback) {
     uint8_t limit_sw = 1;
 
     // Construct a feedback frame
-    // New protocol: ID=0x200, Data[0]=Cmd, Data[1..]=Payload
+    // New protocol: Command in ID
+    // ID = pack(MotorDriver, 1, Feedback)
+    
     CANFrame frame;
-    frame.id = 0x200;
+    frame.id = id::pack(id::DeviceType::MotorDriver, 1, id::MsgTypeMotorDriver::Feedback);
     
-    // Payload length = 5 (float + uint8_t in pack)
-    // Total dlc = 1 (cmd) + 5 = 6
-    frame.dlc = 6;
-    frame.data[0] = static_cast<uint8_t>(id::MsgTypeMotorDriver::Feedback);
-    
-    // Pack payload into data[1..]
-    // Note: pack takes standard array or buffer. 
-    // We can pack into a temp buffer then copy, or pack directly if pack supports offset pointers efficiently.
-    // The utility `converter::pack` takes `std::array` or similar.
+    // Payload contains data directly from index 0
     std::array<uint8_t, 8> temp_payload{};
     converter::pack(temp_payload, 0, feedback);
     converter::pack(temp_payload, 4, limit_sw);
     
-    std::memcpy(&frame.data[1], temp_payload.data(), 5);
+    frame.dlc = 5; // float(4) + uint8_t(1)
+    std::memcpy(frame.data.data(), temp_payload.data(), 5);
 
     // In Proposal 5, `CANBus::update` calls `motor.on_receive`.
     // OR calling `motor.on_receive` directly for unit testing logic.
