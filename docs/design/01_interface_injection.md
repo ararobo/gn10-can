@@ -42,20 +42,31 @@ public:
    
    ```cpp
    class CANDevice : public ICANReceiver {
-       ICANSender& sender_; 
-       uint32_t my_id_; // 自身のID
+       ICANSender& sender_; // 送信インターフェース
+       id::DeviceType device_type_;
+       uint8_t device_id_;  // 0-15
+
    public:
-       CANDevice(ICANSender& sender, uint32_t id, ...) : sender_(sender), my_id_(id) {}
+       // コンストラクタ
+       CANDevice(ICANSender& sender, id::DeviceType type, uint8_t id) 
+           : sender_(sender), device_type_(type), device_id_(id) {}
        
        void do_something() {
+           // タイプとIDを含んだフレームを作成して送信
            sender_.send_frame(frame);
        }
        
        // ICANReceiverの実装
-       uint32_t get_target_id() const override { return my_id_; }
+       // 受信すべきベースID(タイプ+ID)を返す
+       uint32_t get_target_id() const override { 
+           // コマンド部分はマスクされるため、上位ビットを計算して返す
+           // (Type << 7) | (ID << 3)
+           return (static_cast<uint32_t>(device_type_) << 7) | 
+                  (static_cast<uint32_t>(device_id_) << 3); 
+       }
        
        void on_receive(const CANFrame& frame) override {
-           // ここに来る時点で自分宛てであることが保証される
+           // ここに来る時点で自分宛て(タイプとIDが一致)であることが保証される
            process(frame); 
        }
    };
@@ -63,7 +74,8 @@ public:
 
 2. **`CANBusController` (旧 CANManager)**
    - **`ICANSender`** を実装します。
-   - 受信IDをキーとしたマップ、またはハッシュテーブルでレシーバーを管理し、適切な相手にのみイベントを配送します。
+   - 受信ID（タイプ+ID）をキーとしたマップでレシーバーを管理します。
+   - コマンド部（下位ビット）を除外してルーティングを行います。
    
    ```cpp
    #include <map>
@@ -83,9 +95,13 @@ public:
        
        void update() {
            CANFrame frame;
+           constexpr uint32_t ROUTING_MASK = 0x7F8; // コマンド以外のビット
+
            while(driver_.receive(frame)) {
-               // IDに基づいて適切なレシーバーを検索
-               auto it = router_.find(frame.id);
+               // コマンド部分を除外して適切なレシーバーを検索
+               uint32_t target_key = frame.id & ROUTING_MASK;
+               
+               auto it = router_.find(target_key);
                if (it != router_.end()) {
                    it->second->on_receive(frame);
                }
