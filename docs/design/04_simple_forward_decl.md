@@ -72,8 +72,9 @@ class CANManager {
 public:
     CANManager(drivers::DriverInterface& driver) : driver_(driver) {}
 
-    // IDを指定して登録（デバイス内のIDを使うなら引数減らせる）
-    void register_device(CANDevice* device);
+    // IDを指定して登録
+    // デバイスタイプとIDを組み合わせた「ベースID」で登録します
+    void register_device(CANDevice* device, uint32_t rx_id);
 
     bool send_frame(const CANFrame& frame) {
         return driver_.send(frame);
@@ -82,6 +83,24 @@ public:
     void update();
 };
 }
+```
+
+**`can_manager.cpp`**
+```cpp
+    void CANManager::update() {
+        CANFrame frame;
+        constexpr uint32_t ROUTING_MASK = 0x7F8; // コマンド以外のビット(Type+ID)
+
+        while (driver_.receive(frame)) {
+            // 受信IDからコマンド部を除外し、ベースIDでデバイスを検索
+            uint32_t base_id = frame.id & ROUTING_MASK;
+            
+            auto it = subscribers_.find(base_id);
+            if (it != subscribers_.end()) {
+                it->second->on_receive(frame);
+            }
+        }
+    }
 ```
 
 **`can_device.cpp`** (実装ファイル)
