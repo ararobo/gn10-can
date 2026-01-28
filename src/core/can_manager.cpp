@@ -3,17 +3,19 @@
 
 namespace gn10_can {
 
+// Mask to extract Type + DeviceID (ignoring Command bits 0-2)
+// 0x7F8 = 0000 0111 1111 1000
+static constexpr uint32_t ROUTING_MASK = 0x7F8;
+
 CANManager::CANManager(drivers::DriverInterface& driver) : driver_(driver) {}
 
 void CANManager::register_device(CANDevice* device, uint32_t rx_id) {
-    subscribers_[rx_id] = device;
+    // Register by Base ID
+    subscribers_[rx_id & ROUTING_MASK] = device;
 }
 
 void CANManager::update() {
     CANFrame frame;
-    // Mask to extract Type + DeviceID (ignoring Command bits 0-2)
-    // 0x7F8 = 0000 0111 1111 1000
-    constexpr uint32_t ROUTING_MASK = 0x7F8;
 
     while (driver_.receive(frame)) {
         // Find subscriber by Base ID (Type + DeviceID)
