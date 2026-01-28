@@ -84,20 +84,30 @@ public:
 ### 2. マネージャーとデバイスのセットアップ
 
 ```cpp
-#include "gn10_can/core/can_manager.hpp"
+#include "gn10_can/core/can_bus.hpp"
 #include "gn10_can/devices/motor_driver.hpp"
 
 // ... メインループまたはセットアップ内 ...
 
 MyCANDriver driver;
-gn10_can::CANManager manager(driver);
+gn10_can::CANBus bus(driver);
 
-// ID 0 のモータードライバーインスタンスを作成
-gn10_can::devices::MotorDriver motor(manager, 0);
-manager.register_device(&motor);
+// ID 0x200 のモータードライバーインスタンスを作成
+// RAIIにより、作成時に自動的にバスへ登録されます（手動登録は不要です）
+gn10_can::devices::MotorDriver motor(bus, 0x200);
 
 // コマンドの送信
 motor.send_target(100.0f); // 目標速度/位置を設定
+
+// メインループ
+while (true) {
+    // 受信処理
+    // (Note: CAN受信割り込み内などで bus.update() を呼ぶことで低遅延化も可能です)
+    bus.update();
+
+    // ... アプリケーションロジック ...
+}
+```
 
 // メインループ
 while (true) {
