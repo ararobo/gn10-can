@@ -41,32 +41,17 @@ void MotorDriver::send_status(float load_current, int8_t temperature) {
 }
 
 void MotorDriver::on_receive(const CANFrame& frame) {
-    // New Protocol: Command is in Data[0]
-    if (frame.dlc < 1) return;
+    // Protocol Update: Command is in ID, not Data[0].
     
-    uint8_t cmd = frame.data[0];
+    auto fields = id::unpack(frame.id);
     
-    // Check if command matches our expectations
-    // Note: Previously checked Type and DeviceID from ID. 
-    // Now filtering is done by CANBus dispatching to my_id_.
-    // So we assume any message reaching here is for us.
-    
-    // Payload is from data[1] onwards.
-    const uint8_t* payload = frame.data.data() + 1;
-    // uint8_t payload_len = frame.dlc - 1; // Unused in unpack if we trust offsets?
-    
-    // Note: unpack takes raw buffer and offsets. 
-    // Previous code: unpack(frame.data.data(), frame.dlc, 0, val);
-    // Be careful with offsets. If payload is shifted by 1 byte (cmd), 
-    // then value at payload[0] is actually frame.data[1].
-    // If we use converter::unpack on `frame.data.data()`, we must adjust offset by +1.
-    
-    if (cmd == static_cast<uint8_t>(id::MsgTypeMotorDriver::Feedback)) {
-        converter::unpack(frame.data.data(), frame.dlc, 1 + 0, feedback_val_);
-        converter::unpack(frame.data.data(), frame.dlc, 1 + 4, limit_sw_state_);
-    } else if (cmd == static_cast<uint8_t>(id::MsgTypeMotorDriver::Status)) {
-        converter::unpack(frame.data.data(), frame.dlc, 1 + 0, load_current_);
-        converter::unpack(frame.data.data(), frame.dlc, 1 + 4, temperature_);
+    if (fields.is_command(id::MsgTypeMotorDriver::Feedback)) {
+        // Payload starts at 0
+        converter::unpack(frame.data.data(), frame.dlc, 0, feedback_val_);
+        converter::unpack(frame.data.data(), frame.dlc, 4, limit_sw_state_);
+    } else if (fields.is_command(id::MsgTypeMotorDriver::Status)) {
+        converter::unpack(frame.data.data(), frame.dlc, 0, load_current_);
+        converter::unpack(frame.data.data(), frame.dlc, 4, temperature_);
     }
 }
 

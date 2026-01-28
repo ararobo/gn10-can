@@ -91,7 +91,7 @@ class CANDevice {
         if (data && len > 0) {
             payload.assign(data, data + len);
         }
-        return send(static_cast<uint8_t>(command), payload);
+        return send(command, payload);
     }
     
     template <typename CmdEnum>
