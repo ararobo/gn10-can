@@ -2,7 +2,7 @@
  * @file motor_driver_types.hpp
  * @author Gento Aiba (aiba-gento)
  * @brief モータードライバー関連の型定義ヘッダーファイル
- * @version 0.1
+ * @version 0.1.0
  * @date 2026-01-10
  *
  * @copyright Copyright (c) 2026 Gento Aiba

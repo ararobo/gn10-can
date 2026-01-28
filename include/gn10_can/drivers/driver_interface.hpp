@@ -2,7 +2,7 @@
  * @file driver_interface.hpp
  * @author Gento Aiba (aiba-gento)
  * @brief CAN通信ハードウェアインターフェースの抽象化クラスのヘッダーファイル
- * @version 0.1
+ * @version 0.1.0
  * @date 2026-01-10
  *
  * @copyright Copyright (c) 2026 Gento Aiba

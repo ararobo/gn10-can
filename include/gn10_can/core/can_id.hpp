@@ -2,7 +2,7 @@
  * @file can_id.hpp
  * @author Gento Aiba (aiba-gento)
  * @brief CAN-IDに関する機能を提供するヘッダーファイル
- * @version 0.1
+ * @version 0.1.0
  * @date 2026-01-10
  *
  * @copyright Copyright (c) 2026 Gento Aiba

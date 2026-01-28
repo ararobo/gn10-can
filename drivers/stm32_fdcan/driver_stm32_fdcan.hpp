@@ -2,7 +2,7 @@
  * @file driver_stm32_fdcan.hpp
  * @author Gento Aiba (aiba-gento)
  * @brief STM32 FDCANのドライバ具体化クラスのヘッダファイル
- * @version 0.1
+ * @version 0.1.0
  * @date 2026-01-11
  *
  * @copyright Copyright (c) 2026

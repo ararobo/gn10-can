@@ -3,7 +3,7 @@
  * @author Gento Aiba (aiba-gento)
  * @brief
  * 物理的なCANバスをソフトウェア上で表現したクラス。デバイスの接続(Attach)と、メッセージのルーティング(Dispatch)を担当します。
- * @version 0.1
+ * @version 0.1.0
  * @date 2026-01-28
  *
  * @copyright Copyright (c) 2026 Gento Aiba

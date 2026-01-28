@@ -2,7 +2,7 @@
  * @file can_frame.hpp
  * @author Gento Aiba (aiba-gento)
  * @brief CANフレーム構造体のヘッダーファイル
- * @version 0.2
+ * @version 0.1.0
  * @date 2026-01-28
  *
  * @copyright Copyright (c) 2026 Gento Aiba

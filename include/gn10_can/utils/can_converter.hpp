@@ -2,7 +2,7 @@
  * @file can_converter.hpp
  * @author Gento Aiba (aiba-gento)
  * @brief CANデータ変換ユーティリティヘッダーファイル
- * @version 0.1
+ * @version 0.1.0
  * @date 2026-01-10
  *
  * @copyright Copyright (c) 2026 Gento Aiba
