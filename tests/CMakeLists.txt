@@ -10,8 +10,8 @@ if(BUILD_FOR_ROS2)
     ament_add_gtest(test_can_converter test_can_converter.cpp)
     target_link_libraries(test_can_converter ${PROJECT_NAME})
 
-    ament_add_gtest(test_can_manager test_can_manager.cpp)
-    target_link_libraries(test_can_manager ${PROJECT_NAME})
+    ament_add_gtest(test_can_bus_controller test_can_bus_controller.cpp)
+    target_link_libraries(test_can_bus_controller ${PROJECT_NAME})
 
     ament_add_gtest(test_motor_driver test_motor_driver.cpp)
     target_link_libraries(test_motor_driver ${PROJECT_NAME})

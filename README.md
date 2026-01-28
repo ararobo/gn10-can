@@ -99,17 +99,17 @@ public:
 ### 2. Setup Manager and Devices
 
 ```cpp
-#include "gn10_can/core/can_manager.hpp"
+#include "gn10_can/core/can_bus_controller.hpp"
 #include "gn10_can/devices/motor_driver.hpp"
 
 // ... inside your main loop or setup ...
 
 MyCANDriver driver;
-gn10_can::CANManager manager(driver);
+gn10_can::CANBusController bus_controller(driver);
 
 // Create a motor driver instance with ID 0
-gn10_can::devices::MotorDriver motor(manager, 0);
-manager.register_device(&motor);
+gn10_can::devices::MotorDriver motor(bus_controller, 0);
+bus_controller.register_receiver(&motor);
 
 // Send commands
 motor.send_target(100.0f); // Set target velocity/position
@@ -119,7 +119,7 @@ while (true) {
     // Process incoming messages.
     // (Note: You can also call manager.update() directly in the CAN receive
     //  interrupt or in the driver's receive callback function for lower latency.)
-    manager.update();
+    bus_controller.update();
 
     // ... your application logic ...
 }

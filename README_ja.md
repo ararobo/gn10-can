@@ -84,17 +84,17 @@ public:
 ### 2. マネージャーとデバイスのセットアップ
 
 ```cpp
-#include "gn10_can/core/can_manager.hpp"
+#include "gn10_can/core/can_bus_controller.hpp"
 #include "gn10_can/devices/motor_driver.hpp"
 
 // ... メインループまたはセットアップ内 ...
 
 MyCANDriver driver;
-gn10_can::CANManager manager(driver);
+gn10_can::CANBusController bus_controller(driver);
 
 // ID 0 のモータードライバーインスタンスを作成
-gn10_can::devices::MotorDriver motor(manager, 0);
-manager.register_device(&motor);
+gn10_can::devices::MotorDriver motor(bus_controller, 0);
+bus_controller.register_receiver(&motor);
 
 // コマンドの送信
 motor.send_target(100.0f); // 目標速度/位置を設定
@@ -104,7 +104,7 @@ while (true) {
     // 受信メッセージの処理
     // (注: 低遅延のために、CAN受信割り込みやドライバーの受信コールバック関数内で
     //  manager.update() を直接呼び出すことも可能です)
-    manager.update();
+    bus_controller.update();
 
     // ... アプリケーションロジック ...
 }
