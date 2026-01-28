@@ -18,13 +18,15 @@
 
 #include "gn10_can/core/can_bus.hpp"
 #include "gn10_can/core/can_frame.hpp"
+#include "gn10_can/core/can_id.hpp"
 
 namespace gn10_can {
 
 class CANDevice {
   protected:
     CANBus& bus_;
-    uint32_t my_id_;
+    id::DeviceType type_;
+    uint8_t id_;
 
   public:
     /**
@@ -32,10 +34,14 @@ class CANDevice {
      * コンストラクタで自動的にバスに登録されます。
      * 
      * @param bus CANバスへの参照
-     * @param id 受信ID (このIDのメッセージを受信します)
+     * @param type デバイスタイプ
+     * @param id デバイスID (0-15)
      */
-    CANDevice(CANBus& bus, uint32_t id) : bus_(bus), my_id_(id) {
-        bus_.attach(this, my_id_);
+    CANDevice(CANBus& bus, id::DeviceType type, uint8_t id) : bus_(bus), type_(type), id_(id) {
+        // コマンドを含まないID（上位ビット）をキーとして登録
+        // packは (Type << 7) | (ID << 3) | Cmd なので、右に3シフトして登録キーとする
+        uint32_t key = id::pack(type, id, 0) >> 3;
+        bus_.attach(this, key);
     }
 
     /**
@@ -43,7 +49,8 @@ class CANDevice {
      * デストラクタで自動的にバスから登録解除されます。
      */
     virtual ~CANDevice() {
-        bus_.detach(my_id_);
+        uint32_t key = id::pack(type_, id_, 0) >> 3;
+        bus_.detach(key);
     }
 
     /**
@@ -56,37 +63,24 @@ class CANDevice {
 
     /**
      * @brief データ送信 (簡易API)
-     * 自身のIDを使ってデータを送信します。
+     * @param cmd コマンド(Enum or uint8_t)
      * @param data 送信データ
      */
-    bool send(const std::vector<uint8_t>& data) {
+    template <typename CmdEnum>
+    bool send(CmdEnum cmd, const std::vector<uint8_t>& data) {
         CANFrame frame;
-        frame.id = my_id_;
+        // IDにコマンドを埋め込む
+        frame.id = id::pack(type_, id_, cmd);
+        
         frame.dlc = static_cast<uint8_t>(data.size());
         if(frame.dlc > 8) frame.dlc = 8;
-        if(frame.dlc > 0) std::memcpy(frame.data.data(), data.data(), frame.dlc);
-        return bus_.send_raw(frame);
-    }
-
-    /**
-     * @brief コマンド付き送信 (簡易API)
-     * 第1バイトをコマンドとして送信します。
-     * @param cmd コマンド
-     * @param data データペイロード
-     */
-    bool send(uint8_t cmd, const std::vector<uint8_t>& data) {
-        CANFrame frame;
-        frame.id = my_id_;
-        // 1バイト目コマンド + データ
-        frame.dlc = static_cast<uint8_t>(data.size() + 1);
-        if(frame.dlc > 8) frame.dlc = 8;
         
-        frame.data[0] = cmd;
-        if (frame.dlc > 1) {
-            std::memcpy(&frame.data[1], data.data(), frame.dlc - 1);
+        if(frame.dlc > 0) {
+            std::memcpy(frame.data.data(), data.data(), frame.dlc);
         }
         return bus_.send_raw(frame);
     }
+
 
     // --- Legacy / Template Support (Updated to use bus_) ---
 

@@ -23,9 +23,9 @@ class MotorDriver : public CANDevice {
      * @brief モータードライバー用デバイスクラスのコンストラクタ
      *
      * @param bus CANBusクラスの参照
-     * @param id 受信CAN-ID
+     * @param id デバイスID (0-15)
      */
-    MotorDriver(CANBus& bus, uint32_t id);
+    MotorDriver(CANBus& bus, uint8_t id);
 
     /**
      * @brief モータードライバー初期化コマンド送信関数

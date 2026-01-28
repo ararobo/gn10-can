@@ -92,9 +92,11 @@ public:
 MyCANDriver driver;
 gn10_can::CANBus bus(driver);
 
-// ID 0x200 のモータードライバーインスタンスを作成
+// デバイスID=1 のモータードライバーインスタンスを作成
 // RAIIにより、作成時に自動的にバスへ登録されます（手動登録は不要です）
-gn10_can::devices::MotorDriver motor(bus, 0x200);
+// IDだけでなくデバイスタイプも内部で考慮されるため、
+// 異なる種類のデバイスであれば同じID番号でも共存できます。
+gn10_can::devices::MotorDriver motor(bus, 1);
 
 // コマンドの送信
 motor.send_target(100.0f); // 目標速度/位置を設定

@@ -2,13 +2,14 @@
 
 #include "gn10_can/core/can_device.hpp"
 #include "gn10_can/core/can_bus.hpp"
+#include "gn10_can/core/can_id.hpp"
 #include "mock_driver.hpp"
 
 using namespace gn10_can;
 
 class MockDevice : public CANDevice {
   public:
-    MockDevice(CANBus& bus, uint32_t id) : CANDevice(bus, id) {}
+    MockDevice(CANBus& bus, id::DeviceType type, uint8_t id) : CANDevice(bus, type, id) {}
 
     void on_receive(const CANFrame& frame) override { received_frames.push_back(frame); }
 
@@ -22,12 +23,14 @@ class CANBusTest : public ::testing::Test {
 };
 
 TEST_F(CANBusTest, Routing) {
-    MockDevice dev1(bus, 0x100);
-    MockDevice dev2(bus, 0x200);
+    // Type: MotorDriver(1), ID: 0 -> CANID: (1<<7) | (0<<3) = 0x80
+    MockDevice dev1(bus, id::DeviceType::MotorDriver, 0);
+    // Type: ServoDriver(2), ID: 0 -> CANID: (2<<7) | (0<<3) = 0x100
+    MockDevice dev2(bus, id::DeviceType::ServoDriver, 0);
 
-    CANFrame f1; f1.id = 0x100;
-    CANFrame f2; f2.id = 0x200;
-    CANFrame f3; f3.id = 0x300; 
+    CANFrame f1; f1.id = 0x80;
+    CANFrame f2; f2.id = 0x100;
+    CANFrame f3; f3.id = 0x300; // Random non-matching
 
     driver.push_receive_frame(f1);
     driver.push_receive_frame(f2);
@@ -36,7 +39,11 @@ TEST_F(CANBusTest, Routing) {
     bus.update();
 
     ASSERT_EQ(dev1.received_frames.size(), 1);
-    EXPECT_EQ(dev1.received_frames[0].id, 0x100);
+    EXPECT_EQ(dev1.received_frames[0].id, 0x80);
+    
+    ASSERT_EQ(dev2.received_frames.size(), 1);
+    EXPECT_EQ(dev2.received_frames[0].id, 0x100);
+}
 
     ASSERT_EQ(dev2.received_frames.size(), 1);
     EXPECT_EQ(dev2.received_frames[0].id, 0x200);

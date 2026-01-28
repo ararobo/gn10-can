@@ -5,8 +5,8 @@
 namespace gn10_can {
 namespace devices {
 
-MotorDriver::MotorDriver(CANBus& bus, uint32_t id)
-    : CANDevice(bus, id) {}
+MotorDriver::MotorDriver(CANBus& bus, uint8_t id)
+    : CANDevice(bus, gn10_can::id::DeviceType::MotorDriver, id) {}
 
 void MotorDriver::send_init(const MotorConfig& config) {
     // Assuming config.to_bytes() returns an array or vector compatible with send template
