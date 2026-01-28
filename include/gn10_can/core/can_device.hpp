@@ -13,8 +13,8 @@
 #include <array>
 #include <cstdint>
 
-#include "gn10_can/core/can_frame.hpp"
 #include "gn10_can/core/can_bus.hpp"
+#include "gn10_can/core/can_frame.hpp"
 #include "gn10_can/core/can_id.hpp"
 
 namespace gn10_can {
@@ -39,16 +39,14 @@ class CANDevice {
         : bus_(bus), device_type_(device_type), device_id_(device_id) {
         bus_.attach(this);
     }
-    
-    virtual ~CANDevice() {
-        bus_.detach(this);
-    }
+
+    virtual ~CANDevice() { bus_.detach(this); }
 
     // コピーとムーブを禁止 (RAIIによるデバイス登録の一意性を保つため)
-    CANDevice(const CANDevice&) = delete;
+    CANDevice(const CANDevice&)            = delete;
     CANDevice& operator=(const CANDevice&) = delete;
-    CANDevice(CANDevice&&) = delete;
-    CANDevice& operator=(CANDevice&&) = delete;
+    CANDevice(CANDevice&&)                 = delete;
+    CANDevice& operator=(CANDevice&&)      = delete;
 
     /**
      * @brief CANパケット受信時の呼び出し関数
@@ -59,9 +57,9 @@ class CANDevice {
 
     /**
      * @brief ルーティングIDを取得
-     * 
+     *
      * コマンド部を除いた、デバイス特定用の上位ビット列を返します。
-     * 
+     *
      * @return uint32_t Routing ID (Type + DeviceID)
      */
     uint32_t get_routing_id() const {

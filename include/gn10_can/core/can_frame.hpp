@@ -103,10 +103,10 @@ struct CANFrame {
 
     /**
      * @brief ルーティング用のID（Command部を除外）を取得
-     * 
+     *
      * このIDはデバイスの特定に使用され、下位のコマンドビットは無視されます。
      * can_id.hpp の定義に基づいて計算されます。
-     * 
+     *
      * @return uint32_t ルーティングID (DeviceType + DeviceID)
      */
     uint32_t get_routing_id() const {
