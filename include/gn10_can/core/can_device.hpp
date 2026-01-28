@@ -12,7 +12,6 @@
 
 #include <array>
 #include <cstdint>
-#include <initializer_list>
 
 #include "gn10_can/core/can_frame.hpp"
 #include "gn10_can/core/can_bus.hpp"
@@ -87,22 +86,6 @@ class CANDevice {
     bool send(CmdEnum command, const uint8_t* data = nullptr, uint8_t len = 0) {
         auto frame = CANFrame::make(device_type_, device_id_, command, data, len);
         return bus_.send_frame(frame);
-    }
-
-    /**
-     * @brief コマンド・データ(initializer list)からCANフレームを作成しCANManagerを使用して送信
-     *
-     * @tparam CmdEnum コマンドのEnum Class
-     * @param command
-     * コマンド（データの種類を示す、CAN通信時のデータは指令として見れるためコマンドとして見なす）
-     * @param data 送信データ（{データ配列}の様に関数呼び出し時に作成可能）
-     * @return true 送信成功（CANDriverの継承後クラスによって定義）
-     * @return false 送信失敗（CANDriverの継承後クラスによって定義）
-     * @note send(id::MsgTypeMotorDriver::Gain, {10,0,255,20});の様に使用可
-     */
-    template <typename CmdEnum>
-    bool send(CmdEnum command, std::initializer_list<uint8_t> data) {
-        return send(command, data.begin(), data.size());
     }
 
     /**
