@@ -38,9 +38,10 @@ class CANDevice {
      * @param id デバイスID (0-15)
      */
     CANDevice(CANBus& bus, id::DeviceType type, uint8_t id) : bus_(bus), type_(type), id_(id) {
-        // コマンドを含まないID（上位ビット）をキーとして登録
-        // packは (Type << 7) | (ID << 3) | Cmd なので、右に3シフトして登録キーとする
-        uint32_t key = id::pack(type, id, 0) >> 3;
+        // コマンド部を除いたベースID（上位8ビット相当）をキーとして登録
+        // Layout: [Type(4)][ID(4)][Cmd(3)]
+        // Key: Type << 4 | ID
+        uint32_t key = (static_cast<uint32_t>(type) & 0x0F) << 4 | (id & 0x0F);
         bus_.attach(this, key);
     }
 
@@ -49,7 +50,7 @@ class CANDevice {
      * デストラクタで自動的にバスから登録解除されます。
      */
     virtual ~CANDevice() {
-        uint32_t key = id::pack(type_, id_, 0) >> 3;
+        uint32_t key = (static_cast<uint32_t>(type_) & 0x0F) << 4 | (id_ & 0x0F);
         bus_.detach(key);
     }
 
