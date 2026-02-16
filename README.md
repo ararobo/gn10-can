@@ -178,3 +178,6 @@ This project is licensed under the GNU General Public License v3.0 (GPL-3.0) - s
 
 ## Maintainer
 - Gento Aiba
+- Watanabe Koichiro
+- Kanai Ayu
+- Kamagata Akeru
