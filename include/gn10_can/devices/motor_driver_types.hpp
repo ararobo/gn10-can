@@ -32,10 +32,11 @@ enum class EncoderType : uint8_t {
  * @brief ゲインタイプの定義
  */
 enum class GainType : uint8_t {
-    Kp = 0x00,  ///< @brief 比例ゲイン (Proportional)
-    Ki = 0x01,  ///< @brief 積分ゲイン (Integral)
-    Kd = 0x02,  ///< @brief 微分ゲイン (Derivative)
-    Ff = 0x03,  ///< @brief フィードフォワードゲイン (Feed Forward)
+    Kp    = 0x00,  ///< @brief 比例ゲイン (Proportional)
+    Ki    = 0x01,  ///< @brief 積分ゲイン (Integral)
+    Kd    = 0x02,  ///< @brief 微分ゲイン (Derivative)
+    Ff    = 0x03,  ///< @brief フィードフォワードゲイン (Feed Forward)
+    Count = 0x04   ///< @brief ゲインタイプの総数
 };
 
 /**
