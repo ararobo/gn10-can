@@ -35,7 +35,7 @@ class MotorDriverClient : public CANDevice {
      *
      * @param config モータードライバー設定データ
      */
-    void set_config(const MotorConfig& config);
+    void set_init(const MotorConfig& config);
 
     /**
      * @brief モータードライバー目標値コマンド送信関数
