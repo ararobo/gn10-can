@@ -35,14 +35,14 @@ class MotorDriverClient : public CANDevice {
      *
      * @param config モータードライバー設定データ
      */
-    void send_init(const MotorConfig& config);
+    void set_config(const MotorConfig& config);
 
     /**
      * @brief モータードライバー目標値コマンド送信関数
      *
      * @param target 目標値（速度制御の場合は速度、位置制御の場合は位置）
      */
-    void send_target(float target);
+    void set_target(float target);
 
     /**
      * @brief モータードライバーゲイン設定コマンド送信関数
@@ -50,7 +50,7 @@ class MotorDriverClient : public CANDevice {
      * @param type ゲインの種類
      * @param value ゲイン値
      */
-    void send_gain(devices::GainType type, float value);
+    void set_gain(devices::GainType type, float value);
 
     /**
      * @brief CANパケット受信時の呼び出し関数の実装
@@ -64,31 +64,31 @@ class MotorDriverClient : public CANDevice {
      *
      * @return float フィードバック値
      */
-    float get_feedback_value() const;
+    float feedback_value() const;
 
     /**
      * @brief 最新のリミットスイッチ状態を取得する
      *
      * @return uint8_t リミットスイッチ状態（ビットマップ形式）
      */
-    uint8_t get_limit_switch_state() const;
-    
+    uint8_t limit_switches() const;
+
     /**
      * @brief 最新の負荷電流を取得する
      *
      * @return float 負荷電流
      */
-    float get_load_current() const;
+    float load_current() const;
     /**
      * @brief 最新の温度を取得する
      *
      * @return int8_t 温度
      */
-    int8_t get_temperature() const;
+    int8_t temperature() const;
 
   private:
-    float feedback_val_{0.0f};
-    uint8_t limit_sw_state_{0};
+    float feedback_value_{0.0f};
+    uint8_t limit_switches_{0};
     float load_current_{0.0f};
     int8_t temperature_{0};
 };
