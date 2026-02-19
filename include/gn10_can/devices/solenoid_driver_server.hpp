@@ -8,12 +8,14 @@ namespace devices {
 class SolenoidDriverServer : CANDevice {
   public:
     /**
-     * @brief ソレノイド用デバイスクラスのコンストラクタ
+     * @brief ソレノイド用サーバークラスのコンストラクタ
      *
      * @param bus CANBusクラスの参照
      * @param dev_id デバイスID
      */
     SolenoidDriverServer(CANBus& bus, uint8_t dev_id);
+
+    void target(bool& target);
 
   private:
     /* data */
