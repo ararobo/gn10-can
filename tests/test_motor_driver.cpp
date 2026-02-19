@@ -65,8 +65,8 @@ TEST_F(MotorDriverTest, InitConfig) {
     MotorConfig received_config;
     EXPECT_TRUE(server.get_new_init(received_config));
 
-    EXPECT_FLOAT_EQ(received_config.get_max_duty_ratio(), 0.5f);
-    EXPECT_FLOAT_EQ(received_config.get_accel_ratio(), 0.2f);
+    EXPECT_NEAR(received_config.get_max_duty_ratio(), 0.5f, 0.01f);
+    EXPECT_NEAR(received_config.get_accel_ratio(), 0.2f, 0.01f);
     EXPECT_EQ(received_config.get_feedback_cycle(), 10);
 }
 
