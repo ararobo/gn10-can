@@ -10,6 +10,8 @@
  */
 #pragma once
 
+#include <optional>
+
 #include "gn10_can/core/can_device.hpp"
 #include "gn10_can/devices/motor_driver_types.hpp"
 
@@ -35,7 +37,7 @@ class MotorDriverClient : public CANDevice {
      *
      * @param config モータードライバー設定データ
      */
-    void set_config(const MotorConfig& config);
+    void set_init(const MotorConfig& config);
 
     /**
      * @brief モータードライバー目標値コマンド送信関数

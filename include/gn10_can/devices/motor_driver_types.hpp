@@ -47,14 +47,14 @@ class MotorConfig {
     MotorConfig() = default;
 
     /**
-     * @brief 最大デューティ比を制限する (0.0 - 1.0)
+     * @brief 最大duty比を制限する (0.0 - 1.0)
      * @param ratio 0.0 (0%) から 1.0 (100%) の範囲の浮動小数点値
      */
     void set_max_duty_ratio(float ratio);
 
     /**
-     * @brief 設定された最大デューティ比を取得する
-     * @return float 最大デューティ比 (0.0 - 1.0)
+     * @brief 設定された最大duty比を取得する
+     * @return float 最大duty比 (0.0 - 1.0)
      */
     float get_max_duty_ratio() const;
 
@@ -99,16 +99,16 @@ class MotorConfig {
     void get_reverse_limit_switch(bool& enable_stop, uint8_t& switch_id) const;
 
     /**
-     * @brief テレメトリー送信周期を設定する
+     * @brief フィードバック送信周期を設定する
      * @param ms 送信周期 (ミリ秒)
      */
-    void set_telemetry_cycle(uint8_t ms);
+    void set_feedback_cycle(uint8_t ms);
 
     /**
-     * @brief 設定されたテレメトリー送信周期を取得する
+     * @brief 設定されたフィードバック送信周期を取得する
      * @return uint8_t 送信周期 (ミリ秒)
      */
-    uint8_t get_telemetry_cycle() const;
+    uint8_t get_feedback_cycle() const;
 
     /**
      * @brief エンコーダータイプを設定する
@@ -152,26 +152,28 @@ class MotorConfig {
 
 #ifdef _MSC_VER
 #pragma pack(push, 1)
-#endif
     struct PackedData {
+#else
+    struct __attribute__((__packed__)) PackedData {
+#endif
         /**
          * @brief 最大出力制限 (正規化済み)
          * 範囲: 0 (0%) から 255 (100%)
          */
         uint8_t max_duty_ratio;
         /**
-         * @brief 最大加速度 (ランプネート)
+         * @brief 最大加速度 (ランプレート)
          * 単位: 1ミリ秒あたりの正規化されたデューティ変化量
          * 範囲: 0 から 255
          * 例: 値が5の場合、1ミリ秒あたり約2% (5/255) デューティが変化する
          */
         uint8_t max_accel_rate;
         /**
-         * @brief テレメトリー (フィードバック) 送信周期
+         * @brief フィードバック送信周期
          * 単位: ミリ秒 (ms)
-         * 0の場合、テレメトリーは無効
+         * 0の場合、フィードバックは無効
          */
-        uint8_t telemetry_cycle_ms;
+        uint8_t feedback_cycle_ms;
         /**
          * @brief エンコーダータイプ設定
          * EncoderType 列挙型を参照
@@ -181,14 +183,12 @@ class MotorConfig {
          * @brief リミットスイッチ設定フラグ
          * ビットフィールド: [StopFwd(1) | FwdID(3) | StopBwd(1) | BwdID(3)]
          */
-        uint8_t limit_sw_config;
+        uint8_t limit_switches_config;
         uint8_t user_option;
         uint8_t reserved[2];
-#ifdef _MSC_VER
     };
+#ifdef _MSC_VER
 #pragma pack(pop)
-#else
-    } __attribute__((__packed__));
 #endif
 
     PackedData data_{};
