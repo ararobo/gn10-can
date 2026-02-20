@@ -7,7 +7,7 @@
  * @date 2026-01-28
  *
  * @copyright Copyright (c) 2026 Gento Aiba
- * SPDX-License-Identifier: GPL-3.0
+ * SPDX-License-Identifier: Apache-2.0
  */
 #pragma once
 
@@ -82,7 +82,7 @@ class CANBus {
      */
     void dispatch(const CANFrame& frame);
 
-    drivers::DriverInterface& driver_;  // CANドライバーインターフェースの参照を保持
+    drivers::DriverInterface& driver_;               // CANドライバーインターフェースの参照を保持
     std::array<CANDevice*, MAX_DEVICES> devices_{};  // 登録されているデバイスの配列
     std::size_t device_count_ = 0;                   // 登録されているデバイス数
 };

@@ -111,10 +111,10 @@ gn10_can::CANBus bus(driver);
 // 2. Initialize Devices
 // RAII: Devices automatically attach to the Bus on construction
 // and detach on destruction. No manual registration needed.
-gn10_can::devices::MotorDriver motor(bus, 0);
+gn10_can::devices::MotorDriverClient motor(bus, 0);
 
 // Send commands
-motor.send_target(100.0f); // Set target velocity/position
+motor.set_target(100.0f); // Set target velocity/position
 
 // Main loop
 while (true) {
@@ -174,10 +174,10 @@ To ensure cross-platform compatibility:
 - **Internal Comments**: Japanese
 
 ## License
-This project is licensed under the GNU General Public License v3.0 (GPL-3.0) - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache-2.0 - see the [LICENSE](LICENSE) file for details.
 
 ## Maintainer
 - Gento Aiba
-- Watanabe Koichiro
-- Kanai Ayu
-- Kamagata Akeru
+- Koichiro Watanabe
+- Ayu Kanai
+- Akeru Kamagata

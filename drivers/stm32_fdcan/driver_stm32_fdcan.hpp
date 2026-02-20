@@ -6,7 +6,7 @@
  * @date 2026-01-11
  *
  * @copyright Copyright (c) 2026
- * SPDX-License-Identifier: GPL-3.0
+ * SPDX-License-Identifier: Apache-2.0
  */
 #pragma once
 

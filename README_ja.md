@@ -13,7 +13,7 @@ CANバスのデータモデル、ID定義、およびハンドリングクラス
 このライブラリは、複数のプラットフォームで動作するように設計されています：
 
 - **ESP32** - Arduino環境
-- **STM32** - Makefile/CubeIDE
+- **STM32** - CMake
 - **ROS 2** - CMake/Linux
 
 ## 開発環境構築
@@ -96,10 +96,10 @@ gn10_can::CANBus bus(driver);
 // 2. デバイスの初期化
 // RAII: コンストラクタで自動的にバスに接続され、デストラクタで切断されます。
 // 手動での登録は不要です。
-gn10_can::devices::MotorDriver motor(bus, 0);
+gn10_can::devices::MotorDriverClient motor(bus, 0);
 
 // コマンドの送信
-motor.send_target(100.0f); // 目標速度/位置を設定
+motor.set_target(100.0f); // 目標速度/位置を設定
 
 // メインループ
 while (true) {
@@ -167,10 +167,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE gn10_can)
 - **内部コメント**: 日本語
 
 ## ライセンス
-このプロジェクトは GNU General Public License v3.0 (GPL-3.0) の下でライセンスされています - 詳細は [LICENSE](LICENSE) ファイルを参照してください。
+このプロジェクトはApache-2.0の下でライセンスされています - 詳細は [LICENSE](LICENSE) ファイルを参照してください。
 
 ## 協力者・著作者
 - Gento Aiba
-- Watanabe Koichiro
-- Kanai Ayu
-- Kamagata Akeru
+- Koichiro Watanabe
+- Ayu Kanai
+- Akeru Kamagata
