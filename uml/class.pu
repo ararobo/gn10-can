@@ -159,7 +159,7 @@ namespace gn10_can {
     namespace converter {
         class can_converter << (U, #FF7700) Utility >> {
             + {static} pack(buffer: uint8_t*, buffer_len: size_t, start_byte: uint8_t, value: T) : bool
-            + {static} unpack(buffer: uint8_t*, buffer_len: size_t, start_byte: uint8_t, value: T&) : bool
+            + {static} unpack(buffer: const uint8_t*, buffer_len: size_t, start_byte: uint8_t, value: T&) : bool
             + {static} pack(buffer: std::array<uint8_t, N>&, start_byte: uint8_t, value: T) : bool
         }
     }
