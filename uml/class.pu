@@ -88,7 +88,7 @@ namespace gn10_can {
         class MotorDriverServer {
             - config_ : std::optional<MotorConfig>
             - target_ : std::optional<float>
-            - gains_ : std::optional<float>[]
+            - gains_ : std::optional<float>[kGainTypeCount]
             + MotorDriverServer(bus: core.CANBus&, dev_id: uint8_t)
             + send_feedback(feedback_val, limit_switch_state)
             + send_hardware_status(load_current, temperature)
