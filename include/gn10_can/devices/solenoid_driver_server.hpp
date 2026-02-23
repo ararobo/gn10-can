@@ -17,7 +17,7 @@
 namespace gn10_can {
 namespace devices {
 
-class SolenoidDriverServer : CANDevice {
+class SolenoidDriverServer : public CANDevice {
   public:
     /**
      * @brief ソレノイド用サーバークラスのコンストラクタ

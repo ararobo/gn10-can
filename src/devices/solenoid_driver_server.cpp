@@ -1,4 +1,4 @@
-#include "solenoid_driver_server.hpp"
+#include "gn10_can/devices/solenoid_driver_server.hpp"
 
 #include "gn10_can/utils/can_converter.hpp"
 
