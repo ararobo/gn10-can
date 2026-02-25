@@ -130,10 +130,7 @@ struct CANFrame {
             return false;
         }
 
-        std::size_t loop_limit =
-            (static_cast<std::size_t>(dlc) > MAX_DLC) ? MAX_DLC : static_cast<std::size_t>(dlc);
-
-        for (std::size_t i = 0; i < loop_limit; ++i) {
+        for (std::size_t i = 0; i < static_cast<std::size_t>(dlc); ++i) {
             if (data[i] != other.data[i]) return false;
         }
         return true;
