@@ -61,9 +61,8 @@ enum class MsgTypeMotorDriver : uint8_t {
  *
  */
 enum class MsgTypeServoDriver : uint8_t {
-    Init      = 0,
-    Target    = 1,
-    Frequency = 2,
+    Init   = 0,
+    Target = 1,
 };
 
 /**
