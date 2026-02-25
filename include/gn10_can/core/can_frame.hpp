@@ -85,7 +85,7 @@ struct CANFrame {
      * @param length データの長さ[byte]
      */
     void set_data(const uint8_t* payload, std::size_t length) {
-        // データサイズをMAC_DLC以下に制限
+        // データサイズをMAX_DLC以下に制限
         std::size_t size;
         if (length < MAX_DLC) {
             size = length;
@@ -101,7 +101,7 @@ struct CANFrame {
             std::fill(data.begin() + size, data.end(), static_cast<uint8_t>(0));
         }
 
-        this->dlc = static_cast<uint8_t>(size);
+        dlc = static_cast<uint8_t>(size);
     }
 
     /**
