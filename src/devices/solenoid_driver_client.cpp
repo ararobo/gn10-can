@@ -14,5 +14,7 @@ void SolenoidDriverClient::set_target(bool target) {
     send(id::MsgTypeSolenoidDriver::Target, payload);
 }
 
+void SolenoidDriverClient::on_receive(const CANFrame& frame) {}
+
 }  // namespace devices
 }  // namespace gn10_can
