@@ -32,6 +32,8 @@ class SolenoidDriverClient : public CANDevice {
      */
     void set_target(bool target);
 
+    void on_receive(const CANFrame& frame) override;
+
   private:
 };
 
