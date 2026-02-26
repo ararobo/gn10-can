@@ -28,11 +28,25 @@ class SolenoidDriverClient : public CANDevice {
     SolenoidDriverClient(CANBus& bus, uint8_t dev_id);
 
     /**
+     * @brief モータードライバー初期化コマンド送信関数
+     *
+     * @param config モータードライバー設定データ
+     */
+    void set_init();
+
+    /**
      * @brief ソレノイドドライバー目標値コマンド送信関数
      *
-     * @param target 目標値
+     * @param target 目標値(8bit)
      */
-    void set_target(std::array<bool, 8> target);
+    void set_target(const uint8_t& target);
+
+    /**
+     * @brief ソレノイドドライバー目標値コマンド送信関数
+     *
+     * @param target 目標値(配列)
+     */
+    void set_target(const std::array<bool, 8>& target);
 
     void on_receive(const CANFrame& frame) override;
 

@@ -29,9 +29,27 @@ class SolenoidDriverServer : public CANDevice {
     SolenoidDriverServer(CANBus& bus, uint8_t dev_id);
 
     /**
+     * @brief 新しい設定があれば更新する
+     *
+     * @param config 設定
+     * @return true 新しい設定が有り更新した
+     * @return false 新しい設定はなく、更新しなかった
+     */
+    bool get_new_init();
+
+    /**
      * @brief 新しい目標値があれば更新する
      *
-     * @param target ソレノイドの目標値
+     * @param target ソレノイドの目標値(8bit)
+     * @return true 新しい目標値があり更新した
+     * @return false 新しい目標値はなく,更新しなかった
+     */
+    bool get_new_target(uint8_t& target);
+
+    /**
+     * @brief 新しい目標値があれば更新する
+     *
+     * @param target ソレノイドの目標値(配列)
      * @return true 新しい目標値があり更新した
      * @return false 新しい目標値はなく,更新しなかった
      */
@@ -45,7 +63,8 @@ class SolenoidDriverServer : public CANDevice {
     void on_receive(const CANFrame& frame) override;
 
   private:
-    std::optional<bool> target_[8];
+    std::optional<uint8_t> init_;
+    std::optional<uint8_t> target_;
 };
 
 }  // namespace devices
