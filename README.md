@@ -155,12 +155,10 @@ Class diagram (simplified)
 Variable and function names must be self-explanatory. We follow the **Google C++ Style Guide** basics:
 - **Class/Struct names**: `PascalCase` (e.g., `SpeedMsg`, `BatteryStatus`)
 - **Function/Variable names**: `snake_case` (e.g., `get_id()`, `target_velocity`)
-- **Constants/Enum values**: `kPascalCase` or `ALL_CAPS` (e.g., `kMaxSpeed`, `BATTERY_LOW`)
+- **Constants/Enum values**: `ALL_CAPS` (e.g., `BATTERY_LOW`)
 - **Private Member variables**: Must have a trailing underscore (e.g., speed_, voltage_) to distinguish them from local variables.
 
 ### 2. Code Formatting
-- Do not rely on IDE defaults.
-- All code must be formatted using **Clang-Format**.
 - A `.clang-format` file is provided in the root directory. Please configure your editor to use it on save.
 
 ### 3. Standard Library Only
@@ -171,11 +169,6 @@ To ensure cross-platform compatibility:
 ### 4. Memory Management (No Dynamic Allocation)
 - To ensure stability on embedded systems (STM32/ESP32), avoid using dynamic memory allocation (`new`, `malloc`, `std::vector`, `std::string`) inside the models.
 - Use fixed-size arrays and primitive types.
-
-### 5. Language Policy
-- **Code & Commits**: English.
-- **Documentation**: English (Japanese translation allowed).
-- **Internal Comments**: Japanese
 
 ## License
 This project is licensed under the Apache-2.0 - see the [LICENSE](LICENSE) file for details.
