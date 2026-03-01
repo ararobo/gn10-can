@@ -61,12 +61,12 @@ colcon test-result --all
 ## 使用方法
 
 ### 1. ドライバーインターフェースの実装
-特定のハードウェア（例：STM32、ESP32、SocketCANなど）用に `gn10_can::drivers::DriverInterface` を実装する必要があります。
+特定のハードウェア（例：STM32、ESP32、SocketCANなど）用に `gn10_can::drivers::ICanDriver` を実装する必要があります。
 
 ```cpp
 #include "gn10_can/drivers/driver_interface.hpp"
 
-class MyCANDriver : public gn10_can::drivers::DriverInterface {
+class MyCANDriver : public gn10_can::drivers::ICanDriver {
 public:
     bool send(const gn10_can::CANFrame& frame) override {
         // ハードウェア送信の実装
@@ -148,12 +148,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE gn10_can)
 変数名と関数名は説明的である必要があります。基本的には **Google C++ Style Guide** に従います：
 - **クラス/構造体名**: `PascalCase` (例: `SpeedMsg`, `BatteryStatus`)
 - **関数/変数名**: `snake_case` (例: `get_id()`, `target_velocity`)
-- **定数/列挙値**: `kPascalCase` または `ALL_CAPS` (例: `kMaxSpeed`, `BATTERY_LOW`)
+- **定数/列挙値**: `ALL_CAPS` (例: `BATTERY_LOW`)
 - **プライベートメンバ変数**: ローカル変数と区別するために、末尾にアンダースコアを付ける必要があります (例: `speed_`, `voltage_`)。
 
 ### 2. コードフォーマット
-- IDEのデフォルト設定に依存しないでください。
-- すべてのコードは **Clang-Format** を使用してフォーマットする必要があります。
 - ルートディレクトリに `.clang-format` ファイルが用意されています。保存時にこれを使用するようにエディタを設定してください。
 
 ### 3. 標準ライブラリのみ使用
@@ -164,11 +162,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE gn10_can)
 ### 4. メモリ管理（動的割り当てなし）
 - 組み込みシステム（STM32/ESP32）での安定性を確保するため、モデル内での動的メモリ割り当て（`new`, `malloc`, `std::vector`, `std::string`）の使用は避けてください。
 - 固定サイズの配列とプリミティブ型を使用してください。
-
-### 5. 言語ポリシー（要検討）
-- **コードとコミット**: 英語。
-- **ドキュメント**: 英語（日本語訳は許可）。
-- **内部コメント**: 日本語
 
 ## ライセンス
 このプロジェクトはApache-2.0の下でライセンスされています - 詳細は [LICENSE](LICENSE) ファイルを参照してください。

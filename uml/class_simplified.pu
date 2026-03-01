@@ -25,7 +25,7 @@ namespace gn10_can {
     }
 
     namespace drivers {
-        interface DriverInterface {
+        interface ICanDriver {
             + {abstract} send(frame)
             + {abstract} receive(out_frame)
         }
@@ -80,7 +80,7 @@ namespace gn10_can {
         OtherDevice .. NoteOtherDevice
     }
 
-    core.CANBus o-- drivers.DriverInterface
+    core.CANBus o-- drivers.ICanDriver
     core.CANBus "1" o-- "*" core.CANDevice : manages (RAII) >
     core.CANDevice <|-- devices.MotorDriverClient
     core.CANDevice <|-- devices.MotorDriverServer
@@ -91,9 +91,9 @@ namespace gn10_can {
     devices.MotorDriverClient ..> devices.MotorConfig : uses >
     devices.MotorDriverServer ..> devices.MotorConfig : uses >
 
-    drivers.DriverInterface <|.. drivers.DriverSTM32CAN
-    drivers.DriverInterface <|.. drivers.DriverSTM32FDCAN
-    drivers.DriverInterface <|.. drivers.DriverOther
+    drivers.ICanDriver <|.. drivers.DriverSTM32CAN
+    drivers.ICanDriver <|.. drivers.DriverSTM32FDCAN
+    drivers.ICanDriver <|.. drivers.DriverOther
 }
 
 @enduml
