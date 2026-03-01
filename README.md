@@ -76,12 +76,12 @@ colcon test-result --all
 ## Usage
 
 ### 1. Implement Driver Interface
-You need to implement `gn10_can::drivers::DriverInterface` for your specific hardware (e.g., STM32, ESP32 , SocketCAN, etc.).
+You need to implement `gn10_can::drivers::ICanDriver` for your specific hardware (e.g., STM32, ESP32 , SocketCAN, etc.).
 
 ```cpp
 #include "gn10_can/drivers/driver_interface.hpp"
 
-class MyCANDriver : public gn10_can::drivers::DriverInterface {
+class MyCANDriver : public gn10_can::drivers::ICanDriver {
 public:
     bool send(const gn10_can::CANFrame& frame) override {
         // Implement hardware send

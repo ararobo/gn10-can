@@ -17,7 +17,7 @@
 | クラス / 構造体 | 概要 | 詳細 |
 | :--- | :--- | :--- |
 | **`CANFrame`** | CANフレーム構造体 | CAN ID、データペイロード(最大8バイト)、DLC(データ長)、およびフラグ（拡張ID、RTR、エラー）を保持する基本的なデータ単位です。 |
-| **`CANBus`** | 通信管理者クラス | `DriverInterface` を通じて物理層とのやり取りを行い、登録された `CANDevice` へ受信フレームを配送 (`dispatch`) したり、デバイスからの送信要求をドライバに渡します。RAIIによりデバイスの登録・解除を自動管理し、線形探索によるルーティングを行います。 |
+| **`CANBus`** | 通信管理者クラス | `ICanDriver` を通じて物理層とのやり取りを行い、登録された `CANDevice` へ受信フレームを配送 (`dispatch`) したり、デバイスからの送信要求をドライバに渡します。RAIIによりデバイスの登録・解除を自動管理し、線形探索によるルーティングを行います。 |
 | **`CANDevice`** | デバイス基底クラス | 全てのCANデバイス（モーター、センサ等）の親となる抽象クラスです。コンストラクタで自動的に `CANBus` に接続 (`attach`) し、デストラクタで切断 (`detach`) します。特定の受信メッセージをフィルタリングして処理するインターフェース (`on_receive`) を提供します。 |
 | **`id` (Namespace)** | ID管理・定義 | CAN IDのビットフィールド定義（デバイスタイプ、ID、コマンド）や、それらをパッキング/アンパッキングするヘルパー関数 (`pack`/`unpack`)、各種列挙型を提供します。 |
 
@@ -39,7 +39,7 @@
 
 | クラス | 概要 | 詳細 |
 | :--- | :--- | :--- |
-| **`DriverInterface`** | ドライバインターフェース | 全てのハードウェアドライバが実装すべき純粋仮想関数 (`send`, `receive`) を定義したインターフェースです。 |
+| **`ICanDriver`** | ドライバインターフェース | 全てのハードウェアドライバが実装すべき純粋仕戒かん数 (`send`, `receive`) を定義したインターフェースです。 |
 | **`DriverSTM32CAN`** | STM32 CANドライバ | STM32の標準CANペリフェラル (bxCAN) 用の実装です。HALライブラリ (`CAN_HandleTypeDef`) をラップします。 |
 | **`DriverSTM32FDCAN`** | STM32 FDCANドライバ | STM32 G4/H7シリーズなどの FDCAN ペリフェラル用の実装です。HALライブラリ (`FDCAN_HandleTypeDef`) をラップします。 |
 
@@ -85,7 +85,7 @@ classDiagram
         #send(...)
         +on_receive(CANFrame)*
     }
-    class DriverInterface {
+    class ICanDriver {
         <<Interface>>
         +send(CANFrame)*
         +receive(CANFrame)*
@@ -95,9 +95,9 @@ classDiagram
         +send_gain(...)
     }
 
-    CANBus "1" o-- "1" DriverInterface
+    CANBus "1" o-- "1" ICanDriver
     CANBus "1" o-- "*" CANDevice : Manages (RAII)
-    DriverInterface <|-- DriverSTM32CAN
+    ICanDriver <|-- DriverSTM32CAN
     CANDevice <|-- MotorDriver
     CANDevice ..> CANBus : Attaches to
 ```

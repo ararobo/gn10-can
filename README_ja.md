@@ -61,12 +61,12 @@ colcon test-result --all
 ## 使用方法
 
 ### 1. ドライバーインターフェースの実装
-特定のハードウェア（例：STM32、ESP32、SocketCANなど）用に `gn10_can::drivers::DriverInterface` を実装する必要があります。
+特定のハードウェア（例：STM32、ESP32、SocketCANなど）用に `gn10_can::drivers::ICanDriver` を実装する必要があります。
 
 ```cpp
 #include "gn10_can/drivers/driver_interface.hpp"
 
-class MyCANDriver : public gn10_can::drivers::DriverInterface {
+class MyCANDriver : public gn10_can::drivers::ICanDriver {
 public:
     bool send(const gn10_can::CANFrame& frame) override {
         // ハードウェア送信の実装
