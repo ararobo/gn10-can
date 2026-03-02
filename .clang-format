@@ -30,8 +30,7 @@ BinPackParameters:     false
 BinPackArguments:      false
 
 # マクロはSTM32向けに縦を揃える
-AlignConsecutiveMacros:
-    Enabled: true
+AlignConsecutiveMacros: Consecutive
 # ビットフィールドは縦のつながりがあるので揃える
 AlignConsecutiveBitFields: Consecutive
 # 設定値やパラメータの代入は、視認性向上のため縦に揃える
