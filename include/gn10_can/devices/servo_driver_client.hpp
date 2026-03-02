@@ -18,8 +18,10 @@ class ServoDriverClient : public CANDevice
 public:
     ServoDriverClient(CANBus& bus, uint8_t device_id);
 
-    void set_init();
+    void set_init(float frequency_hz);
 
-    void set_target();
+    void set_duty_cycle(uint16_t duty_cycle);
+
+    void on_receive(const CANFrame& frame) override;
 };
 }  // namespace gn10_can
