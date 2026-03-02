@@ -45,6 +45,17 @@ add_subdirectory(libs/gn10-can)
 target_link_libraries(<your_target_name> PRIVATE gn10_can)
 ```
 
+## Documentation
+
+| Document | Description |
+| :--- | :--- |
+| [Getting Started](docs/getting-started.md) | Build instructions, minimal example, Client vs Server usage |
+| [Architecture](docs/architecture.md) | Design rationale, RAII lifetime rules, Client/Server pattern, CAN ID layout |
+| [Porting Guide](docs/porting-guide.md) | Adding a new MCU driver or new device class |
+| [Testing Guide](docs/testing.md) | Running tests, using MockDriver to inject frames |
+| [Class Reference](docs/gn10-can-class.md) | Class overview and UML diagram |
+| [Coding Rules](docs/coding-rules.md) | Naming conventions, constraints, and comment style |
+
 ## Build
 
 ### Generic C++ (CMake)

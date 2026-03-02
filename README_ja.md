@@ -113,6 +113,17 @@ while (true) {
 }
 ```
 
+## ドキュメント
+
+| ドキュメント | 内容 |
+| :--- | :--- |
+| [Getting Started](docs/getting-started.md) | ビルド手順・最小構成コード・Client/Server の使い分け |
+| [Architecture](docs/architecture.md) | 設計意図・RAII・Client/Server パターン・CAN ID 設計 |
+| [Porting Guide](docs/porting-guide.md) | 新マイコン向けドライバ追加・新デバイス追加の手順 |
+| [Testing Guide](docs/testing.md) | テスト実行方法・MockDriver の使い方 |
+| [Class Reference](docs/gn10-can-class.md) | クラス一覧・UML クラス図 |
+| [Coding Rules](docs/coding-rules.md) | 命名規則・制約・ドキュメント規約 |
+
 ## プロジェクト構造
 ```text
 gn10-can/
