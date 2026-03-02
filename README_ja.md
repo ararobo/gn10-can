@@ -159,6 +159,7 @@ while (true) {
 | [Porting Guide](docs/porting-guide.md) | 新マイコン向けドライバ追加・新デバイス追加の手順 |
 | [Testing Guide](docs/testing.md) | テスト実行方法・MockDriver の使い方 |
 | [Class Reference](docs/gn10-can-class.md) | クラス一覧・UML クラス図 |
+| [ServoDriver ガイド](docs/servo-driver.md) | ServoDriverClient/Server の実装解説 |
 | [Coding Rules](docs/coding-rules.md) | 命名規則・制約・ドキュメント規約 |
 
 ## プロジェクト構造

@@ -179,6 +179,7 @@ sequenceDiagram
 ## 5. 次のステップ
 
 - 新しいマイコン向けドライバの追加 → [porting-guide.md](porting-guide.md)
+- ServoDriver の実装詳細 → [servo-driver.md](servo-driver.md)
 - テストの書き方 → [testing.md](testing.md)
 - アーキテクチャの詳細 → [architecture.md](architecture.md)
 - クラスリファレンス → [gn10-can-class.md](gn10-can-class.md)

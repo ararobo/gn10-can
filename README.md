@@ -164,6 +164,7 @@ while (true) {
 | [Porting Guide](docs/porting-guide.md) | Adding a new MCU driver or new device class |
 | [Testing Guide](docs/testing.md) | Running tests, using MockDriver to inject frames |
 | [Class Reference](docs/gn10-can-class.md) | Class overview and UML diagram |
+| [ServoDriver Guide](docs/servo-driver.md) | ServoDriverClient/Server implementation walkthrough |
 | [Coding Rules](docs/coding-rules.md) | Naming conventions, constraints, and comment style |
 
 ## Project Structure
