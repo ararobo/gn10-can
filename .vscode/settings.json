@@ -19,6 +19,5 @@
     "[c]": {
         "editor.defaultFormatter": "ms-vscode.cpptools"
     },
-    "C_Cpp.clang_format_style": "file",
-    "C_Cpp.formatting": "clangFormat"
+    "C_Cpp.clang_format_style": "file"
 }
