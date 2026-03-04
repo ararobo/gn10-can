@@ -7,7 +7,12 @@ namespace gn10_can {
 namespace devices {
 class servo_moter_server : public CANDevice
 {
-    servo_moter_server(CANBus& bus)
+public:
+    servo_moter_server(CANBus& bus, uint8_t device_id);
+
+    bool get_init(float& init);
+    bool get_duty(uint16_t& duty);
+    void on_receive(const CANFrame& frame) override;
 };
 
 }  // namespace devices
