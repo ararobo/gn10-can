@@ -4,8 +4,8 @@
 namespace gn10_can {
 namespace devices {
 
-ServoMotorClient::ServoMotorClient(CANBus& bus, uint8_t dev_id)
-    : CANDevice(bus, id::DeviceType::ServoMotor, dev_id)
+ServoMotorClient::ServoMotorClient(CANBus& bus, uint8_t device_id)
+    : CANDevice(bus, id::DeviceType::ServoMotor, device_id)
 {
 }
 
