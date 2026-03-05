@@ -6,10 +6,10 @@
 
 namespace gn10_can {
 namespace devices {
-class ServoMoterClient : public CANDevice
+class ServoMotorClient : public CANDevice
 {
 public:
-    ServoMoterClient(CANBus& bus, uint8_t device_id);
+    ServoMotorClient(CANBus& bus, uint8_t device_id);
 
     void set_init(uint16_t min_us, uint16_t max_us);
 
