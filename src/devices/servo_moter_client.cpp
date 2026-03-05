@@ -1,5 +1,4 @@
-#include "gn10_can/devices/servo_moter_client.hpp"
-
+#include "gn10_can/devices/servo_motor_client.hpp"
 #include "gn10_can/utils/can_converter.hpp"
 
 namespace gn10_can {
