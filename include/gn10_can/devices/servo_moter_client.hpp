@@ -11,9 +11,9 @@ class servo_moter_client : public CANDevice
 public:
     servo_moter_client(CANBus& bus, uint16_t device_id);
 
-    void set_init(float servo_init);
+    void set_init(uint16_t min_us, uint16_t max_us);
 
-    void duty_adjust(uint16_t duty_raio);
+    void set_angle_rad(float angle_rad);
 };
 }  // namespace devices
 }  // namespace gn10_can
