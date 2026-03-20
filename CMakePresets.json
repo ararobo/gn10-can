@@ -7,17 +7,6 @@
     },
     "configurePresets": [
         {
-            "name": "windows-ninja",
-            "displayName": "Windows (Ninja)",
-            "description": "Windows generic build using Ninja",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/windows_ninja",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "BUILD_TESTS": "ON"
-            }
-        },
-        {
             "name": "stm32-cross",
             "displayName": "STM32 (Cross Compile)",
             "description": "Cross compile for STM32",
