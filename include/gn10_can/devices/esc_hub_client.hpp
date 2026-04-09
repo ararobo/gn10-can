@@ -15,9 +15,11 @@
 #include "gn10_can/core/fdcan_bus.hpp"
 #include "gn10_can/core/fdcan_device.hpp"
 #include "gn10_can/core/fdcan_frame.hpp"
+#include "gn10_can/devices/esc_hub_config.hpp"
 
 namespace gn10_can {
 namespace devices {
+
 class ESCHubClient : public FDCANDevice
 {
 public:
@@ -33,7 +35,7 @@ public:
      * @param motor_num ゲインを設定したいモーター (0〜3)
      * @param all_gain ゲインを格納する配列 kp ki kd ffの順で格納します
      */
-    void set_gain(uint8_t motor_num, float all_gain[4]);
+    void send_gain_all(uint8_t motor_num, ESCHubConfig esc_hub_config);
 
     /**
      * @brief　角速度を設定する変数
@@ -60,17 +62,9 @@ private:
     // 角速度格納用構造体
     struct angular_velocity_feedbacks {
         float angular_velocity_feedback[4];
-    } __attribute__((__packed__));
-
-    struct motor_gains {
-        float kp;
-        float ki;
-        float kd;
-        float ff;
-    } __attribute__((__packed__));
+    };
 
     std::optional<angular_velocity_feedbacks> angular_velocity_feedback_;
-    std::optional<motor_gains> motor_gain_[4];
 };
 
 }  // namespace devices
