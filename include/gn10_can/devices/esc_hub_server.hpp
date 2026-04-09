@@ -2,47 +2,42 @@
 
 #include <optional>
 
-#include "gn10_can/core/can_bus.hpp"
-#include "gn10_can/core/can_device.hpp"
-#include "gn10_can/core/can_frame.hpp"
+#include "gn10_can/core/fdcan_bus.hpp"
+#include "gn10_can/core/fdcan_device.hpp"
+#include "gn10_can/core/fdcan_frame.hpp"
 
 namespace gn10_can {
 namespace devices {
-class ESCHubServer : public CANDevice
+class ESCHubServer : public FDCANDevice
 {
 public:
     /**
      * @brief ESCHubServerのコンストラクタ
      * @details CANbusの登録とdevice_idの割り振りを行う
      */
-    ESCHubServer(CANBus& bus, uint8_t device_id);
+    ESCHubServer(FDCANBus& bus, uint8_t device_id);
 
     /**
-     * @brief 受け取ったgainを保存する関数
+     * @brief ゲインを読み取る関数。
      *
-     * @param gain 受け取ったゲイン
-     * @return true ゲインを受け取ることができた
-     * @return false ゲインを受け取ることができなかった
+     * @param motor_num ゲインを読み取りたいモーター(0~3)
+     * @param all_gain ゲインを格納している配列 kp ki kd ffの順で格納されています
      */
-    bool get_new_init(float& gain);
+    bool get_gain(uint8_t motor_num, float all_gain[4]);
 
     /**
-     * @brief すべての角速度を受け取る関数
+     * @brief 受け取った角速度にアクセスする関数（すべてできる）
      *
-     * @param ang_vel_1 受け取った角速度の1つ目
-     * @param ang_vel_2 受け取った角速度の2つ目
-     * @param ang_vel_3 受け取った角速度の3つ目
-     * @param ang_vel_4 受け取った角速度の4つ目
-     *
+     * @param angular_velocities ４つ分のモーターの角速度の配列
+     * @return true すべての角速度を受け取ることができた
+     * @return false すべての角速度を受け取ることができなかった。
      */
-    void get_angular_velocity_all(
-        float& ang_vel_1, float& ang_vel_2, float& ang_vel_3, float& ang_vel_4
-    );
+    bool get_angular_velocities(float angular_velocities[4]);
 
     /**
      * @brief データをprivate関数に格納してあげる関数
      */
-    void on_receive(const CANFrame& frame) override;
+    void on_receive(const FDCANFrame& frame) override;
 
 private:
     // 角速度格納用構造体
@@ -50,8 +45,15 @@ private:
         float angular_velocity[4];
     } __attribute__((__packed__));
 
+    struct motor_gains {
+        float kp;
+        float ki;
+        float kd;
+        float ff;
+    } __attribute__((__packed__));
+
     std::optional<angular_velocities> angular_velocity_;
-    std::optional<float> gain_;
+    std::optional<motor_gains> motor_gain_[4];
 };
 
 }  // namespace devices
