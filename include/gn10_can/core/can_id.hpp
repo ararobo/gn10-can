@@ -32,7 +32,7 @@ enum class DeviceType : uint8_t {
     CommunicationModule = 4,
     SensorHub           = 5,
     LED                 = 6,
-    ESCHUB              = 7
+    ESCHub              = 7
 };
 
 /**
