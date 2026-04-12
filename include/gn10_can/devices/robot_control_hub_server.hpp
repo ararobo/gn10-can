@@ -2,6 +2,7 @@
 #include <optional>
 
 #include "gn10_can/core/fdcan_device.hpp"
+#include "gn10_can/utils/can_converter.hpp"
 
 namespace gn10_can {
 namespace devices {
@@ -31,6 +32,16 @@ public:
             return true;
         }
         return false;
+    }
+
+    void send_feedback(const Feedback& feedback)
+    {
+        FDCANFrame frame = FDCANFrame::make(
+            id::DeviceType::RobotControlHub, device_id_, id::MsgTypeRobotControlHub::Feedback
+        );
+        converter::pack(frame.data, 0, feedback);
+        frame.dlc = sizeof(Feedback);
+        bus_.send_frame(frame);
     }
 
 private:

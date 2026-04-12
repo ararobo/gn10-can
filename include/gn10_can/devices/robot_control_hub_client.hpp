@@ -1,4 +1,6 @@
 #pragma once
+#include <optional>
+
 #include "gn10_can/core/fdcan_device.hpp"
 #include "gn10_can/utils/can_converter.hpp"
 
@@ -32,7 +34,18 @@ public:
         bus_.send_frame(frame);
     }
 
+    bool get_feedback(Feedback& feedback)
+    {
+        if (feedback_.has_value()) {
+            feedback = feedback_.value();
+            feedback_.reset();
+            return true;
+        }
+        return false;
+    }
+
 private:
+    std::optional<Feedback> feedback_;
 };
 
 }  // namespace devices
