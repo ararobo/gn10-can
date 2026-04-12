@@ -3,9 +3,9 @@
 #include <queue>
 #include <vector>
 
-#include "gn10_can/drivers/driver_interface.hpp"
+#include "gn10_can/drivers/can_driver_interface.hpp"
 
-class MockDriver : public gn10_can::drivers::ICanDriver
+class MockDriver : public gn10_can::drivers::ICANDriver
 {
 public:
     bool send(const gn10_can::CANFrame& frame) override

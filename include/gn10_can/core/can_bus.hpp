@@ -14,7 +14,7 @@
 #include <array>
 #include <cstddef>
 
-#include "gn10_can/drivers/driver_interface.hpp"
+#include "gn10_can/drivers/can_driver_interface.hpp"
 
 namespace gn10_can {
 
@@ -35,7 +35,7 @@ public:
      *
      * @param driver CANドライバーインターフェースの参照
      */
-    explicit CANBus(drivers::ICanDriver& driver);
+    explicit CANBus(drivers::ICANDriver& driver);
 
     /**
      * @brief CANパケットの受信とデバイスへのルーティング処理
@@ -83,7 +83,7 @@ private:
      */
     void dispatch(const CANFrame& frame);
 
-    drivers::ICanDriver& driver_;                    // CANドライバーインターフェースの参照を保持
+    drivers::ICANDriver& driver_;                    // CANドライバーインターフェースの参照を保持
     std::array<CANDevice*, MAX_DEVICES> devices_{};  // 登録されているデバイスの配列
     std::size_t device_count_ = 0;                   // 登録されているデバイス数
 };
