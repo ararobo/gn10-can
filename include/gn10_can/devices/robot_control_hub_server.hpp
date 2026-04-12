@@ -44,6 +44,19 @@ public:
         bus_.send_frame(frame);
     }
 
+    void on_receive(const FDCANFrame& frame) override
+    {
+        auto id_fields = id::unpack(frame.id);
+        if (id_fields.is_command(id::MsgTypeRobotControlHub::Command)) {
+            if (frame.dlc == sizeof(Command)) {
+                Command command;
+                if (converter::unpack(frame.data.data(), frame.dlc, 0, command)) {
+                    command_ = command;
+                }
+            }
+        }
+    }
+
 private:
     std::optional<Command> command_;
 };

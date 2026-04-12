@@ -44,6 +44,19 @@ public:
         return false;
     }
 
+    void on_receive(const FDCANFrame& frame) override
+    {
+        auto id_fields = id::unpack(frame.id);
+        if (id_fields.is_command(id::MsgTypeRobotControlHub::Feedback)) {
+            if (frame.dlc == sizeof(Feedback)) {
+                Feedback feedback;
+                if (converter::unpack(frame.data.data(), frame.dlc, 0, feedback)) {
+                    feedback_ = feedback;
+                }
+            }
+        }
+    }
+
 private:
     std::optional<Feedback> feedback_;
 };
