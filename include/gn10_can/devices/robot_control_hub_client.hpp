@@ -5,7 +5,7 @@
  * @version 0.1
  * @date 2026-04-12
  *
- * @copyright Copyright (c) 2026
+ * @copyright Copyright (c) 2026 ararobo
  *
  */
 #pragma once
