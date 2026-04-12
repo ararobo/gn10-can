@@ -12,7 +12,7 @@
 
 #include <cstdint>
 
-#include "gn10_can/drivers/driver_interface.hpp"
+#include "gn10_can/drivers/can_driver_interface.hpp"
 #include "main.h"
 
 namespace gn10_can {
