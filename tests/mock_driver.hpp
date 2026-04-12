@@ -3,7 +3,7 @@
 #include <queue>
 #include <vector>
 
-#include "gn10_can/drivers/driver_interface.hpp"
+#include "gn10_can/drivers/can_driver_interface.hpp"
 
 class MockDriver : public gn10_can::drivers::ICANDriver
 {

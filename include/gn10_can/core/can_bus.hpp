@@ -14,7 +14,7 @@
 #include <array>
 #include <cstddef>
 
-#include "gn10_can/drivers/driver_interface.hpp"
+#include "gn10_can/drivers/can_driver_interface.hpp"
 
 namespace gn10_can {
 
