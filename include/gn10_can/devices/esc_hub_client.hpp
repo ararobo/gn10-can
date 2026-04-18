@@ -30,12 +30,12 @@ public:
     ESCHubClient(FDCANBus& bus, uint8_t device_id);
 
     /**
-     * @brief ゲインを格納する関数。
+     * @brief ゲインを格納する場所を設定する
      *
      * @param motor_num ゲインを設定したいモーター (0〜3)
-     * @param all_gain ゲインを格納する配列 kp ki kd ffの順で格納します
+     * @param esc_hub_config ゲインを格納しているstructの参照
      */
-    void set_gain_all(const ESCHubConfig& esc_hub_config);
+    void set_init(const ESCHubConfig& esc_hub_config);
 
     /**
      * @brief　角速度を設定する変数

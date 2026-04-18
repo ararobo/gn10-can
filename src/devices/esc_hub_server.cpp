@@ -34,7 +34,7 @@ void ESCHubServer::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
 
-    if (id_fields.is_command(id::MsgTypeESCHub::Gain)) {
+    if (id_fields.is_command(id::MsgTypeESCHub::Init)) {
         ESCHubConfig config;
         if (converter::unpack(frame.data.data(), frame.dlc, 0, config)) {
             motor_gain_ = config;
