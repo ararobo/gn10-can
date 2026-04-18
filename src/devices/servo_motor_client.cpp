@@ -25,5 +25,7 @@ void ServoMotorClient::set_angle_rad(float angle_rad)
     send(id::MsgTypeServoMotor::AngleRad, payload);
 }
 
+void ServoMotorClient::on_receive(const CANFrame&) {}
+
 }  // namespace devices
 }  // namespace gn10_can
