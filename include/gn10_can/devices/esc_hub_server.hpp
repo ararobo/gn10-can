@@ -22,22 +22,25 @@ public:
     /**
      * @brief ゲインを読み取る関数。init
      *
-     * @param motor_num ゲインを読み取りたいモーター(0~3)
-     * @param all_gain ゲインを格納している配列 kp ki kd ffの順で格納されています
+     * @param esc_hub_config ゲインを格納しているstructの参照
+     * @return true structを受け取ることができた
+     * @return false structを受け取ることができなかった。
      */
-    bool get_gain(ESCHubConfig& esc_hub_config);
+    bool get_init(ESCHubConfig& esc_hub_config);
 
     /**
      * @brief 受け取った角速度にアクセスする関数（すべてできる）
      *
      * @param angular_velocities ４つ分のモーターの角速度の配列
-     * @return true すべての角速度を受け取ることができた
-     * @return false すべての角速度を受け取ることができなかった。
+     * @return true すべての角速度にアクセスすることができた
+     * @return false すべての角速度にアクセスすることができなかった。
      */
     bool get_angular_velocities(float angular_velocities[4]);
 
     /**
-     * @brief データをprivate関数に格納してあげる関数
+     * @brief CANパケット受信時の呼び出し関数の実装
+     *
+     * @param frame 受信したCANパケット
      */
     void on_receive(const FDCANFrame& frame) override;
 

@@ -8,7 +8,7 @@ ESCHubServer::ESCHubServer(FDCANBus& bus, uint8_t device_id)
 {
 }
 
-bool ESCHubServer::get_gain(ESCHubConfig& esc_hub_config)
+bool ESCHubServer::get_init(ESCHubConfig& esc_hub_config)
 {
     if (motor_gain_.has_value()) {
         esc_hub_config = *motor_gain_;

@@ -25,6 +25,7 @@ class ESCHubClient : public FDCANDevice
 public:
     /**
      * @brief ESCHubClientのコンストラクタ
+     *
      * @details CANbusの登録とdevice_idの割り振りを行う
      */
     ESCHubClient(FDCANBus& bus, uint8_t device_id);
@@ -32,7 +33,6 @@ public:
     /**
      * @brief ゲインを格納する場所を設定する
      *
-     * @param motor_num ゲインを設定したいモーター (0〜3)
      * @param esc_hub_config ゲインを格納しているstructの参照
      */
     void set_init(const ESCHubConfig& esc_hub_config);
