@@ -51,7 +51,8 @@ private:
     };
 
     std::optional<AngularVelocities> angular_velocity_;
-    std::optional<ESCHubConfig> motor_gain_;
+    std::optional<ESCHubConfig> motor_gain_[8];
+    uint8_t gain_counter_ = 0;
 };
 
 }  // namespace devices

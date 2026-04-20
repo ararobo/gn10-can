@@ -10,10 +10,12 @@ ESCHubServer::ESCHubServer(FDCANBus& bus, uint8_t device_id)
 
 bool ESCHubServer::get_init(ESCHubConfig& esc_hub_config)
 {
-    if (motor_gain_.has_value()) {
-        esc_hub_config = *motor_gain_;
-        motor_gain_.reset();
-        return true;
+    for (int i = 0; i < 8; i++) {
+        if (motor_gain_[i].has_value()) {
+            esc_hub_config = *motor_gain_[i];
+            motor_gain_[i].reset();
+            return true;
+        }
     }
     return false;
 }
@@ -36,8 +38,11 @@ void ESCHubServer::on_receive(const FDCANFrame& frame)
 
     if (id_fields.is_command(id::MsgTypeESCHub::Init)) {
         ESCHubConfig config;
-        if (converter::unpack(frame.data.data(), frame.dlc, 0, config)) {
-            motor_gain_ = config;
+        if (gain_counter_ < 8) {
+            if (converter::unpack(frame.data.data(), frame.dlc, 0, config)) {
+                motor_gain_[gain_counter_] = config;
+                gain_counter_++;
+            }
         }
     } else if (id_fields.is_command(id::MsgTypeESCHub::AngularVelocities)) {
         AngularVelocities config;

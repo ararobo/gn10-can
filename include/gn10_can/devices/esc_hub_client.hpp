@@ -35,7 +35,7 @@ public:
      *
      * @param esc_hub_config ゲインを格納しているstructの参照
      */
-    void set_init(const ESCHubConfig& esc_hub_config);
+    void set_init(const ESCHubConfig esc_hub_config[8]);
 
     /**
      * @brief　角速度を設定する変数
@@ -65,6 +65,7 @@ private:
     };
 
     std::optional<AngularVelocityFeedbacks> angular_velocity_feedback_;
+    std::optional<ESCHubConfig> motor_gain_[8];
 };
 
 }  // namespace devices
