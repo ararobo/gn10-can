@@ -8,16 +8,20 @@ ESCHubClient::ESCHubClient(FDCANBus& bus, uint8_t device_id)
 {
 }
 
-void ESCHubClient::set_init(const ESCHubConfig esc_hub_config[8])
+void ESCHubClient::set_init()
 {
     FDCANFrame frame =
         FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::Init);
-    for (int i = 0; i < 8; i++) {
-        converter::pack(frame.data, 0, esc_hub_config[i]);
-        frame.dlc = sizeof(ESCHubConfig);
-        bus_.send_frame(frame);
-    }
+    bus_.send_frame(frame);
 }
+
+void ESCHubClient::set_p_gain(float p_gain, uint8_t motor_num) {}
+
+void ESCHubClient::set_i_gain(float i_gain, uint8_t motor_num) {}
+
+void ESCHubClient::set_d_gain(float d_gain, uint8_t motor_num) {}
+
+void ESCHubClient::set_ff_coefficient(float ff_coefficient, uint8_t motor_num) {}
 
 void ESCHubClient::set_angular_velocities(float angular_velocities[4])
 {

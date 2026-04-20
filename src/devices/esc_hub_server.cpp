@@ -8,17 +8,15 @@ ESCHubServer::ESCHubServer(FDCANBus& bus, uint8_t device_id)
 {
 }
 
-bool ESCHubServer::get_init(ESCHubConfig& esc_hub_config)
-{
-    for (int i = 0; i < 8; i++) {
-        if (motor_gain_[i].has_value()) {
-            esc_hub_config = *motor_gain_[i];
-            motor_gain_[i].reset();
-            return true;
-        }
-    }
-    return false;
-}
+bool ESCHubServer::get_init() {}
+
+bool ESCHubServer::get_p_gain(float p_gain, uint8_t motor_num) {}
+
+bool ESCHubServer::get_i_gain(float i_gain, uint8_t motor_num) {}
+
+bool ESCHubServer::get_d_gain(float d_gain, uint8_t motor_num) {}
+
+bool ESCHubServer::get_ff_coefficient(float ff_coefficient, uint8_t motor_num) {}
 
 bool ESCHubServer::get_angular_velocities(float angular_velocities[4])
 {
@@ -37,12 +35,7 @@ void ESCHubServer::on_receive(const FDCANFrame& frame)
     auto id_fields = id::unpack(frame.id);
 
     if (id_fields.is_command(id::MsgTypeESCHub::Init)) {
-        ESCHubConfig config;
-        if (gain_counter_ < 8) {
-            if (converter::unpack(frame.data.data(), frame.dlc, 0, config)) {
-                motor_gain_[gain_counter_] = config;
-                gain_counter_++;
-            }
+        if (id_fields.is_command(id::MsgTypeESCHub::Init)) {
         }
     } else if (id_fields.is_command(id::MsgTypeESCHub::AngularVelocities)) {
         AngularVelocities config;

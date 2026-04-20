@@ -31,11 +31,37 @@ public:
     ESCHubClient(FDCANBus& bus, uint8_t device_id);
 
     /**
-     * @brief ゲインを格納する場所を設定する
-     *
-     * @param esc_hub_config ゲインを格納しているstructの参照
+     * @brief 初期化送信（処理はなし）
      */
-    void set_init(const ESCHubConfig esc_hub_config[8]);
+    void set_init();
+
+    /**
+     * @brief Pゲインを設定する関数
+     *
+     * @param p_gain pゲイン
+     */
+    void set_p_gain(float p_gain, uint8_t motor_num);
+
+    /**
+     * @brief Iゲインを設定する関数
+     *
+     * @param i_gain iゲイン
+     */
+    void set_i_gain(float i_gain, uint8_t motor_num);
+
+    /**
+     * @brief Dゲインを設定する関数
+     *
+     * @param d_gain dゲイン
+     */
+    void set_d_gain(float d_gain, uint8_t motor_num);
+
+    /**
+     * @brief FF係数を設定する関数
+     *
+     * @param ff_coefficient フィードフォワードの係数
+     */
+    void set_ff_coefficient(float ff_coefficient, uint8_t motor_num);
 
     /**
      * @brief　角速度を設定する変数
@@ -66,6 +92,13 @@ private:
 
     std::optional<AngularVelocityFeedbacks> angular_velocity_feedback_;
     std::optional<ESCHubConfig> motor_gain_[8];
+
+    // gain
+    float p_gain_[8];
+    float i_gain_[8];
+    float d_gain_[8];
+
+    float ff_coefficient_[8];
 };
 
 }  // namespace devices
