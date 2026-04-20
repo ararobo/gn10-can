@@ -29,28 +29,28 @@ public:
      *
      * @param p_gain pゲイン
      */
-    bool get_p_gain(float p_gain, uint8_t motor_num);
+    bool get_p_gain(float& p_gain, uint8_t motor_num);
 
     /**
      * @brief Iゲインにアクセスする関数
      *
      * @param i_gain iゲイン
      */
-    bool get_i_gain(float i_gain, uint8_t motor_num);
+    bool get_i_gain(float& i_gain, uint8_t motor_num);
 
     /**
      * @brief Dゲインにアクセスする関数
      *
      * @param d_gain dゲイン
      */
-    bool get_d_gain(float d_gain, uint8_t motor_num);
+    bool get_d_gain(float& d_gain, uint8_t motor_num);
 
     /**
      * @brief FF係数にアクセスする関数
      *
      * @param ff_coefficient フィードフォワードの係数
      */
-    bool get_ff_coefficient(float ff_coefficient, uint8_t motor_num);
+    bool get_ff_coefficient(float& ff_coefficient, uint8_t motor_num);
 
     /**
      * @brief 受け取った角速度にアクセスする関数（すべてできる）
@@ -75,14 +75,13 @@ private:
     };
 
     std::optional<AngularVelocities> angular_velocity_;
-    std::optional<ESCHubConfig> motor_gain_[8];
 
     // gain
-    float p_gain_[8];
-    float i_gain_[8];
-    float d_gain_[8];
+    std::optional<float> p_gain_[8];
+    std::optional<float> i_gain_[8];
+    std::optional<float> d_gain_[8];
 
-    float ff_coefficient_[8];
+    std::optional<float> ff_coefficient_[8];
 };
 
 }  // namespace devices

@@ -4,7 +4,7 @@
 namespace gn10_can {
 namespace devices {
 ESCHubClient::ESCHubClient(FDCANBus& bus, uint8_t device_id)
-    : FDCANDevice(bus, id::DeviceType::MotorDriver, device_id)
+    : FDCANDevice(bus, id::DeviceType::ESCHub, device_id)
 {
 }
 
@@ -15,13 +15,52 @@ void ESCHubClient::set_init()
     bus_.send_frame(frame);
 }
 
-void ESCHubClient::set_p_gain(float p_gain, uint8_t motor_num) {}
+void ESCHubClient::set_p_gain(float p_gain, uint8_t motor_num)
+{
+    FDCANFrame frame =
+        FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::PGain);
+    p_gain_[motor_num] = p_gain;
 
-void ESCHubClient::set_i_gain(float i_gain, uint8_t motor_num) {}
+    converter::pack(frame.data, 0, p_gain_[motor_num].value());
+    converter::pack(frame.data, 4, motor_num);
+    frame.dlc = sizeof(float) + sizeof(uint8_t);
+    bus_.send_frame(frame);
+}
 
-void ESCHubClient::set_d_gain(float d_gain, uint8_t motor_num) {}
+void ESCHubClient::set_i_gain(float i_gain, uint8_t motor_num)
+{
+    FDCANFrame frame =
+        FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::IGain);
+    i_gain_[motor_num] = i_gain;
 
-void ESCHubClient::set_ff_coefficient(float ff_coefficient, uint8_t motor_num) {}
+    converter::pack(frame.data, 0, i_gain_[motor_num].value());
+    converter::pack(frame.data, 4, motor_num);
+    frame.dlc = sizeof(float) + sizeof(uint8_t);
+    bus_.send_frame(frame);
+}
+
+void ESCHubClient::set_d_gain(float d_gain, uint8_t motor_num)
+{
+    FDCANFrame frame =
+        FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::DGain);
+    d_gain_[motor_num] = d_gain;
+
+    converter::pack(frame.data, 0, d_gain_[motor_num].value());
+    converter::pack(frame.data, 4, motor_num);
+    frame.dlc = sizeof(float) + sizeof(uint8_t);
+    bus_.send_frame(frame);
+}
+
+void ESCHubClient::set_ff_coefficient(float ff_coefficient, uint8_t motor_num)
+{
+    FDCANFrame frame = FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::FF);
+    ff_coefficient_[motor_num] = ff_coefficient;
+
+    converter::pack(frame.data, 0, ff_coefficient_[motor_num].value());
+    converter::pack(frame.data, 4, motor_num);
+    frame.dlc = sizeof(float) + sizeof(uint8_t);
+    bus_.send_frame(frame);
+}
 
 void ESCHubClient::set_angular_velocities(float angular_velocities[4])
 {

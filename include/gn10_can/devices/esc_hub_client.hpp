@@ -94,11 +94,11 @@ private:
     std::optional<ESCHubConfig> motor_gain_[8];
 
     // gain
-    float p_gain_[8];
-    float i_gain_[8];
-    float d_gain_[8];
+    std::optional<float> p_gain_[8];
+    std::optional<float> i_gain_[8];
+    std::optional<float> d_gain_[8];
 
-    float ff_coefficient_[8];
+    std::optional<float> ff_coefficient_[8];
 };
 
 }  // namespace devices
