@@ -35,8 +35,6 @@ void ESCHubServer::on_receive(const FDCANFrame& frame)
     auto id_fields = id::unpack(frame.id);
 
     if (id_fields.is_command(id::MsgTypeESCHub::Init)) {
-        if (id_fields.is_command(id::MsgTypeESCHub::Init)) {
-        }
     } else if (id_fields.is_command(id::MsgTypeESCHub::AngularVelocities)) {
         AngularVelocities config;
         if (converter::unpack(frame.data, 0, config)) {
