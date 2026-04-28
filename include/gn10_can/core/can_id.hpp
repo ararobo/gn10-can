@@ -25,7 +25,7 @@ static constexpr uint8_t BIT_WIDTH_COMMAND  = 3;
  *
  */
 enum class DeviceType : uint8_t {
-    EmergencyStop       = 0,
+    PowerManager        = 0,
     MotorDriver         = 1,
     ServoMotor          = 2,
     SolenoidDriver      = 3,
@@ -37,13 +37,14 @@ enum class DeviceType : uint8_t {
 };
 
 /**
- * @brief 非常停止スイッチのメッセージ種類（コマンド）
+ * @brief 電源管理基板のメッセージ種類（コマンド）
  *
  */
-enum class MsgTypeEmergencyStop : uint8_t {
-    Init          = 0,
-    Status        = 1,
-    EmergencyStop = 2,
+enum class MsgTypePowerManager : uint8_t {
+    Init   = 0,
+    Stop   = 1,
+    Status = 2,
+    Sensor = 3,
 };
 
 /**
