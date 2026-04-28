@@ -16,11 +16,14 @@ public:
 
     void set_stop(bool enable_stop);
 
-    bool get_feedback(bool enable_stop, float voltage, float current);
+    void get_feedback(bool& enable_stop, float& voltage, float& current);
 
     void on_receive(const FDCANFrame& frame) override;
 
 private:
+    bool enable_stop_;
+    float voltage_;
+    float current_;
 };
 }  // namespace devices
 }  // namespace gn10_can
