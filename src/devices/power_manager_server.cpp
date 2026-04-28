@@ -29,11 +29,22 @@ bool PowerManagerServer::get_stop(bool& enable_stop)
     return false;
 }
 
-void PowerManagerServer::set_feedback(Status feedback)
+void PowerManagerServer::set_status(Status status)
 {
-    std::array<uint8_t, sizeof(Status)> payload{};
-    converter::pack(payload, 0, feedback);
+    std::array<uint8_t, 4> payload{};
+    converter::pack(payload, 0, status.emergency_stop_enabled);
+    converter::pack(payload, 1, status.remote_emergency_stop_connected);
+    converter::pack(payload, 2, status.remote_emergency_stop_enabled);
+    converter::pack(payload, 3, status.over_current);
     send(id::MsgTypePowerManager::Status, payload);
+}
+
+void PowerManagerServer::set_sensor(Sensor sensor)
+{
+    std::array<uint8_t, 8> payload{};
+    converter::pack(payload, 0, sensor.voltage);
+    converter::pack(payload, 4, sensor.current);
+    send(id::MsgTypePowerManager::Sensor, payload);
 }
 
 void PowerManagerServer::on_receive(const FDCANFrame& frame)
