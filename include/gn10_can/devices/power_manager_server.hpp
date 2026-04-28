@@ -6,7 +6,7 @@
 namespace gn10_can {
 namespace devices {
 
-struct Feedback {
+struct Status {
     bool enable_stop;
     float voltage;
     float current;
@@ -21,7 +21,7 @@ public:
 
     bool get_stop(bool& enable_stop);
 
-    void set_feedback(Feedback feedback);
+    void set_feedback(Status feedback);
 
     void on_receive(const FDCANFrame& frame) override;
 
