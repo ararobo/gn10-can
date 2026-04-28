@@ -44,6 +44,7 @@ enum class MsgTypePowerManager : uint8_t {
     Init   = 0,
     Stop   = 1,
     Status = 2,
+    Sensor = 3,
 };
 
 /**
