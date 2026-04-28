@@ -35,6 +35,7 @@ public:
 
 private:
     std::optional<Status> status_;
+    std::optional<Sensor> sensor_;
 };
 }  // namespace devices
 }  // namespace gn10_can
