@@ -7,6 +7,12 @@
 namespace gn10_can {
 namespace devices {
 
+struct Feedback {
+    bool enable_stop;
+    float voltage;
+    float current;
+};
+
 class PowerManagerClient : public FDCANDevice
 {
 public:
@@ -16,14 +22,12 @@ public:
 
     void set_stop(bool enable_stop);
 
-    void get_feedback(bool& enable_stop, float& voltage, float& current);
+    bool get_feedback(Feedback& feedback);
 
     void on_receive(const FDCANFrame& frame) override;
 
 private:
-    bool enable_stop_;
-    float voltage_;
-    float current_;
+    std::optional<Feedback> feedback_;
 };
 }  // namespace devices
 }  // namespace gn10_can
