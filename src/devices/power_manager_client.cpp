@@ -12,7 +12,8 @@ PowerManagerClient::PowerManagerClient(FDCANBus& bus, uint8_t dev_id)
 
 void PowerManagerClient::set_init()
 {
-    send(id::MsgTypePowerManager::Init, 0);
+    std::array<uint8_t, 1> payload{};
+    send(id::MsgTypePowerManager::Init, payload);
 }
 
 void PowerManagerClient::set_stop(bool enable_stop)
