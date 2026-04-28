@@ -34,7 +34,7 @@ public:
     void on_receive(const FDCANFrame& frame) override;
 
 private:
-    std::optional<Status> feedback_;
+    std::optional<Status> status_;
 };
 }  // namespace devices
 }  // namespace gn10_can
