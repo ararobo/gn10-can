@@ -22,7 +22,7 @@ void PowerManagerClient::set_stop(bool enable_stop)
     send(id::MsgTypePowerManager::Stop, payload);
 }
 
-bool PowerManagerClient::get_feedback(Feedback& feedback)
+bool PowerManagerClient::get_status(Status& feedback)
 {
     if (feedback_.has_value()) {
         feedback = feedback_.value();
