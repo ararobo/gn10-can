@@ -23,11 +23,21 @@ void PowerManagerClient::set_stop(bool enable_stop)
     send(id::MsgTypePowerManager::Stop, payload);
 }
 
-bool PowerManagerClient::get_status(Status& feedback)
+bool PowerManagerClient::get_status(Status& status)
 {
-    if (feedback_.has_value()) {
-        feedback = feedback_.value();
-        feedback_.reset();
+    if (status_.has_value()) {
+        status = status_.value();
+        status_.reset();
+        return true;
+    }
+    return false;
+}
+
+bool PowerManagerClient::get_sensor(Sensor& sensor)
+{
+    if (sensor_.has_value()) {
+        sensor = sensor_.value();
+        sensor_.reset();
         return true;
     }
     return false;
@@ -37,14 +47,26 @@ void PowerManagerClient::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
     if (id_fields.is_command(id::MsgTypePowerManager::Status)) {
-        bool enable_stop;
-        float voltage, current;
-        if (converter::unpack(frame.data.data(), frame.dlc, 0, enable_stop) &&
-            converter::unpack(frame.data.data(), frame.dlc, 1, voltage) &&
-            converter::unpack(frame.data.data(), frame.dlc, 5, current)) {
-            feedback_.value().enable_stop = enable_stop;
-            feedback_.value().voltage     = voltage;
-            feedback_.value().current     = current;
+        bool emergency_stop_enabled;
+        bool remote_emergency_stop_connected;
+        bool remote_emergency_stop_enabled;
+        bool over_current;
+        if (converter::unpack(frame.data.data(), frame.dlc, 0, emergency_stop_enabled) &&
+            converter::unpack(frame.data.data(), frame.dlc, 1, remote_emergency_stop_connected) &&
+            converter::unpack(frame.data.data(), frame.dlc, 5, remote_emergency_stop_enabled) &&
+            converter::unpack(frame.data.data(), frame.dlc, 3, over_current)) {
+            status_.value().emergency_stop_enabled          = emergency_stop_enabled;
+            status_.value().remote_emergency_stop_connected = remote_emergency_stop_connected;
+            status_.value().remote_emergency_stop_enabled   = remote_emergency_stop_enabled;
+            status_.value().over_current                    = over_current;
+        }
+    } else if (id_fields.is_command(id::MsgTypePowerManager::Sensor)) {
+        float voltage;
+        float current;
+        if (converter::unpack(frame.data.data(), frame.dlc, 0, voltage) &&
+            converter::unpack(frame.data.data(), frame.dlc, 4, current)) {
+            sensor_.value().voltage = voltage;
+            sensor_.value().current = current;
         }
     }
 }
