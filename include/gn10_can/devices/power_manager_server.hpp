@@ -7,7 +7,13 @@ namespace gn10_can {
 namespace devices {
 
 struct Status {
-    bool enable_stop;
+    bool emergency_stop_enabled;
+    bool remote_emergency_stop_connected;
+    bool remote_emergency_stop_enabled;
+    bool over_current;
+};
+
+struct Sensor {
     float voltage;
     float current;
 };
@@ -21,7 +27,9 @@ public:
 
     bool get_stop(bool& enable_stop);
 
-    void set_feedback(Status feedback);
+    void set_status(Status status);
+
+    void set_sensor(Sensor sensor);
 
     void on_receive(const FDCANFrame& frame) override;
 
