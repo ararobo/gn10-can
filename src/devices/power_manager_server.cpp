@@ -10,7 +10,7 @@ PowerManagerServer::PowerManagerServer(FDCANBus& bus, uint8_t dev_id)
 {
 }
 
-bool PowerManagerServer::get_init()
+bool PowerManagerServer::get_new_init()
 {
     if (init_.has_value()) {
         init_.reset();
@@ -19,7 +19,7 @@ bool PowerManagerServer::get_init()
     return false;
 }
 
-bool PowerManagerServer::get_stop(bool& enable_stop)
+bool PowerManagerServer::get_new_stop(bool& enable_stop)
 {
     if (enable_stop_.has_value()) {
         enable_stop = enable_stop_.value();

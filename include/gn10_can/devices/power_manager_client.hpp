@@ -27,9 +27,9 @@ public:
 
     void set_stop(bool enable_stop);
 
-    bool get_status(Status& status);
+    bool get_new_status(Status& status);
 
-    bool get_sensor(Sensor& sensor);
+    bool get_new_sensor(Sensor& sensor);
 
     void on_receive(const FDCANFrame& frame) override;
 

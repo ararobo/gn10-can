@@ -23,7 +23,7 @@ void PowerManagerClient::set_stop(bool enable_stop)
     send(id::MsgTypePowerManager::Stop, payload);
 }
 
-bool PowerManagerClient::get_status(Status& status)
+bool PowerManagerClient::get_new_status(Status& status)
 {
     if (status_.has_value()) {
         status = status_.value();
@@ -33,7 +33,7 @@ bool PowerManagerClient::get_status(Status& status)
     return false;
 }
 
-bool PowerManagerClient::get_sensor(Sensor& sensor)
+bool PowerManagerClient::get_new_sensor(Sensor& sensor)
 {
     if (sensor_.has_value()) {
         sensor = sensor_.value();

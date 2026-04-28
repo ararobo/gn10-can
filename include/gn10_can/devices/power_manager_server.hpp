@@ -23,9 +23,9 @@ class PowerManagerServer : public FDCANDevice
 public:
     PowerManagerServer(FDCANBus& bus, uint8_t dev_id);
 
-    bool get_init();
+    bool get_new_init();
 
-    bool get_stop(bool& enable_stop);
+    bool get_new_stop(bool& enable_stop);
 
     void set_status(Status status);
 
