@@ -15,7 +15,6 @@
 #include "gn10_can/core/fdcan_bus.hpp"
 #include "gn10_can/core/fdcan_device.hpp"
 #include "gn10_can/core/fdcan_frame.hpp"
-#include "gn10_can/devices/esc_hub_config.hpp"
 
 namespace gn10_can {
 namespace devices {
@@ -91,7 +90,6 @@ private:
     };
 
     std::optional<AngularVelocityFeedbacks> angular_velocity_feedback_;
-    std::optional<ESCHubConfig> motor_gain_[8];
 
     // gain
     std::optional<float> p_gain_[8];
