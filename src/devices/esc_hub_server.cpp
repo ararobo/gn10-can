@@ -8,7 +8,14 @@ ESCHubServer::ESCHubServer(FDCANBus& bus, uint8_t device_id)
 {
 }
 
-bool ESCHubServer::get_init() {}
+bool ESCHubServer::get_init()
+{
+    if (init_.has_value()) {
+        init_.reset();
+        return true;
+    }
+    return false;
+}
 
 bool ESCHubServer::get_p_gain(float& p_gain, uint8_t motor_num)
 {
@@ -64,9 +71,9 @@ void ESCHubServer::on_receive(const FDCANFrame& frame)
 
     if (id_fields.is_command(id::MsgTypeESCHub::Init)) {
     } else if (id_fields.is_command(id::MsgTypeESCHub::AngularVelocities)) {
-        AngularVelocities config;
-        if (converter::unpack(frame.data, 0, config)) {
-            angular_velocity_ = config;
+        uint8_t init;
+        if (converter::unpack(frame.data, 0, init)) {
+            init_ = init;
         }
     } else if (id_fields.is_command(id::MsgTypeESCHub::PGain)) {
         float p_gain;

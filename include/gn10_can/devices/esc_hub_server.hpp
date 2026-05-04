@@ -74,6 +74,7 @@ private:
     };
 
     std::optional<AngularVelocities> angular_velocity_;
+    std::optional<uint8_t> init_;
 
     // gain
     std::optional<float> p_gain_[8];
