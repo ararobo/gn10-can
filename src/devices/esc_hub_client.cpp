@@ -12,6 +12,7 @@ void ESCHubClient::set_init()
 {
     FDCANFrame frame =
         FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::Init);
+    frame.dlc = 1;
     bus_.send_frame(frame);
 }
 
