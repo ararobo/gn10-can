@@ -10,9 +10,11 @@ PowerManagerClient::PowerManagerClient(FDCANBus& bus, uint8_t dev_id)
 {
 }
 
-void PowerManagerClient::set_init()
+void PowerManagerClient::set_init(power_manager::Config config)
 {
-    std::array<uint8_t, 1> payload{};
+    std::array<uint8_t, 3> payload{};
+    converter::pack(payload, 0, config.use_remote_emergency_stop);
+    converter::pack(payload, 1, config.sensor_rate_ms);
     send(id::MsgTypePowerManager::Init, payload);
 }
 
@@ -23,7 +25,7 @@ void PowerManagerClient::set_stop(bool enable_stop)
     send(id::MsgTypePowerManager::Stop, payload);
 }
 
-bool PowerManagerClient::get_new_status(Status& status)
+bool PowerManagerClient::get_new_status(power_manager::Status& status)
 {
     if (status_.has_value()) {
         status = status_.value();
@@ -33,7 +35,7 @@ bool PowerManagerClient::get_new_status(Status& status)
     return false;
 }
 
-bool PowerManagerClient::get_new_sensor(Sensor& sensor)
+bool PowerManagerClient::get_new_sensor(power_manager::Sensor& sensor)
 {
     if (sensor_.has_value()) {
         sensor = sensor_.value();

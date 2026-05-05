@@ -10,10 +10,11 @@ PowerManagerServer::PowerManagerServer(FDCANBus& bus, uint8_t dev_id)
 {
 }
 
-bool PowerManagerServer::get_new_init()
+bool PowerManagerServer::get_new_init(power_manager::Config& config)
 {
-    if (init_.has_value()) {
-        init_.reset();
+    if (config_.has_value()) {
+        config = config_.value();
+        config_.reset();
         return true;
     }
     return false;
@@ -29,7 +30,7 @@ bool PowerManagerServer::get_new_stop(bool& enable_stop)
     return false;
 }
 
-void PowerManagerServer::set_status(Status status)
+void PowerManagerServer::set_status(power_manager::Status status)
 {
     std::array<uint8_t, 4> payload{};
     converter::pack(payload, 0, status.emergency_stop_enabled);
@@ -39,7 +40,7 @@ void PowerManagerServer::set_status(Status status)
     send(id::MsgTypePowerManager::Status, payload);
 }
 
-void PowerManagerServer::set_sensor(Sensor sensor)
+void PowerManagerServer::set_sensor(power_manager::Sensor sensor)
 {
     std::array<uint8_t, 8> payload{};
     converter::pack(payload, 0, sensor.voltage);
@@ -51,9 +52,10 @@ void PowerManagerServer::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
     if (id_fields.is_command(id::MsgTypePowerManager::Init)) {
-        uint8_t init;
-        if (converter::unpack(frame.data.data(), frame.dlc, 0, init)) {
-            init_.value() = init;
+        power_manager::Config config;
+        if (converter::unpack(frame.data.data(), frame.dlc, 0, config.use_remote_emergency_stop) &&
+            converter::unpack(frame.data.data(), frame.dlc, 1, config.sensor_rate_ms)) {
+            config_.value() = config;
         }
     }
     if (id_fields.is_command(id::MsgTypePowerManager::Stop)) {
