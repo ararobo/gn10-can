@@ -10,9 +10,10 @@ PowerManagerClient::PowerManagerClient(FDCANBus& bus, uint8_t dev_id)
 {
 }
 
-void PowerManagerClient::set_init()
+void PowerManagerClient::set_init(uint16_t sensor_rate_ms)
 {
-    std::array<uint8_t, 1> payload{};
+    std::array<uint8_t, 2> payload{};
+    converter::pack(payload, 0, sensor_rate_ms);
     send(id::MsgTypePowerManager::Init, payload);
 }
 

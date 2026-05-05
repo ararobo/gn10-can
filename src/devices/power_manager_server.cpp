@@ -10,9 +10,10 @@ PowerManagerServer::PowerManagerServer(FDCANBus& bus, uint8_t dev_id)
 {
 }
 
-bool PowerManagerServer::get_new_init()
+bool PowerManagerServer::get_new_init(uint16_t& sensor_rate_ms)
 {
     if (init_.has_value()) {
+        sensor_rate_ms = init_.value();
         init_.reset();
         return true;
     }
@@ -51,7 +52,7 @@ void PowerManagerServer::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
     if (id_fields.is_command(id::MsgTypePowerManager::Init)) {
-        uint8_t init;
+        uint16_t init;
         if (converter::unpack(frame.data.data(), frame.dlc, 0, init)) {
             init_.value() = init;
         }

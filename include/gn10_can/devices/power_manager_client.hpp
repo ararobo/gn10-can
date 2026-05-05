@@ -23,7 +23,7 @@ class PowerManagerClient : public FDCANDevice
 public:
     PowerManagerClient(FDCANBus& bus, uint8_t dev_id);
 
-    void set_init();
+    void set_init(uint16_t sensor_rate_ms);
 
     void set_stop(bool enable_stop);
 

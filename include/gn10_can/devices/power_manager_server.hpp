@@ -23,7 +23,7 @@ class PowerManagerServer : public FDCANDevice
 public:
     PowerManagerServer(FDCANBus& bus, uint8_t dev_id);
 
-    bool get_new_init();
+    bool get_new_init(uint16_t& sensor_rate_ms);
 
     bool get_new_stop(bool& enable_stop);
 
@@ -34,7 +34,7 @@ public:
     void on_receive(const FDCANFrame& frame) override;
 
 private:
-    std::optional<uint8_t> init_;
+    std::optional<uint16_t> init_;
     std::optional<bool> enable_stop_;
 };
 }  // namespace devices
