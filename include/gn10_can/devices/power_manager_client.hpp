@@ -23,8 +23,8 @@ public:
     void on_receive(const FDCANFrame& frame) override;
 
 private:
-    std::optional<power_manager::Status> status_;
-    std::optional<power_manager::Sensor> sensor_;
+    std::optional<power_manager::Status> status_{};
+    std::optional<power_manager::Sensor> sensor_{};
 };
 }  // namespace devices
 }  // namespace gn10_can

@@ -23,8 +23,8 @@ public:
     void on_receive(const FDCANFrame& frame) override;
 
 private:
-    std::optional<power_manager::Config> config_;
-    std::optional<bool> enable_stop_;
+    std::optional<power_manager::Config> config_{};
+    std::optional<bool> enable_stop_{};
 };
 }  // namespace devices
 }  // namespace gn10_can
