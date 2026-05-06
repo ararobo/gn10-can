@@ -55,7 +55,7 @@ void PowerManagerClient::on_receive(const FDCANFrame& frame)
         bool over_current;
         if (converter::unpack(frame.data.data(), frame.dlc, 0, emergency_stop_enabled) &&
             converter::unpack(frame.data.data(), frame.dlc, 1, remote_emergency_stop_connected) &&
-            converter::unpack(frame.data.data(), frame.dlc, 5, remote_emergency_stop_enabled) &&
+            converter::unpack(frame.data.data(), frame.dlc, 2, remote_emergency_stop_enabled) &&
             converter::unpack(frame.data.data(), frame.dlc, 3, over_current)) {
             status_.value().emergency_stop_enabled          = emergency_stop_enabled;
             status_.value().remote_emergency_stop_connected = remote_emergency_stop_connected;
