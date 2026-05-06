@@ -52,7 +52,7 @@ void PowerManagerServer::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
     if (id_fields.is_command(id::MsgTypePowerManager::Init)) {
-        power_manager::Config config;
+        power_manager::Config config{};
         if (converter::unpack(frame.data.data(), frame.dlc, 0, config.use_remote_emergency_stop) &&
             converter::unpack(frame.data.data(), frame.dlc, 1, config.sensor_rate_ms)) {
             config_.value() = config;
