@@ -57,6 +57,7 @@ void PowerManagerClient::on_receive(const FDCANFrame& frame)
             converter::unpack(frame.data.data(), frame.dlc, 1, remote_emergency_stop_connected) &&
             converter::unpack(frame.data.data(), frame.dlc, 2, remote_emergency_stop_enabled) &&
             converter::unpack(frame.data.data(), frame.dlc, 3, over_current)) {
+            status_                                         = power_manager::Status{};
             status_.value().emergency_stop_enabled          = emergency_stop_enabled;
             status_.value().remote_emergency_stop_connected = remote_emergency_stop_connected;
             status_.value().remote_emergency_stop_enabled   = remote_emergency_stop_enabled;
@@ -67,6 +68,7 @@ void PowerManagerClient::on_receive(const FDCANFrame& frame)
         float current;
         if (converter::unpack(frame.data.data(), frame.dlc, 0, voltage) &&
             converter::unpack(frame.data.data(), frame.dlc, 4, current)) {
+            sensor_                 = power_manager::Sensor{};
             sensor_.value().voltage = voltage;
             sensor_.value().current = current;
         }
