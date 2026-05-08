@@ -15,6 +15,22 @@ struct Status {
     bool remote_emergency_stop_connected;
     bool remote_emergency_stop_enabled;
     bool over_current;
+
+    bool operator==(const Status& other) const noexcept
+    {
+        return emergency_stop_enabled == other.emergency_stop_enabled &&
+               remote_emergency_stop_connected == other.remote_emergency_stop_connected &&
+               remote_emergency_stop_enabled == other.remote_emergency_stop_enabled &&
+               over_current == other.over_current;
+    }
+
+    bool operator!=(const Status& other) const noexcept
+    {
+        return emergency_stop_enabled != other.emergency_stop_enabled &&
+               remote_emergency_stop_connected != other.remote_emergency_stop_connected &&
+               remote_emergency_stop_enabled != other.remote_emergency_stop_enabled &&
+               over_current != other.over_current;
+    }
 };
 
 struct Sensor {
