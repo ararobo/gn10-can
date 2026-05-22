@@ -11,8 +11,6 @@ elseif(MSVC)
 endif()
 
 set(SOURCES
-    src/core/can_bus.cpp
-    src/core/fdcan_bus.cpp
     src/devices/esc_hub_client.cpp
     src/devices/esc_hub_server.cpp
     src/devices/motor_driver_types.cpp
