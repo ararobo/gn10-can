@@ -1,0 +1,91 @@
+@startuml redesign_fdcan_classic
+!theme plain
+skinparam backgroundColor #ffffff
+skinparam classBackgroundColor #f0f0f0
+skinparam classBorderColor #333333
+
+package "gn10_can" {
+    class "CANFrame\n(MAX_DLC=8)" as CANFrame
+    class "FDCANFrame\n(MAX_DLC=64)" as FDCANFrame
+
+    class "CANBusBase<FrameType, DriverInterface>" as CANBusBase {
+        + {static} MAX_DEVICES : size_t = 16
+        - driver_ : DriverInterface&
+        - devices_ : std::array<DeviceBase*, MAX_DEVICES>
+        - device_count_ : size_t
+        + CANBusBase(driver: DriverInterface&)
+        + update()
+        + send_frame(frame: const FrameType&) : bool
+        - attach(device: DeviceBase*) : bool
+        - detach(device: DeviceBase*)
+        - dispatch(frame: const FrameType&)
+    }
+
+    class "CANDeviceBase<BusType, FrameType>" as CANDeviceBase {
+        - bus_ : BusType&
+        # device_type_ : id::DeviceType
+        # device_id_ : uint8_t
+        + CANDeviceBase(bus: BusType&, type: id::DeviceType, id: uint8_t)
+        + get_routing_id() : uint32_t
+        + {abstract} on_receive(frame: const FrameType&)
+        # send(command: CmdEnum, data: const uint8_t*, len: size_t) : bool
+    }
+
+    class "CANBus = CANBusBase<CANFrame, drivers::ICANDriver>" as CANBus
+    class "FDCANBus = CANBusBase<FDCANFrame, drivers::IFDCANDriver>" as FDCANBus
+    class "CANDevice = CANDeviceBase<CANBus, CANFrame>" as CANDevice
+    class "FDCANDevice = CANDeviceBase<FDCANBus, FDCANFrame>" as FDCANDevice
+}
+
+package "gn10_can::drivers" {
+    interface ICANDriver {
+        + send(frame: const CANFrame&) : bool
+        + receive(out_frame: CANFrame&) : bool
+    }
+
+    interface IFDCANDriver {
+        + send(frame: const FDCANFrame&) : bool
+        + receive(out_frame: FDCANFrame&) : bool
+    }
+}
+
+package "gn10_can::devices" {
+    class MotorDriverClient <<Client>> {
+        + MotorDriverClient(bus: CANBus&, dev_id: uint8_t)
+        + set_target(target: float)
+        + on_receive(frame: const CANFrame&)
+    }
+
+    class MotorDriverClientFDCAN <<Client>> {
+        + MotorDriverClientFDCAN(bus: FDCANBus&, dev_id: uint8_t)
+        + set_target(target: float)
+        + on_receive(frame: const FDCANFrame&)
+    }
+}
+
+CANBusBase --|> CANBus
+FDCANBus --|> CANBusBase
+CANDeviceBase --|> CANDevice
+FDCANDevice --|> CANDeviceBase
+CANBusBase o-- CANDeviceBase : manages
+FDCANBus o-- FDCANDevice : manages
+CANBusBase --> "drivers::ICANDriver"
+FDCANBus --> "drivers::IFDCANDriver"
+CANDeviceBase --> "CANBusBase"
+FDCANDevice --> "FDCANBus"
+MotorDriverClient --|> CANDevice
+MotorDriverClientFDCAN --|> FDCANDevice
+CANFrame <|-- CANBus
+FDCANFrame <|-- FDCANBus
+
+note right of CANBusBase
+  共通のバス処理をテンプレート化し、
+  フレーム長とドライバのみを差分化
+end note
+
+note right of CANDeviceBase
+  デバイス処理も共通化し、
+  ClassicCAN / FDCAN の共通実装を実現
+end note
+
+@enduml
