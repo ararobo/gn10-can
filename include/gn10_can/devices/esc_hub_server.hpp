@@ -28,6 +28,14 @@ public:
     bool get_gain(ESCHubConfig& esc_hub_config);
 
     /**
+     * @brief vescのcommandを受け取る関数
+     *
+     * @return true commandを受け取ることができた
+     * @return false commadを受け取ることができなかった
+     */
+    bool get_vesc_command(bool& vesc_moving);
+
+    /**
      * @brief 受け取った角速度にアクセスする関数（すべてできる）
      *
      * @param angular_velocities ４つ分のモーターの角速度の配列
@@ -49,6 +57,7 @@ private:
 
     std::optional<AngularVelocities> angular_velocity_;
     std::optional<ESCHubConfig> motor_gain_;
+    std::optional<bool> vesc_command_ = false;
 };
 
 }  // namespace devices

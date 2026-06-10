@@ -77,6 +77,7 @@ enum class MsgTypeESCHub : uint8_t {
     Gain                       = 0,
     AngularVelocities          = 1,
     AngularVelocitiesFeedbacks = 2,
+    Command                    = 3,
 };
 
 /**

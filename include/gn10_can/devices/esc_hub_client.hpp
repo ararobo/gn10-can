@@ -45,6 +45,13 @@ public:
     void set_angular_velocities(float angular_velocities[4]);
 
     /**
+     * @brief vescのコマンドを受け取る関数
+     *
+     * @param vesc_moving true:動く false:動かない
+     */
+    void set_vesc_command(bool vesc_moving);
+
+    /**
      * @brief 角速度を受け取る関数
      *
      * @param angular_velocity_feedbacks フィードバックで受け取った角速度

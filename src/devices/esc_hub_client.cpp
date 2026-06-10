@@ -8,6 +8,15 @@ ESCHubClient::ESCHubClient(FDCANBus& bus, uint8_t device_id)
 {
 }
 
+void ESCHubClient::set_vesc_command(bool vesc_moving)
+{
+    FDCANFrame frame =
+        FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::Command);
+    converter::pack(frame.data, 0, vesc_moving);
+    frame.dlc = sizeof(bool);
+    bus_.send_frame(frame);
+}
+
 void ESCHubClient::set_gain_all(const ESCHubConfig& esc_hub_config)
 {
     FDCANFrame frame =

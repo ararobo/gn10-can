@@ -30,6 +30,16 @@ bool ESCHubServer::get_angular_velocities(float angular_velocities[4])
     return false;
 }
 
+bool ESCHubServer::get_vesc_command(bool& vesc_moving)
+{
+    if (vesc_command_.has_value()) {
+        vesc_moving = vesc_command_.value();
+        vesc_command_.reset();
+        return true;
+    }
+    return false;
+}
+
 void ESCHubServer::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
@@ -41,8 +51,13 @@ void ESCHubServer::on_receive(const FDCANFrame& frame)
         }
     } else if (id_fields.is_command(id::MsgTypeESCHub::AngularVelocities)) {
         AngularVelocities config;
-        if (converter::unpack(frame.data, 0, config)) {
+        if (converter::unpack(frame.data.data(), frame.dlc, 0, config)) {
             angular_velocity_ = config;
+        }
+    } else if (id_fields.is_command(id::MsgTypeESCHub::Command)) {
+        bool config;
+        if (converter::unpack(frame.data.data(), frame.dlc, 0, config)) {
+            vesc_command_ = config;
         }
     }
 }
