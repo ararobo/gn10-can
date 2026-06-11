@@ -18,12 +18,12 @@ bool ESCHubServer::get_vesc_command(bool& vesc_moving)
     return false;
 }
 
-void ESCHubServer::set_encoder_feedbacks(int16_t encoder_value)
+void ESCHubServer::set_encoder_feedbacks(int32_t encoder_value)
 {
     FDCANFrame frame =
         FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::Encoder);
     converter::pack(frame.data, 0, encoder_value);
-    frame.dlc = sizeof(int16_t);
+    frame.dlc = sizeof(int32_t);
     bus_.send_frame(frame);
 }
 
