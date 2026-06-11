@@ -8,28 +8,6 @@ ESCHubServer::ESCHubServer(FDCANBus& bus, uint8_t device_id)
 {
 }
 
-bool ESCHubServer::get_gain(ESCHubConfig& esc_hub_config)
-{
-    if (motor_gain_.has_value()) {
-        esc_hub_config = *motor_gain_;
-        motor_gain_.reset();
-        return true;
-    }
-    return false;
-}
-
-bool ESCHubServer::get_angular_velocities(float angular_velocities[4])
-{
-    if (angular_velocity_.has_value()) {
-        for (int i = 0; i < 4; i++) {
-            angular_velocities[i] = angular_velocity_->angular_velocity[i];
-        }
-        angular_velocity_.reset();
-        return true;
-    }
-    return false;
-}
-
 bool ESCHubServer::get_vesc_command(bool& vesc_moving)
 {
     if (vesc_command_.has_value()) {
@@ -40,21 +18,20 @@ bool ESCHubServer::get_vesc_command(bool& vesc_moving)
     return false;
 }
 
+void ESCHubServer::set_encoder_feedbacks(int16_t encoder_value)
+{
+    FDCANFrame frame =
+        FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::Encoder);
+    converter::pack(frame.data, 0, encoder_value);
+    frame.dlc = sizeof(int16_t);
+    bus_.send_frame(frame);
+}
+
 void ESCHubServer::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
 
-    if (id_fields.is_command(id::MsgTypeESCHub::Gain)) {
-        ESCHubConfig config;
-        if (converter::unpack(frame.data.data(), frame.dlc, 0, config)) {
-            motor_gain_ = config;
-        }
-    } else if (id_fields.is_command(id::MsgTypeESCHub::AngularVelocities)) {
-        AngularVelocities config;
-        if (converter::unpack(frame.data.data(), frame.dlc, 0, config)) {
-            angular_velocity_ = config;
-        }
-    } else if (id_fields.is_command(id::MsgTypeESCHub::Command)) {
+    if (id_fields.is_command(id::MsgTypeESCHub::Command)) {
         bool config;
         if (converter::unpack(frame.data.data(), frame.dlc, 0, config)) {
             vesc_command_ = config;
