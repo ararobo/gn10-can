@@ -50,7 +50,7 @@ public:
     void on_receive(const FDCANFrame& frame) override;
 
 private:
-    std::optional<int16_t> encoder_value_;
+    std::optional<int32_t> encoder_value_;
 };
 
 }  // namespace devices
