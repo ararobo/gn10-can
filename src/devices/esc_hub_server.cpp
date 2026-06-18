@@ -10,6 +10,7 @@ ESCHubServer::ESCHubServer(FDCANBus& bus, uint8_t device_id)
 
 bool ESCHubServer::get_init(const uint8_t motor_id, MotorConfig& config)
 {
+    if (motor_id > 3) return false;
     if (config_[motor_id].has_value()) {
         config = config_[motor_id].value();
         config_[motor_id].reset();
@@ -20,6 +21,7 @@ bool ESCHubServer::get_init(const uint8_t motor_id, MotorConfig& config)
 
 bool ESCHubServer::get_gains(const uint8_t motor_id, float& kp, float& ki, float& kd, float& ff)
 {
+    if (motor_id > 3) return false;
     if (gains_[motor_id].has_value()) {
         Gains gains = gains_[motor_id].value();
         kp          = gains.kp;
@@ -61,23 +63,30 @@ void ESCHubServer::on_receive(const FDCANFrame& frame)
     auto id_fields = id::unpack(frame.id);
 
     if (id_fields.is_command(id::MsgTypeESCHub::Init)) {
+        if (frame.dlc < 1 + sizeof(MotorConfig)) return;
         MotorConfig config;
         uint8_t motor_id;
-        converter::unpack(frame.data, 0, motor_id);
-        converter::unpack(frame.data, 1, config);
+        bool success_unpack = true;
+        success_unpack &= converter::unpack(frame.data, 0, motor_id);
+        success_unpack &= converter::unpack(frame.data, 1, config);
+        if (motor_id > 3) return;
         config_[motor_id] = config;
 
     } else if (id_fields.is_command(id::MsgTypeESCHub::Gain)) {
+        if (frame.dlc < 1 + sizeof(float) * 4) return;
         Gains gains;
         uint8_t motor_id;
-        converter::unpack(frame.data, 0, motor_id);
-        converter::unpack(frame.data, 1, gains.kp);
-        converter::unpack(frame.data, 1 + sizeof(float) * 1, gains.ki);
-        converter::unpack(frame.data, 1 + sizeof(float) * 2, gains.kd);
-        converter::unpack(frame.data, 1 + sizeof(float) * 3, gains.ff);
+        bool success_unpack = true;
+        success_unpack &= converter::unpack(frame.data, 0, motor_id);
+        success_unpack &= converter::unpack(frame.data, 1, gains.kp);
+        success_unpack &= converter::unpack(frame.data, 1 + sizeof(float) * 1, gains.ki);
+        success_unpack &= converter::unpack(frame.data, 1 + sizeof(float) * 2, gains.kd);
+        success_unpack &= converter::unpack(frame.data, 1 + sizeof(float) * 3, gains.ff);
+        if (motor_id > 3) return;
         gains_[motor_id] = gains;
 
     } else if (id_fields.is_command(id::MsgTypeESCHub::AngularVelocities)) {
+        if (frame.dlc < sizeof(AngularVelocities)) return;
         AngularVelocities config;
         if (converter::unpack(frame.data, 0, config)) {
             angular_velocity_ = config;
