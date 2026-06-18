@@ -37,6 +37,13 @@ public:
     bool get_angular_velocities(float angular_velocities[4]);
 
     /**
+     * @brief motorの角速度のfeedbackを送信する関数
+     *
+     * @param angular_velocity_feedbacks ４つ分のモーターの実際回っている角速度の配列
+     */
+    void set_angular_velocity_feedbacks(float angular_velocity_feedbacks[4]);
+
+    /**
      * @brief データをprivate関数に格納してあげる関数
      */
     void on_receive(const FDCANFrame& frame) override;
