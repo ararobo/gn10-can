@@ -69,7 +69,7 @@ void ESCHubServer::on_receive(const FDCANFrame& frame)
         bool success_unpack = true;
         success_unpack &= converter::unpack(frame.data, 0, motor_id);
         success_unpack &= converter::unpack(frame.data, 1, config);
-        if (motor_id > 3) return;
+        if (motor_id > 3 || !success_unpack) return;
         config_[motor_id] = config;
 
     } else if (id_fields.is_command(id::MsgTypeESCHub::Gain)) {
@@ -82,7 +82,7 @@ void ESCHubServer::on_receive(const FDCANFrame& frame)
         success_unpack &= converter::unpack(frame.data, 1 + sizeof(float) * 1, gains.ki);
         success_unpack &= converter::unpack(frame.data, 1 + sizeof(float) * 2, gains.kd);
         success_unpack &= converter::unpack(frame.data, 1 + sizeof(float) * 3, gains.ff);
-        if (motor_id > 3) return;
+        if (motor_id > 3 || !success_unpack) return;
         gains_[motor_id] = gains;
 
     } else if (id_fields.is_command(id::MsgTypeESCHub::AngularVelocities)) {
