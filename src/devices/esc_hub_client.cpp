@@ -15,7 +15,7 @@ void ESCHubClient::set_init(const uint8_t motor_id, const MotorConfig& config)
         FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::Init);
     converter::pack(frame.data, 0, motor_id);
     converter::pack(frame.data, 1, config);
-    frame.dlc = 1 + sizeof(MotorConfig);
+    frame.dlc = 16;
     bus_.send_frame(frame);
 }
 
@@ -29,7 +29,7 @@ void ESCHubClient::set_gains(const uint8_t motor_id, float kp, float ki, float k
     converter::pack(frame.data, 1 + sizeof(float) * 1, ki);
     converter::pack(frame.data, 1 + sizeof(float) * 2, kd);
     converter::pack(frame.data, 1 + sizeof(float) * 3, ff);
-    frame.dlc = 1 + sizeof(float) * 4;
+    frame.dlc = 32;
     bus_.send_frame(frame);
 }
 
