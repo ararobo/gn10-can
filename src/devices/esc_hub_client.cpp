@@ -4,7 +4,7 @@
 namespace gn10_can {
 namespace devices {
 ESCHubClient::ESCHubClient(FDCANBus& bus, uint8_t device_id)
-    : FDCANDevice(bus, id::DeviceType::MotorDriver, device_id)
+    : FDCANDevice(bus, id::DeviceType::ESCHub, device_id)
 {
 }
 

@@ -30,6 +30,18 @@ bool ESCHubServer::get_angular_velocities(float angular_velocities[4])
     return false;
 }
 
+void ESCHubServer::set_angular_velocity_feedbacks(float angular_velocity_feedbacks[4])
+{
+    FDCANFrame frame = FDCANFrame::make(
+        id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::AngularVelocitiesFeedbacks
+    );
+    for (int i = 0; i < 4; i++) {
+        converter::pack(frame.data, i * sizeof(float), angular_velocity_feedbacks[i]);
+    }
+    frame.dlc = sizeof(float) * 4;
+    bus_.send_frame(frame);
+}
+
 void ESCHubServer::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
