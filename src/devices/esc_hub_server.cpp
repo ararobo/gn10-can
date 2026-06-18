@@ -8,11 +8,25 @@ ESCHubServer::ESCHubServer(FDCANBus& bus, uint8_t device_id)
 {
 }
 
-bool ESCHubServer::get_gain(ESCHubConfig& esc_hub_config)
+bool ESCHubServer::get_init(const uint8_t motor_id, MotorConfig& config)
 {
-    if (motor_gain_.has_value()) {
-        esc_hub_config = *motor_gain_;
-        motor_gain_.reset();
+    if (config_[motor_id].has_value()) {
+        config = config_[motor_id].value();
+        config_[motor_id].reset();
+        return true;
+    }
+    return false;
+}
+
+bool ESCHubServer::get_gains(const uint8_t motor_id, float& kp, float& ki, float& kd, float& ff)
+{
+    if (gains_[motor_id].has_value()) {
+        Gains gains = gains_[motor_id].value();
+        kp          = gains.kp;
+        ki          = gains.ki;
+        kd          = gains.kd;
+        ff          = gains.ff;
+        gains_[motor_id].reset();
         return true;
     }
     return false;
@@ -46,11 +60,23 @@ void ESCHubServer::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
 
-    if (id_fields.is_command(id::MsgTypeESCHub::Gain)) {
-        ESCHubConfig config;
-        if (converter::unpack(frame.data.data(), frame.dlc, 0, config)) {
-            motor_gain_ = config;
-        }
+    if (id_fields.is_command(id::MsgTypeESCHub::Init)) {
+        MotorConfig config;
+        uint8_t motor_id;
+        converter::unpack(frame.data, 0, motor_id);
+        converter::unpack(frame.data, 1, config);
+        config_[motor_id] = config;
+
+    } else if (id_fields.is_command(id::MsgTypeESCHub::Gain)) {
+        Gains gains;
+        uint8_t motor_id;
+        converter::unpack(frame.data, 0, motor_id);
+        converter::unpack(frame.data, 1, gains.kp);
+        converter::unpack(frame.data, 1 + sizeof(float) * 1, gains.ki);
+        converter::unpack(frame.data, 1 + sizeof(float) * 2, gains.kd);
+        converter::unpack(frame.data, 1 + sizeof(float) * 3, gains.ff);
+        gains_[motor_id] = gains;
+
     } else if (id_fields.is_command(id::MsgTypeESCHub::AngularVelocities)) {
         AngularVelocities config;
         if (converter::unpack(frame.data, 0, config)) {

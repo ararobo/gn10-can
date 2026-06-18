@@ -74,9 +74,10 @@ enum class MsgTypeServoMotor : uint8_t {
  *
  */
 enum class MsgTypeESCHub : uint8_t {
-    Gain                       = 0,
-    AngularVelocities          = 1,
-    AngularVelocitiesFeedbacks = 2,
+    Init                       = 0,
+    Gain                       = 1,
+    AngularVelocities          = 2,
+    AngularVelocitiesFeedbacks = 3,
 };
 
 /**
