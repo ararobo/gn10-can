@@ -40,6 +40,18 @@ enum class GainType : uint8_t {
 };
 
 /**
+ * @brief モータの種類
+ * DCモータードライバの場合はDC=0のみ対応。
+ *
+ */
+enum class MotorType : uint8_t {
+    DC   = 0,  ///< @brief DCモーター
+    C610 = 1,  ///< @brief ロボマスモーター用ESCのC610
+    C620 = 2,  ///< @brief ロボマスモーター用ESCのC620
+    VESC = 3,  ///< @brief オープンソースBLDCドライバ
+};
+
+/**
  * @brief モータードライバーの設定データを管理するクラス
  */
 class MotorConfig
@@ -136,6 +148,20 @@ public:
     uint8_t get_user_option() const;
 
     /**
+     * @brief モーターの種類を設定する
+     *
+     * @param motor_type モーターの種類
+     */
+    void set_motor_type(MotorType motor_type);
+
+    /**
+     * @brief モーターの種類を取得する
+     *
+     * @return MotorType モーターの種類
+     */
+    MotorType get_motor_type() const;
+
+    /**
      * @brief 設定データをバイト配列にシリアライズする
      * @return std::array<uint8_t, 8> CANフレームのペイロード
      */
@@ -186,7 +212,8 @@ private:
          */
         uint8_t limit_switches_config;
         uint8_t user_option;
-        uint8_t reserved[2];  // 8byteで揃えたい
+        uint8_t motor_type;
+        uint8_t reserved[1];  // 8byteで揃えたい
     };
 #ifdef _MSC_VER
 #pragma pack(pop)

@@ -89,6 +89,16 @@ uint8_t MotorConfig::get_user_option() const
     return data_.user_option;
 }
 
+void MotorConfig::set_motor_type(MotorType motor_type)
+{
+    data_.motor_type = static_cast<uint8_t>(motor_type);
+}
+
+MotorType MotorConfig::get_motor_type() const
+{
+    return static_cast<MotorType>(data_.motor_type);
+}
+
 std::array<uint8_t, 8> MotorConfig::to_bytes() const
 {
     std::array<uint8_t, 8> bytes{};
