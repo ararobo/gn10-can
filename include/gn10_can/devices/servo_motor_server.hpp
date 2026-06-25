@@ -38,7 +38,7 @@ private:
         uint16_t max_us;
     };
     std::optional<PulseSet> pulse_set_;
-    std::optional<std::array<float, 2>> angles_rad_;
+    std::optional<std::array<float, 2>>& angles_rad_;
 };
 
 }  // namespace devices

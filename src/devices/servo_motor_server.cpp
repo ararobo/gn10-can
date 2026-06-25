@@ -48,6 +48,5 @@ void ServoMotorServer::on_receive(const CANFrame& frame)
             angles_rad_ = std::array<float, 2>{angle1, angle2};
         }
     }
-}
 }  // namespace devices
 }  // namespace gn10_can
