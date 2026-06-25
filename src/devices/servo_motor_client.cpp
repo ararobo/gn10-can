@@ -18,10 +18,10 @@ void ServoMotorClient::set_init(uint16_t min_us, uint16_t max_us)
     send(id::MsgTypeServoMotor::Init, payload);
 }
 
-void ServoMotorClient::set_angle_rad(float angle_rad)
+void ServoMotorClient::set_angle_rad(const std::array<float, 2>& angles_rad)
 {
-    std::array<uint8_t, 4> payload{};
-    converter::pack(payload, 0, angle_rad);
+    std::array<uint8_t, 8> payload{};
+    converter::pack(payload, 0, angles_rad);
     send(id::MsgTypeServoMotor::AngleRad, payload);
 }
 

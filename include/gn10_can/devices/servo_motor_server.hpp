@@ -2,6 +2,7 @@
 
 #include <optional>
 
+#include "array"
 #include "gn10_can/core/can_bus.hpp"
 #include "gn10_can/core/can_device.hpp"
 #include "gn10_can/core/can_frame.hpp"
@@ -28,7 +29,7 @@ public:
      * @return true
      * @return false
      */
-    bool get_new_angle_rad(float& angle_rad);
+    bool get_new_angle_rad(std::array<float, 2>& angles_rad);
     void on_receive(const CANFrame& frame) override;
 
 private:
@@ -37,7 +38,7 @@ private:
         uint16_t max_us;
     };
     std::optional<PulseSet> pulse_set_;
-    std::optional<float> angle_rad_;
+    std::optional<std::array<float, 2>>& angles_rad_;
 };
 
 }  // namespace devices
