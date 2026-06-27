@@ -1,6 +1,7 @@
 #include "gn10_can/devices/servo_motor_server.hpp"
 
 #include <array>
+
 #include "gn10_can/utils/can_converter.hpp"
 
 namespace gn10_can {
@@ -48,5 +49,6 @@ void ServoMotorServer::on_receive(const CANFrame& frame)
             angles_rad_ = std::array<float, 2>{angle1, angle2};
         }
     }
+}  // namespace devices
 }  // namespace devices
 }  // namespace gn10_can
