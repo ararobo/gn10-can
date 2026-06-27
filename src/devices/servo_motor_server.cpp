@@ -1,6 +1,6 @@
 #include "gn10_can/devices/servo_motor_server.hpp"
 
-#include "array"
+#include <array>
 #include "gn10_can/utils/can_converter.hpp"
 
 namespace gn10_can {
