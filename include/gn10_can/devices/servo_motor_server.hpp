@@ -2,7 +2,7 @@
 
 #include <optional>
 
-#include "array"
+#include <array>
 #include "gn10_can/core/can_bus.hpp"
 #include "gn10_can/core/can_device.hpp"
 #include "gn10_can/core/can_frame.hpp"
