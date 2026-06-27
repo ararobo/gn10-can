@@ -1,8 +1,8 @@
 #pragma once
 
+#include <array>
 #include <optional>
 
-#include <array>
 #include "gn10_can/core/can_bus.hpp"
 #include "gn10_can/core/can_device.hpp"
 #include "gn10_can/core/can_frame.hpp"
@@ -16,8 +16,8 @@ public:
     /**
      * @brief 受け取ったパルス幅の最大値と最小値の設定
      *
-     * @param min_us　最大のパルス幅値
-     * @param max_us　最小のパルス幅値
+     * @param min_us　最小のパルス幅値
+     * @param max_us　最大のパルス幅値
      * @return true
      * @return false
      */

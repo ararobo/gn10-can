@@ -23,8 +23,8 @@ public:
     /**
      * @brief サーボモータのパルス幅最大値と最小値の設定
      *
-     * @param min_us　パルス幅最大値
-     * @param max_us　パルス幅最小値
+     * @param min_us　パルス幅最小値
+     * @param max_us　パルス幅最大値
      */
     void set_init(uint16_t min_us, uint16_t max_us);
     /**
