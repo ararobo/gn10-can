@@ -1,5 +1,7 @@
 #include "gn10_can/devices/servo_motor_server.hpp"
 
+#include <array>
+
 #include "gn10_can/utils/can_converter.hpp"
 
 namespace gn10_can {
@@ -19,11 +21,11 @@ bool ServoMotorServer::get_new_init(uint16_t& min_us, uint16_t& max_us)
     }
     return false;
 }
-bool ServoMotorServer::get_new_angle_rad(float& angle_rad)
+bool ServoMotorServer::get_new_angle_rad(std::array<float, 2>& angles_rad)
 {
-    if (angle_rad_.has_value()) {
-        angle_rad = angle_rad_.value();
-        angle_rad_.reset();
+    if (angles_rad_.has_value()) {
+        angles_rad = angles_rad_.value();
+        angles_rad_.reset();
         return true;
     }
     return false;
@@ -40,11 +42,13 @@ void ServoMotorServer::on_receive(const CANFrame& frame)
             pulse_set_ = PulseSet{min_us, max_us};
         }
     } else if (id_fields.is_command(id::MsgTypeServoMotor::AngleRad)) {
-        float target_angle = 0.0f;
-        if (converter::unpack(frame.data.data(), frame.dlc, 0, target_angle)) {
-            angle_rad_ = target_angle;
+        float angle1 = 0.0f;
+        float angle2 = 0.0f;
+        if (converter::unpack(frame.data.data(), frame.dlc, 0, angle1) &&
+            converter::unpack(frame.data.data(), frame.dlc, 4, angle2)) {
+            angles_rad_ = std::array<float, 2>{angle1, angle2};
         }
     }
-}
+}  // namespace devices
 }  // namespace devices
 }  // namespace gn10_can

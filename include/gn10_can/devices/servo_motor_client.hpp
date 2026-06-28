@@ -23,16 +23,16 @@ public:
     /**
      * @brief サーボモータのパルス幅最大値と最小値の設定
      *
-     * @param min_us　パルス幅最大値
-     * @param max_us　パルス幅最小値
+     * @param min_us　パルス幅最小値
+     * @param max_us　パルス幅最大値
      */
     void set_init(uint16_t min_us, uint16_t max_us);
     /**
-     * @brief　サーボモータで指定したい角度の設定
+     * @brief 2つのサーボモータの角度をまとめて設定
      *
-     * @param angle_rad サーボモータの角度
+     * @param angles_rad 2台分の角度が入った配列 [サーボ1の角度, サーボ2の角度]
      */
-    void set_angle_rad(float angle_rad);
+    void set_angle_rad(const std::array<float, 2>& angles_rad);
     void on_receive(const CANFrame& frame) override;
 };
 }  // namespace devices
