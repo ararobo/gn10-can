@@ -1,5 +1,5 @@
 /**
- * @file communication_module_server.hpp
+ * @file communication_module_client.hpp
  * @author Gento Aiba (aiba-gento)
  * @brief 通信モジュールを介してコントローラーの信号などをCAN通信で共有する
  * @version 0.1
