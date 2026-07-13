@@ -41,6 +41,8 @@ public:
         bus_.send_frame(frame);
     }
 
+    void on_receive(const FDCANFrame& frame) override {}
+
 private:
 };
 
