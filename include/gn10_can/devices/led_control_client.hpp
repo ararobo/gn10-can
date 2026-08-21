@@ -45,14 +45,14 @@ public:
      * @param led_num_start 光らせるLEDのはじめの番号
      * @param led_num_emd 光らせるLEDの終わりの番号
      */
-    void set_led_id(uint8_t led_id, uint16_t led_num_start, uint16_t led_num_end);
+    void led_id_set(uint8_t led_id, uint16_t led_num_start, uint16_t led_num_end);
 
     /**
      * @brief LED識別子開放関数
      *
      * @param led_id 開放するLED識別子
      */
-    void release_led_id(uint8_t led_id);
+    void led_id_release(uint8_t led_id);
 
     /**
      * @brief LEDの色を設定する関数
