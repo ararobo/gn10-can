@@ -5,24 +5,13 @@
 #include "gn10_can/core/fdcan_bus.hpp"
 #include "gn10_can/core/fdcan_device.hpp"
 #include "gn10_can/core/fdcan_frame.hpp"
+#include "gn10_can/devices/led_control_tyoes.hpp"
 
 namespace gn10_can {
 namespace devices {
 class LEDControlClient : public FDCANDevice
 {
 public:
-    struct RGB {
-        uint8_t red;
-        uint8_t green;
-        uint8_t blue;
-    };
-
-    enum class FlashTypeLED : uint8_t {
-        Normal    = 0,
-        Spinning  = 1,
-        Gradually = 2,
-    };
-
     /**
      * @brief LEDContolClientのコンストラクタ
      * @details CANbusの登録とdevice_idの割り振りを行う
