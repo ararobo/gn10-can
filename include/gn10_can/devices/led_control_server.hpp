@@ -9,16 +9,6 @@
 
 namespace gn10_can {
 namespace devices {
-struct RGB {
-    uint8_t red;
-    uint8_t green;
-    uint8_t blue;
-};
 
-enum class FlashTypeLED : uint8_t {
-    Normal    = 0,
-    Spinning  = 1,
-    Gradually = 2,
-};
 }  // namespace devices
 }  // namespace gn10_can
