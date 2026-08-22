@@ -28,20 +28,20 @@ public:
     /**
      * @brief LED識別子設定関数
      *
-     * @details　光らせるLEDの範囲の決定をし、idの割り振りをする
+     * @details　光らせるLEDの範囲の決定をし、idを登録する
      *
      * @param led_id LED識別子
      * @param led_num_start 光らせるLEDのはじめの番号
-     * @param led_num_emd 光らせるLEDの終わりの番号
+     * @param led_num_end 光らせるLEDの終わりの番号
      */
     void set_led_id(uint8_t led_id, uint16_t led_num_start, uint16_t led_num_end);
 
     /**
-     * @brief LED識別子開放関数
+     * @brief LED識別子の登録解除関数
      *
      * @param led_id 開放するLED識別子
      */
-    void release_led_id(uint8_t led_id);
+    void set_release_led_id(uint8_t led_id);
 
     /**
      * @brief LEDの色を設定する関数
@@ -49,7 +49,7 @@ public:
      * @param led_id LED識別子
      * @param rgb 色の割合の設定
      */
-    void set_pixel_color(uint8_t led_id, RGB pixel_rgb);
+    void set_led_color(uint8_t led_id, RGB pixel_rgb);
 
     /**
      * @brief LEDを光らせる関数
