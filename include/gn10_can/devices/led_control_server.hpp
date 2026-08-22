@@ -9,14 +9,14 @@
 
 namespace gn10_can {
 namespace devices {
-class LEDControlClient : public FDCANDevice
+class LEDControlServer : public FDCANDevice
 {
 public:
     /**
      * @brief LEDControlClientのコンストラクタ
      * @details CANbusの登録とdevice_idの割り振りを行う
      */
-    LEDControlClient(FDCANBus& bus, uint8_t device_id);
+    LEDControlServer(FDCANBus& bus, uint8_t device_id);
 
     /**
      * @brief 用いるLEDテープの中でのLEDの最大個数を受け取る関数
