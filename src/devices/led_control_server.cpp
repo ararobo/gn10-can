@@ -8,7 +8,7 @@ LEDControlServer::LEDControlServer(FDCANBus& bus, uint8_t device_id)
 {
 }
 
-bool LEDControlServer::get_new_init(uint16_t& led_num_max) {}
+bool LEDControlServer::get_new_init(uint16_t& led_num_max, uint16_t& led_num_sum) {}
 
 bool LEDControlServer::get_new_led_id(
     uint8_t& led_id, uint16_t& led_num_start, uint16_t& led_num_end

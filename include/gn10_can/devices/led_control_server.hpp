@@ -26,7 +26,7 @@ public:
      * @return false LEDの最大個数を獲得することができなかった
      *
      */
-    bool get_new_init(uint16_t& led_num_max);
+    bool get_new_init(uint16_t& led_num_max, uint16_t& led_num_sum);
 
     /**
      * @brief LEDの識別子を取得する関数
@@ -88,6 +88,8 @@ public:
     void on_receive(const FDCANFrame& frame) override;
 
 private:
+    std::optional<uint16_t> led_num_max_;
+    // uint16_t以上の場合led_idをfalseでかえす
 };
 }  // namespace devices
 }  // namespace gn10_can

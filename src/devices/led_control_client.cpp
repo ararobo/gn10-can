@@ -8,11 +8,12 @@ LEDControlClient::LEDControlClient(FDCANBus& bus, uint8_t device_id)
 {
 }
 
-void LEDControlClient::set_init(uint16_t led_num_max)
+void LEDControlClient::set_init(uint16_t led_num_max, uint16_t led_num_sum)
 {
     FDCANFrame frame = FDCANFrame::make(id::DeviceType::LED, device_id_, id::MsgTypeLED::Init);
     converter::pack(frame.data, 0, led_num_max);
-    frame.dlc = sizeof(uint16_t);
+    converter::pack(frame.data, 2, led_num_sum);
+    frame.dlc = sizeof(uint16_t) * 2;
     bus_.send_frame(frame);
 }
 

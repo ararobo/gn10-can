@@ -23,7 +23,7 @@ public:
      *
      * @param led_num_max 用いるLEDテープの中でのLEDの最大個数
      */
-    void set_init(uint16_t led_num_max);
+    void set_init(uint16_t led_num_max, uint16_t led_num_sum);
 
     /**
      * @brief LED識別子設定関数
