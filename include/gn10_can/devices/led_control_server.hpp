@@ -26,7 +26,7 @@ public:
      * @return false LEDの最大個数を獲得することができなかった
      *
      */
-    bool get_init(uint16_t& led_num_max);
+    bool get_new_init(uint16_t& led_num_max);
 
     /**
      * @brief LEDの識別子を取得する関数
@@ -38,7 +38,7 @@ public:
      * @return true LEDの識別IDを個数含めて登録することができた
      * @return false LEDの識別IDを登録することができず、LEDの個数の情報も取得できなかった
      */
-    bool get_led_id(uint8_t& led_id, uint16_t& led_num_start, uint16_t& led_num_end);
+    bool get_new_led_id(uint8_t& led_id, uint16_t& led_num_start, uint16_t& led_num_end);
 
     /**
      * @brief LED識別子の登録解除をするか取得する関数
@@ -48,7 +48,7 @@ public:
      * @return ture LED識別子の登録を解除することができた
      * @return false LED識別子の登録を解除することができなかった
      */
-    bool get_release_led_id(uint8_t& led_id);
+    bool get_new_release_led_id(uint8_t& led_id);
 
     /**
      * @brief LEDの色の設定を受け取る関数
@@ -59,7 +59,7 @@ public:
      * @return true LEDの色の設定を取得することができた
      * @return false LEDの色の設定を取得することができなかった
      */
-    bool get_led_color(uint8_t& led_id, RGB& pixel_rgb);
+    bool get_new_led_color(uint8_t& led_id, RGB& pixel_rgb);
 
     /**
      * @brief LEDを光らせる処理を受け取る関数
@@ -70,7 +70,7 @@ public:
      * @return true LEDを光らせる処理を受け取ることができた
      * @return false LEDを光らせる処理を受け取ることができなかった
      */
-    bool get_flash(uint8_t& led_id, FlashTypeLED flashtype);
+    bool get_new_flash(uint8_t& led_id, FlashTypeLED flashtype);
 
     /**
      * @brief LEDを消す処理を受け取る関数
@@ -80,7 +80,7 @@ public:
      * @return true LEDを消す処理を受け取ることができた
      * @return false LEDを消す処理を受け取ることができなかった
      */
-    bool get_dark(uint8_t& led_id);
+    bool get_new_dark(uint8_t& led_id);
 
     /**
      * @brief データをprivate関数に格納してあげる関数
