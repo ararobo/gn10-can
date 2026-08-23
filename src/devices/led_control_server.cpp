@@ -8,5 +8,7 @@ LEDControlServer::LEDControlServer(FDCANBus& bus, uint8_t device_id)
 {
 }
 
+bool LEDControlServer::get_init(uint16_t led_num_max) {}
+
 }  // namespace devices
 }  // namespace gn10_can
