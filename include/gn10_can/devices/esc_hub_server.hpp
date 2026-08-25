@@ -52,6 +52,19 @@ public:
     bool get_angular_velocities(float angular_velocities[4]);
 
     /**
+     * @brief 角度を取得するプログラム
+     *
+     * @param encoder_type encoderのタイプ
+     * @param angle 目標角度　受信値は以下参照
+     * IncrementalSpeed ->　値域：なし　単位：[rad/s]
+     * IncrementalTotal -> 値域：なし　単位：[rad]
+     *
+     * ※未実装
+     * Absolute -> 値域 -360〜360　単位：[rad]
+     */
+    bool get_angle(EncoderType encoder_type, float& angle);
+
+    /**
      * @brief motorの角速度のfeedbackを送信する関数
      *
      * @param angular_velocity_feedbacks ４つ分のモーターの実際回っている角速度の配列
