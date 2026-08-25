@@ -79,13 +79,12 @@ public:
     /**
      * @brief リアルタイムのencoderの角度を送信する関数
      *
-     * @param encoder_type encoderの種類を指定する
-     * @param angle_feedback　リアルタイムのencoderの角度
+     * @param angle_feedback　リアルタイムのencoderの角度[rad]
      *
      * @return true encoderの種類とリアルタイムの角度を受け取ることができた
      * @return false encoderの種類とリアルタイムの角度を受け取ることができなかった
      */
-    bool get_angle_feedback(float angle_feedback);
+    bool get_angle_feedback(float& angle_feedback);
 
     /**
      * @brief データをprivate関数に格納してあげる関数
@@ -99,7 +98,7 @@ private:
     };
 
     std::optional<AngularVelocityFeedbacks> angular_velocity_feedback_;
-    float feedback_angle_;
+    std::optional<float> angle_feedback_;
 };
 
 }  // namespace devices

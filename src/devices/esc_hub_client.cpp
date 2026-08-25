@@ -67,6 +67,16 @@ bool ESCHubClient::get_angular_velocity_feedbacks(float angular_velocity_feedbac
     return false;
 }
 
+bool ESCHubClient ::get_angle_feedback(float& angle_feedback)
+{
+    if (angle_feedback_.has_value()) {
+        angle_feedback = angle_feedback_.value();
+        angle_feedback_.reset();
+        return true;
+    }
+    return false;
+}
+
 void ESCHubClient::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
@@ -80,7 +90,7 @@ void ESCHubClient::on_receive(const FDCANFrame& frame)
         if (frame.dlc < (sizeof(float) + sizeof(uint8_t))) return;
         float feedback_angle;
         if (converter::unpack(frame.data, 0, feedback_angle)) {
-            feedback_angle_ = feedback_angle;
+            angle_feedback_ = feedback_angle;
         }
     }
 }
