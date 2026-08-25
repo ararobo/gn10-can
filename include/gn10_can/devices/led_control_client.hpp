@@ -67,37 +67,9 @@ public:
     void set_color_type_led_all(RGB rgb, ShowTypeLED show_type);
 
     /**
-     * @brief LEDを光らせるプログラム　（範囲：設定されたLEDID）
-     *
-     * @param led_id 光らせる設定されたLEDID
-     */
-    void set_show_pixels(uint16_t led_id);
-
-    /**
-     * @brief LEDを光らせるプログラム　（範囲：LEDテープ）
-     *
-     * @param led_tape_num 光らせたいLEDテープの番号
-     */
-    void set_show_tape(uint8_t led_tape_num);
-
-    /**
      * @brief LEDを光らせるプログラム　（範囲：すべてのLED）
      */
     void set_show_all();
-
-    /**
-     * @brief LEDを消すプログラム　（範囲：設定されたLEDID）
-     *
-     * @param led_id 設定されたLEDID
-     */
-    void set_clear_pixels(uint16_t led_id);
-
-    /**
-     * @brief LEDを消すプログラム　（範囲：LEDテープ）
-     *
-     * @param led_tape_num 消したいLEDテープの番号
-     */
-    void set_clear_tape(uint8_t led_tape_num);
 
     /**
      * @brief LEDを消すプログラム　（範囲：すべてのLED）

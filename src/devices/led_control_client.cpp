@@ -24,17 +24,9 @@ void LEDControlClient::set_color_type_led_tape(uint8_t led_tape, RGB rgb, ShowTy
 
 void LEDControlClient::set_color_type_led_all(RGB rgb, ShowTypeLED show_type) {}
 
-void LEDControlClient::set_show_pixels(uint16_t led_id) {}
-
-void LEDControlClient::set_show_tape(uint8_t led_tape_num) {}
-
 void LEDControlClient::set_show_all() {}
 
-void LEDControlClient::set_clear_tape(uint8_t led_tape_num) {}
-
 void LEDControlClient::set_clear_all() {}
-
-void LEDControlClient::set_clear_pixels(uint16_t led_id) {}
 
 void LEDControlClient::on_receive(const FDCANFrame& frame) {}
 

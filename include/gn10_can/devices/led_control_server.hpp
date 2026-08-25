@@ -32,23 +32,15 @@ public:
 
     bool reset_reset_id(uint16_t led_id);
 
-    bool get_color_type_led_idset_color_type_led_id(uint8_t led_id, RGB rgb, ShowTypeLED show_type);
+    bool get_color_type_led_id(uint8_t led_id, RGB rgb, ShowTypeLED show_type);
 
     bool get_color_type_led_tape(uint8_t led_tape, RGB rgb, ShowTypeLED show_type);
 
     bool get_color_type_led_all(RGB rgb, ShowTypeLED show_type);
 
-    bool get_show_pixels(uint16_t led_id);
-
-    bool get_show_tape(uint8_t led_tape_num);
-
     bool get_show_all();
 
-    bool get_clear_pixels(uint16_t led_id);
-
-    void get_clear_tape(uint8_t led_tape_num);
-
-    void get_clear_all();
+    bool get_clear_all();
 
     /**
      * @brief データをprivate関数に格納してあげる関数
