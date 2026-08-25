@@ -9,7 +9,7 @@ struct RGB {
     uint8_t blue;
 } __attribute__((__packed__));
 
-enum class FlashTypeLED : uint8_t {
+enum class ShowTypeLED : uint8_t {
     Normal    = 0,
     Spinning  = 1,
     Gradually = 2,

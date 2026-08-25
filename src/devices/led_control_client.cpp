@@ -45,7 +45,7 @@ void LEDControlClient::set_led_color(uint8_t led_id, RGB pixel_rgb)
     bus_.send_frame(frame);
 }
 
-void LEDControlClient::set_flash(uint8_t led_id, FlashTypeLED flashtype)
+void LEDControlClient::set_flash(uint8_t led_id, ShowTypeLED flashtype)
 {
     FDCANFrame frame = FDCANFrame::make(id::DeviceType::LED, device_id_, id::MsgTypeLED::Flash);
     converter::pack(frame.data, 0, led_id);

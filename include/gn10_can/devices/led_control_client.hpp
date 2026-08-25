@@ -21,50 +21,88 @@ public:
     /**
      * @brief LED初期化コマンド送信関数
      *
-     * @param led_num_max 用いるLEDテープの中でのLEDの最大個数
+     * @param rgb normal color設定
      */
-    void set_init(uint16_t led_num_max, uint16_t led_num_sum);
+    void set_init(RGB rgb);
 
     /**
-     * @brief LED識別子設定関数
+     * @brief 細かいLEDの設定を行い、それに自動でidを割り振る関数
      *
-     * @details　光らせるLEDの範囲の決定をし、idを登録する
+     * @param led_tape　用いるLEDテープの番号
+     * @param led_num_min 光らせるLEDのはじめの番号
+     * @param led_num_mix 光らせるLEDのおわりの番号
      *
-     * @param led_id LED識別子
-     * @param led_num_start 光らせるLEDのはじめの番号
-     * @param led_num_end 光らせるLEDの終わりの番号
+     * @return LEDの識別番号 led_id
      */
-    void set_led_id(uint8_t led_id, uint16_t led_num_start, uint16_t led_num_end);
+    uint16_t set_pixel_id(uint8_t led_tape, uint16_t led_num_min, uint16_t led_num_max);
 
     /**
-     * @brief LED識別子の登録解除関数
+     * @brief LEDの識別番号設定を開放するプログラム
      *
-     * @param led_id 開放するLED識別子
+     * @param led_id 開放したいLEDの識別番号
      */
-    void set_release_led_id(uint8_t led_id);
+    void reset_pixel_id(uint16_t led_id);
 
     /**
-     * @brief LEDの色を設定する関数
+     * @brief LEDの色と光らせ方を設定する関数　（範囲：設定されたLEDID）
      *
-     * @param led_id LED識別子
-     * @param rgb 色の割合の設定
+     * @param led_id　光らせる設定されたLEDID
+     * @param show_type LEDの光らせ方の設定
      */
-    void set_led_color(uint8_t led_id, RGB pixel_rgb);
+    void set_color_type_led_id(uint8_t led_id, ShowTypeLED show_type);
 
     /**
-     * @brief LEDを光らせる関数
+     * @brief LEDの色と光らせ方を設定する関数　（範囲：LEDテープ）
      *
-     * @param led_id LED識別子
-     * @param flashtype LEDの光らせ方の設定
+     * @param led_tape 光らせるLEDテープの番号
+     * @param show_type LEDの光らせ方の設定
      */
-    void set_flash(uint8_t led_id, FlashTypeLED flashtype);
+    void set_color_type_led_tape(uint8_t led_tape, ShowTypeLED show_type);
 
     /**
-     * @brief LEDを消す関数
+     * @brief LEDの色と光らせ方を設定する関数　（範囲：全体
      *
-     * @param led_id LED識別子
+     * @param show_type LEDの光らせ方の設定
      */
-    void set_dark(uint8_t led_id);
+    void set_color_type_led_all(ShowTypeLED show_type);
+
+    /**
+     * @brief LEDを光らせるプログラム　（範囲：LEDテープ）
+     *
+     * @param led_tape_num 光らせたいLEDテープの番号
+     */
+    void set_show_tape(uint8_t led_tape_num);
+
+    /**
+     * @brief LEDを光らせるプログラム　（範囲：設定されたLEDID）
+     *
+     * @param led_id 光らせる設定されたLEDID
+     */
+    void set_show_pixels(uint16_t led_id);
+
+    /**
+     * @brief LEDを光らせるプログラム　（範囲：すべてのLED）
+     */
+    void set_show_all();
+
+    /**
+     * @brief LEDを消すプログラム　（範囲：LEDテープ）
+     *
+     * @param led_tape_num 消したいLEDテープの番号
+     */
+    void set_clear_tape(uint8_t led_tape_num);
+
+    /**
+     * @brief LEDを消すプログラム　（範囲：設定されたLEDID）
+     *
+     * @param led_id 設定されたLEDID
+     */
+    void set_clear_pixels(uint16_t led_id);
+
+    /**
+     * @brief LEDを消すプログラム　（範囲：すべてのLED）
+     */
+    void set_clear_all();
 
     /**
      * @brief データをprivate関数に格納してあげる関数

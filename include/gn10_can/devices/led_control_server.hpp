@@ -70,7 +70,7 @@ public:
      * @return true LEDを光らせる処理を受け取ることができた
      * @return false LEDを光らせる処理を受け取ることができなかった
      */
-    bool get_new_flash(uint8_t& led_id, FlashTypeLED flashtype);
+    bool get_new_flash(uint8_t& led_id, ShowTypeLED flashtype);
 
     /**
      * @brief LEDを消す処理を受け取る関数

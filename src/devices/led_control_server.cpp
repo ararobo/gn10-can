@@ -25,7 +25,7 @@ bool LEDControlServer::get_new_release_led_id(uint8_t& led_id) {}
 
 bool LEDControlServer::get_new_led_color(uint8_t& led_id, RGB& pixel_rgb) {}
 
-bool LEDControlServer::get_new_flash(uint8_t& led_id, FlashTypeLED flashtype) {}
+bool LEDControlServer::get_new_flash(uint8_t& led_id, ShowTypeLED flashtype) {}
 
 bool LEDControlServer::get_new_dark(uint8_t& led_id) {}
 
