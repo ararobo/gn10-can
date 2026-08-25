@@ -99,6 +99,7 @@ private:
     };
 
     std::optional<AngularVelocityFeedbacks> angular_velocity_feedback_;
+    float feedback_angle_;
 };
 
 }  // namespace devices

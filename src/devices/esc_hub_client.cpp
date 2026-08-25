@@ -44,6 +44,16 @@ void ESCHubClient::set_angular_velocities(float angular_velocities[4])
     bus_.send_frame(frame);
 }
 
+void ESCHubClient::set_angle(EncoderType encoder_type, float target)
+{
+    FDCANFrame frame =
+        FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::Angle);
+    converter::pack(frame.data, 0, target);
+    converter::pack(frame.data, sizeof(float), encoder_type);
+    frame.dlc = 5;
+    bus_.send_frame(frame);
+}
+
 bool ESCHubClient::get_angular_velocity_feedbacks(float angular_velocity_feedbacks[4])
 {
     if (angular_velocity_feedback_.has_value()) {
@@ -65,6 +75,13 @@ void ESCHubClient::on_receive(const FDCANFrame& frame)
         AngularVelocityFeedbacks feedbacks;
         if (converter::unpack(frame.data.data(), frame.dlc, 0, feedbacks)) {
             angular_velocity_feedback_ = feedbacks;
+        }
+    } else if (id_fields.is_command(id::MsgTypeESCHub::AngleFeedback)) {
+        if (frame.dlc < (sizeof(float) + sizeof(uint8_t))) return;
+        EncoderType encoder_type;
+        float feedback_angle;
+        if (converter::unpack(frame.data, 0, feedback_angle)) {
+            feedback_angle_ = feedback_angle;
         }
     }
 }
