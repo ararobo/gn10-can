@@ -8,59 +8,33 @@ LEDControlClient::LEDControlClient(FDCANBus& bus, uint8_t device_id)
 {
 }
 
-void LEDControlClient::set_init(uint16_t led_num_max, uint16_t led_num_sum)
+void LEDControlClient::set_init(RGB rgb) {}
+
+uint16_t LEDControlClient::set_pixel_id(
+    uint8_t led_tape, uint16_t led_num_min, uint16_t led_num_max
+)
 {
-    FDCANFrame frame = FDCANFrame::make(id::DeviceType::LED, device_id_, id::MsgTypeLED::Init);
-    converter::pack(frame.data, 0, led_num_max);
-    converter::pack(frame.data, 2, led_num_sum);
-    frame.dlc = sizeof(uint16_t) * 2;
-    bus_.send_frame(frame);
 }
 
-void LEDControlClient::set_led_id(uint8_t led_id, uint16_t led_num_start, uint16_t led_num_end)
-{
-    FDCANFrame frame = FDCANFrame::make(id::DeviceType::LED, device_id_, id::MsgTypeLED::LEDIDSet);
-    converter::pack(frame.data, 0, led_id);
-    converter::pack(frame.data, 2, led_num_start);
-    converter::pack(frame.data, 4, led_num_end);
-    frame.dlc = 40;
-    bus_.send_frame(frame);
-}
+void LEDControlClient::reset_pixel_id(uint16_t led_id) {}
 
-void LEDControlClient::set_release_led_id(uint8_t led_id)
-{
-    FDCANFrame frame =
-        FDCANFrame::make(id::DeviceType::LED, device_id_, id::MsgTypeLED::LEDIDRelease);
-    converter::pack(frame.data, 0, led_id);
-    frame.dlc = 8;
-    bus_.send_frame(frame);
-}
+void LEDControlClient::set_color_type_led_id(uint8_t led_id, RGB rgb, ShowTypeLED show_type) {}
 
-void LEDControlClient::set_led_color(uint8_t led_id, RGB pixel_rgb)
-{
-    FDCANFrame frame = FDCANFrame::make(id::DeviceType::LED, device_id_, id::MsgTypeLED::Color);
-    converter::pack(frame.data, 0, led_id);
-    converter::pack(frame.data, 1, pixel_rgb);
-    frame.dlc = 32;
-    bus_.send_frame(frame);
-}
+void LEDControlClient::set_color_type_led_tape(uint8_t led_tape, RGB rgb, ShowTypeLED show_type) {}
 
-void LEDControlClient::set_flash(uint8_t led_id, ShowTypeLED flashtype)
-{
-    FDCANFrame frame = FDCANFrame::make(id::DeviceType::LED, device_id_, id::MsgTypeLED::Flash);
-    converter::pack(frame.data, 0, led_id);
-    converter::pack(frame.data, 1, flashtype);
-    frame.dlc = 16;
-    bus_.send_frame(frame);
-}
+void LEDControlClient::set_color_type_led_all(RGB rgb, ShowTypeLED show_type) {}
 
-void LEDControlClient::set_dark(uint8_t led_id)
-{
-    FDCANFrame frame = FDCANFrame::make(id::DeviceType::LED, device_id_, id::MsgTypeLED::Dark);
-    converter::pack(frame.data, 0, led_id);
-    frame.dlc = 8;
-    bus_.send_frame(frame);
-}
+void LEDControlClient::set_show_pixels(uint16_t led_id) {}
+
+void LEDControlClient::set_show_tape(uint8_t led_tape_num) {}
+
+void LEDControlClient::set_show_all() {}
+
+void LEDControlClient::set_clear_tape(uint8_t led_tape_num) {}
+
+void LEDControlClient::set_clear_all() {}
+
+void LEDControlClient::set_clear_pixels(uint16_t led_id) {}
 
 void LEDControlClient::on_receive(const FDCANFrame& frame) {}
 
