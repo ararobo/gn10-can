@@ -28,7 +28,14 @@ public:
      */
     bool get_new_init(RGB& rgb);
 
-    bool get_pixel_id(uint8_t led_tape, uint16_t led_num_min, uint16_t led_num_max);
+    /**
+     * @brief 細かいLEDの設定を行い、それに自動でidを割り振る関数
+     *
+     * @param led_tape　用いるLEDテープの番号
+     * @param led_num_min 光らせるLEDのはじめの番号
+     * @param led_num_mix 光らせるLEDのおわりの番号
+     */
+    bool get_pixel_id(uint16_t led_id);
 
     bool reset_reset_id(uint16_t led_id);
 
