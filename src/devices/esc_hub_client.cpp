@@ -33,45 +33,24 @@ void ESCHubClient::set_gains(const uint8_t motor_id, float kp, float ki, float k
     bus_.send_frame(frame);
 }
 
-void ESCHubClient::set_angular_velocities(float angular_velocities[4])
+void ESCHubClient::set_targets(const float targets[4])
 {
     FDCANFrame frame =
-        FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::AngularVelocities);
+        FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::Targets);
     for (int i = 0; i < 4; i++) {
-        converter::pack(frame.data, i * sizeof(float), angular_velocities[i]);
+        converter::pack(frame.data, i * sizeof(float), targets[i]);
     }
     frame.dlc = sizeof(float) * 4;
     bus_.send_frame(frame);
 }
 
-void ESCHubClient::set_angle(EncoderType encoder_type, float target)
+bool ESCHubClient::get_feedbacks(float feedbacks[4])
 {
-    FDCANFrame frame =
-        FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::Angle);
-    converter::pack(frame.data, 0, target);
-    converter::pack(frame.data, sizeof(float), encoder_type);
-    frame.dlc = 5;
-    bus_.send_frame(frame);
-}
-
-bool ESCHubClient::get_angular_velocity_feedbacks(float angular_velocity_feedbacks[4])
-{
-    if (angular_velocity_feedback_.has_value()) {
+    if (feedbacks_.has_value()) {
         for (int i = 0; i < 4; i++) {
-            angular_velocity_feedbacks[i] =
-                angular_velocity_feedback_->angular_velocity_feedback[i];
+            feedbacks[i] = feedbacks_->angular_velocity_feedback[i];
         }
-        angular_velocity_feedback_.reset();
-        return true;
-    }
-    return false;
-}
-
-bool ESCHubClient ::get_angle_feedback(float& angle_feedback)
-{
-    if (angle_feedback_.has_value()) {
-        angle_feedback = angle_feedback_.value();
-        angle_feedback_.reset();
+        feedbacks_.reset();
         return true;
     }
     return false;
@@ -80,17 +59,11 @@ bool ESCHubClient ::get_angle_feedback(float& angle_feedback)
 void ESCHubClient::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
-    if (id_fields.is_command(id::MsgTypeESCHub::AngularVelocitiesFeedbacks)) {
+    if (id_fields.is_command(id::MsgTypeESCHub::Feedbacks)) {
         if (frame.dlc < sizeof(AngularVelocityFeedbacks)) return;
         AngularVelocityFeedbacks feedbacks;
         if (converter::unpack(frame.data.data(), frame.dlc, 0, feedbacks)) {
-            angular_velocity_feedback_ = feedbacks;
-        }
-    } else if (id_fields.is_command(id::MsgTypeESCHub::AngleFeedback)) {
-        if (frame.dlc < (sizeof(float) + sizeof(uint8_t))) return;
-        float feedback_angle;
-        if (converter::unpack(frame.data, 0, feedback_angle)) {
-            angle_feedback_ = feedback_angle;
+            feedbacks_ = feedbacks;
         }
     }
 }

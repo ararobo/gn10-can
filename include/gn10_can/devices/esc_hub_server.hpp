@@ -43,42 +43,27 @@ public:
     bool get_gains(const uint8_t motor_id, float& kp, float& ki, float& kd, float& ff);
 
     /**
-     * @brief 受け取った角速度にアクセスする関数（すべてできる）
+     * @brief 4つのモーターの目標値を取得する関数
      *
-     * @param angular_velocities ４つ分のモーターの角速度の配列
-     * @return true すべての角速度を受け取ることができた
-     * @return false すべての角速度を受け取ることができなかった。
+     * @param targets 4つ分のモーターの目標値の配列
+     * @return true 受け取ることができた
+     * @return false 受け取ることができなかった。
+     * @note init時に設定されるEncoderTypeによって単位が変化
+     * IncrementalSpeed : [rad/s] (1秒あたりの角度変化（角速度）)
+     * Absolute : [rad] (磁石を基準とした角度で、位置回転すると同じ値に戻る。値域:0~2pi)
+     * IncrementalTotal : [rad] (init受信時からの変位)
      */
-    bool get_angular_velocities(float angular_velocities[4]);
-
+    bool get_targets(float targets[4]);
     /**
-     * @brief 角度を取得するプログラム
+     * @brief 4つのモーターのフィードバックを送信する関数
      *
-     * @param encoder_type encoderのタイプ
-     * @param target 目標値　受信値は以下参照
-     * IncrementalSpeed ->　値域：なし　単位：[rad/s]
-     * IncrementalTotal -> 値域：なし　単位：[rad]
-     * ※未実装 Absolute -> 値域 -360〜360　単位：[rad]
-     *
-     * @return true エンコーダーの種類とtargetを受け取ることができた
-     * @return false エンコーダーの種類とtargetを受け取ることができなかった
+     * @param feedbacks 4つ分のモーターのフィードバックの配列
+     * @note init時に設定されるEncoderTypeによって単位が変化
+     * IncrementalSpeed : [rad/s] (1秒あたりの角度変化（角速度）)
+     * Absolute : [rad] (磁石を基準とした角度で、位置回転すると同じ値に戻る。値域:0~2pi)
+     * IncrementalTotal : [rad] (init受信時からの変位)
      */
-    bool get_angle(EncoderType encoder_type, float& target);
-
-    /**
-     * @brief motorの角速度のfeedbackを送信する関数
-     *
-     * @param angular_velocity_feedbacks ４つ分のモーターの実際回っている角速度の配列
-     */
-    void set_angular_velocity_feedbacks(float angular_velocity_feedbacks[4]);
-
-    /**
-     * @brief 現在のencoderの角度を送信する関数
-     *
-     * @param encoder_type encoderの種類を設定する
-     * @param angle_feedback 現在のencoderの角度　単位：[rad]
-     */
-    void set_angle_feedback(float angle_feedback);
+    void set_feedbacks(const float feedbacks[4]);
 
     /**
      * @brief データをprivate関数に格納してあげる関数
@@ -87,7 +72,7 @@ public:
 
 private:
     // 角速度格納用構造体
-    struct AngularVelocities {
+    struct Targets {
         float angular_velocity[4];
     };
     struct Gains {
@@ -96,7 +81,7 @@ private:
         float kd;
         float ff;
     };
-    std::optional<AngularVelocities> angular_velocity_;
+    std::optional<Targets> targets_;
     std::optional<MotorConfig> config_[4];
     std::optional<Gains> gains_[4];
     std::optional<float> target_;
