@@ -78,7 +78,7 @@ public:
      * @param encoder_type encoderの種類を設定する
      * @param angle_feedback 現在のencoderの角度　単位：[rad]
      */
-    void set_angle_feedback(EncoderType encoder_type, float angle_feedback);
+    void set_angle_feedback(float angle_feedback);
 
     /**
      * @brief データをprivate関数に格納してあげる関数

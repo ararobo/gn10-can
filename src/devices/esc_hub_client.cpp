@@ -78,7 +78,6 @@ void ESCHubClient::on_receive(const FDCANFrame& frame)
         }
     } else if (id_fields.is_command(id::MsgTypeESCHub::AngleFeedback)) {
         if (frame.dlc < (sizeof(float) + sizeof(uint8_t))) return;
-        EncoderType encoder_type;
         float feedback_angle;
         if (converter::unpack(frame.data, 0, feedback_angle)) {
             feedback_angle_ = feedback_angle;
