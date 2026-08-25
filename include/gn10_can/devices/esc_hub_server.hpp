@@ -99,6 +99,8 @@ private:
     std::optional<AngularVelocities> angular_velocity_;
     std::optional<MotorConfig> config_[4];
     std::optional<Gains> gains_[4];
+    std::optional<float> target_;
+    std::optional<EncoderType> encoder_type_;
 };
 
 }  // namespace devices

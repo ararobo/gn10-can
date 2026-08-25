@@ -91,6 +91,16 @@ void ESCHubServer::on_receive(const FDCANFrame& frame)
         if (converter::unpack(frame.data, 0, config)) {
             angular_velocity_ = config;
         }
+    } else if (id_fields.is_command(id::MsgTypeESCHub::Angle)) {
+        if (frame.dlc < (sizeof(float) + sizeof(uint8_t))) return;
+        EncoderType encoder_type;
+        float target;
+        if (converter::unpack(frame.data, 0, target)) {
+            target_ = target;
+        }
+        if (converter::unpack(frame.data, sizeof(float), encoder_type)) {
+            encoder_type_ = encoder_type;
+        }
     }
 }
 }  // namespace devices
