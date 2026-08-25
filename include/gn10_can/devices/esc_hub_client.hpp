@@ -56,6 +56,20 @@ public:
     void set_angular_velocities(float angular_velocities[4]);
 
     /**
+     * @brief モーターの目標角度を送信するプログラム
+     *
+     * @param encoder_type encoder のタイプを設定する
+     * @param angle 目標角度　送信値は以下参照
+     * IncrementalSpeed ->　値域：なし　単位：[rad/s]
+     * IncrementalTotal -> 値域：なし　単位：[rad]
+     *
+     * ※未実装
+     * Absolute -> 値域 -360〜360　単位：[rad]
+     *
+     */
+    void set_angle(EncoderType encoder_type, float angle);
+
+    /**
      * @brief 角速度を受け取る関数
      *
      * @param angular_velocity_feedbacks フィードバックで受け取った角速度
