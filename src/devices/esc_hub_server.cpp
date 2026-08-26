@@ -34,25 +34,25 @@ bool ESCHubServer::get_gains(const uint8_t motor_id, float& kp, float& ki, float
     return false;
 }
 
-bool ESCHubServer::get_angular_velocities(float angular_velocities[4])
+bool ESCHubServer::get_targets(float targets[4])
 {
-    if (angular_velocity_.has_value()) {
+    if (targets_.has_value()) {
         for (int i = 0; i < 4; i++) {
-            angular_velocities[i] = angular_velocity_->angular_velocity[i];
+            targets[i] = targets_->angular_velocity[i];
         }
-        angular_velocity_.reset();
+        targets_.reset();
         return true;
     }
     return false;
 }
 
-void ESCHubServer::set_angular_velocity_feedbacks(float angular_velocity_feedbacks[4])
+void ESCHubServer::set_feedbacks(const float feedbacks[4])
 {
     FDCANFrame frame = FDCANFrame::make(
-        id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::AngularVelocitiesFeedbacks
+        id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::Feedbacks
     );
     for (int i = 0; i < 4; i++) {
-        converter::pack(frame.data, i * sizeof(float), angular_velocity_feedbacks[i]);
+        converter::pack(frame.data, i * sizeof(float), feedbacks[i]);
     }
     frame.dlc = sizeof(float) * 4;
     bus_.send_frame(frame);
@@ -85,11 +85,11 @@ void ESCHubServer::on_receive(const FDCANFrame& frame)
         if (motor_id > 3 || !success_unpack) return;
         gains_[motor_id] = gains;
 
-    } else if (id_fields.is_command(id::MsgTypeESCHub::AngularVelocities)) {
-        if (frame.dlc < sizeof(AngularVelocities)) return;
-        AngularVelocities config;
+    } else if (id_fields.is_command(id::MsgTypeESCHub::Targets)) {
+        if (frame.dlc < sizeof(Targets)) return;
+        Targets config;
         if (converter::unpack(frame.data, 0, config)) {
-            angular_velocity_ = config;
+            targets_ = config;
         }
     }
 }

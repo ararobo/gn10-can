@@ -49,20 +49,28 @@ public:
     void set_gains(const uint8_t motor_id, float kp, float ki, float kd, float ff);
 
     /**
-     * @brief　角速度を設定する変数
+     * @brief　4つのモーターの目標値を送信する関数
      *
-     * @param angular_velocities ４つ分のモーターの角速度の配列
+     * @param targets 4つ分のモーターの目標値の配列
+     * @note init時に設定されるEncoderTypeによって単位が変化
+     * IncrementalSpeed : [rad/s] (1秒あたりの角度変化（角速度）)
+     * Absolute : [rad] (磁石を基準とした角度で、1回転すると同じ値に戻る。値域:0~2pi)
+     * IncrementalTotal : [rad] (init受信時からの変位)
      */
-    void set_angular_velocities(float angular_velocities[4]);
+    void set_targets(const float targets[4]);
 
     /**
-     * @brief 角速度を受け取る関数
+     * @brief 4つのモーターのフィードバックを取得する関数
      *
-     * @param angular_velocity_feedbacks フィードバックで受け取った角速度
-     * @return true すべての角速度を受け取ることができた
-     * @return false すべての角速度を受け取ることができなかった。
+     * @param feedbacks 4つ分のモーターのフィードバック
+     * @return true 受け取ることができた
+     * @return false 受け取ることができなかった。
+     * @note init時に設定されるEncoderTypeによって単位が変化
+     * IncrementalSpeed : [rad/s] (1秒あたりの角度変化（角速度）)
+     * Absolute : [rad] (磁石を基準とした角度で、1回転すると同じ値に戻る。値域:0~2pi)
+     * IncrementalTotal : [rad] (init受信時からの変位)
      */
-    bool get_angular_velocity_feedbacks(float angular_velocity_feedbacks[4]);
+    bool get_feedbacks(float feedbacks[4]);
 
     /**
      * @brief データをprivate関数に格納してあげる関数
@@ -70,12 +78,12 @@ public:
     void on_receive(const FDCANFrame& frame) override;
 
 private:
-    // 角速度格納用構造体
-    struct AngularVelocityFeedbacks {
-        float angular_velocity_feedback[4];
+    // feedba
+    struct Feedbacks {
+        float feedback[4];
     };
 
-    std::optional<AngularVelocityFeedbacks> angular_velocity_feedback_;
+    std::optional<Feedbacks> feedbacks_;
 };
 
 }  // namespace devices
