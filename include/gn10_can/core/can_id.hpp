@@ -123,12 +123,14 @@ enum class MsgTypeSensorHub : uint8_t {
  *
  */
 enum class MsgTypeLED : uint8_t {
-    Init         = 0,
-    LEDIDSet     = 1,
-    LEDIDRelease = 2,
-    Color        = 3,
-    Flash        = 4,
-    Dark         = 5,
+    Init       = 0,
+    LEDIDSet   = 1,
+    LEDIDReset = 2,
+    ColorID    = 3,
+    ColorTape  = 4,
+    ColorAll   = 5,
+    Show       = 6,
+    Clear      = 7,
 };
 
 /**

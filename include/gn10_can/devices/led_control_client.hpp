@@ -1,5 +1,6 @@
 #pragma once
 
+#include <bitset>
 #include <optional>
 
 #include "gn10_can/core/fdcan_bus.hpp"
@@ -30,7 +31,7 @@ public:
      * @param led_setting LEDの範囲・テープ番号設定
      * @param led_id LEDの識別ID
      */
-    void set_pixel_id(const LEDScopeSetting& led_setting, uint8_t led_id);
+    bool set_pixel_id(const LEDScopeSetting& led_setting, uint8_t led_id);
 
     /**
      * @brief LEDの識別番号設定を開放する関数
@@ -56,12 +57,12 @@ public:
     /**
      * @brief LEDを点灯指示するプログラム（範囲：すべてのLED）
      */
-    void set_show_all();
+    void set_show();
 
     /**
      * @brief LEDを消灯指示するプログラム（範囲：すべてのLED）
      */
-    void set_clear_all();
+    void set_clear();
 
     /**
      * @brief 受信フレームの処理ハンドラ
@@ -69,6 +70,7 @@ public:
     void on_receive(const FDCANFrame& frame) override;
 
 private:
+    std::bitset<256> check_ids{};  // ID（0~255）の使用状況フラグ（わずか32バイト）
 };
 
 }  // namespace devices
