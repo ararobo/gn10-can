@@ -5,7 +5,7 @@
 #include "gn10_can/core/fdcan_bus.hpp"
 #include "gn10_can/core/fdcan_device.hpp"
 #include "gn10_can/core/fdcan_frame.hpp"
-#include "gn10_can/devices/led_control_tyoes.hpp"
+#include "gn10_can/devices/led_control_types.hpp"
 
 namespace gn10_can {
 namespace devices {
@@ -16,7 +16,7 @@ public:
      * @brief LEDControlClientのコンストラクタ
      * @details CANbusの登録とdevice_idの割り振りを行う
      */
-    LEDControlServer(FDCANBus& bus, uint8_t device_id);
+    LEDControlServer(FDCANBus& bus, uint8_t dev_id);
 
     /**
      * @brief 用いるLEDテープの中でのLEDの最大個数を受け取る関数

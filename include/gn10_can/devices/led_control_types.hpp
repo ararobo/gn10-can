@@ -14,5 +14,12 @@ enum class ShowTypeLED : uint8_t {
     Spinning  = 1,
     Gradually = 2,
 };
+
+struct LEDScopeSetting {
+    uint8_t led_tape;
+    uint16_t led_num_min;
+    uint16_t led_num_max;
+} __attribute__((__packed__));
+
 }  // namespace devices
 }  // namespace gn10_can
