@@ -50,7 +50,7 @@ public:
      * @return false 受け取ることができなかった。
      * @note init時に設定されるEncoderTypeによって単位が変化
      * IncrementalSpeed : [rad/s] (1秒あたりの角度変化（角速度）)
-     * Absolute : [rad] (磁石を基準とした角度で、位置回転すると同じ値に戻る。値域:0~2pi)
+     * Absolute : [rad] (磁石を基準とした角度で、1回転すると同じ値に戻る。値域:0~2pi)
      * IncrementalTotal : [rad] (init受信時からの変位)
      */
     bool get_targets(float targets[4]);
@@ -60,7 +60,7 @@ public:
      * @param feedbacks 4つ分のモーターのフィードバックの配列
      * @note init時に設定されるEncoderTypeによって単位が変化
      * IncrementalSpeed : [rad/s] (1秒あたりの角度変化（角速度）)
-     * Absolute : [rad] (磁石を基準とした角度で、位置回転すると同じ値に戻る。値域:0~2pi)
+     * Absolute : [rad] (磁石を基準とした角度で、1回転すると同じ値に戻る。値域:0~2pi)
      * IncrementalTotal : [rad] (init受信時からの変位)
      */
     void set_feedbacks(const float feedbacks[4]);
