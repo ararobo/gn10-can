@@ -48,7 +48,7 @@ bool ESCHubClient::get_feedbacks(float feedbacks[4])
 {
     if (feedbacks_.has_value()) {
         for (int i = 0; i < 4; i++) {
-            feedbacks[i] = feedbacks_->angular_velocity_feedback[i];
+            feedbacks[i] = feedbacks_->feedback[i];
         }
         feedbacks_.reset();
         return true;
@@ -60,8 +60,8 @@ void ESCHubClient::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
     if (id_fields.is_command(id::MsgTypeESCHub::Feedbacks)) {
-        if (frame.dlc < sizeof(AngularVelocityFeedbacks)) return;
-        AngularVelocityFeedbacks feedbacks;
+        if (frame.dlc < sizeof(Feedbacks)) return;
+        Feedbacks feedbacks;
         if (converter::unpack(frame.data.data(), frame.dlc, 0, feedbacks)) {
             feedbacks_ = feedbacks;
         }

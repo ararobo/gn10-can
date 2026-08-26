@@ -78,13 +78,12 @@ public:
     void on_receive(const FDCANFrame& frame) override;
 
 private:
-    // 角速度格納用構造体
-    struct AngularVelocityFeedbacks {
-        float angular_velocity_feedback[4];
+    // feedba
+    struct Feedbacks {
+        float feedback[4];
     };
 
-    std::optional<AngularVelocityFeedbacks> feedbacks_;
-    std::optional<float> angle_feedback_;
+    std::optional<Feedbacks> feedbacks_;
 };
 
 }  // namespace devices
