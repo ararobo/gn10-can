@@ -29,7 +29,10 @@ public:
     /**
      * @brief 細かいLEDの設定を行い、それにIDを結びつける関数
      * @param led_setting LEDの範囲・テープ番号設定
-     * @param led_id LEDの識別ID
+     * @param led_id 設定するLEDの識別ID
+     *
+     * @return true 指定したLEDIDで指定した範囲を設定することができた
+     * @return false 指定したLEDのIDで指定した範囲を設定することができなかった(ID使用済み)
      */
     bool set_pixel_id(const LEDScopeSetting& led_setting, uint8_t led_id);
 
@@ -37,22 +40,33 @@ public:
      * @brief LEDの識別番号設定を開放する関数
      * @param led_id 開放したいLEDの識別番号
      */
-    void reset_pixel_id(uint8_t led_id);
+    void reset_pixels_id(uint8_t led_id);
 
     /**
-     * @brief LEDの色と光らせ方を設定する関数（範囲：指定LED ID）
+     * @brief LEDの色と光らせ方を設定する関数（範囲：指定LEDID)
+     *
+     * @param led_id 設定したLEDの識別ID
+     * @param rgb_config 色の設定
+     * @param show_type どのような光らせ方をするか
      */
-    void set_color_type_led_id(uint8_t led_id, const RGB& rgb, ShowTypeLED show_type);
+    void set_color_type_led_id(uint8_t led_id, const RGB& rgb_config, ShowTypeLED show_type);
 
     /**
      * @brief LEDの色と光らせ方を設定する関数（範囲：指定LEDテープ）
+     *
+     * @param led_tape LEDテープの番号
+     * @param rgb_config 色の設定
+     * @param show_type どのような光らせ方をするか
      */
-    void set_color_type_led_tape(uint8_t led_tape, const RGB& rgb, ShowTypeLED show_type);
+    void set_color_type_led_tape(uint8_t led_tape, const RGB& rgb_config, ShowTypeLED show_type);
 
     /**
      * @brief LEDの色と光らせ方を設定する関数（範囲：全体）
+     *
+     * @param rgb_config 色の設定
+     * @param show_type どのような光らせ方をするか
      */
-    void set_color_type_led_all(const RGB& rgb, ShowTypeLED show_type);
+    void set_color_type_led_all(const RGB& rgb_config, ShowTypeLED show_type);
 
     /**
      * @brief LEDを点灯指示するプログラム（範囲：すべてのLED）

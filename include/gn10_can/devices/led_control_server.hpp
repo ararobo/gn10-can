@@ -19,24 +19,25 @@ public:
     LEDControlServer(FDCANBus& bus, uint8_t dev_id);
 
     /**
-     * @brief 用いるLEDテープの中でのLEDの最大個数を受け取る関数
-     *
-     * @param led_num_max 用いるLEDテープの中でのLEDの最大個数
-     * @return true LEDの最大個数を獲得することができた
-     * @return false LEDの最大個数を獲得することができなかった
-     *
+     * @brief LED初期化コマンド受信関数
+     * @param rgb normal color設定
      */
     bool get_new_init(RGB& rgb);
 
-    bool get_pixel_id(uint8_t led_tape, uint16_t led_num_min, uint16_t led_num_max);
+    /**
+     * @brief 細かいLEDの設定を行い、それにIDを結びつける関数
+     * @param led_setting LEDの範囲・テープ番号設定
+     * @param led_id LEDの識別ID
+     */
+    bool get_pixel_id(const LEDScopeSetting& led_setting, uint8_t led_id);
 
-    bool reset_reset_id(uint16_t led_id);
+    bool reset_pixels_id(uint8_t led_id);
 
-    bool get_color_type_led_id(uint8_t led_id, RGB rgb, ShowTypeLED show_type);
+    bool get_color_type_led_id(uint8_t led_id, const RGB& rgb, ShowTypeLED show_type);
 
-    bool get_color_type_led_tape(uint8_t led_tape, RGB rgb, ShowTypeLED show_type);
+    bool get_color_type_led_tape(uint8_t led_tape, const RGB& rgb, ShowTypeLED show_type);
 
-    bool get_color_type_led_all(RGB rgb, ShowTypeLED show_type);
+    bool get_color_type_led_all(const RGB& rgb, ShowTypeLED show_type);
 
     bool get_show_all();
 

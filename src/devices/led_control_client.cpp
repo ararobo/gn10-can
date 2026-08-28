@@ -34,7 +34,7 @@ bool LEDControlClient::set_pixel_id(const LEDScopeSetting& led_setting, uint8_t 
     return true;
 }
 
-void LEDControlClient::reset_pixel_id(uint8_t led_id)
+void LEDControlClient::reset_pixels_id(uint8_t led_id)
 {
     check_ids.reset(led_id);
     FDCANFrame frame =
@@ -44,32 +44,34 @@ void LEDControlClient::reset_pixel_id(uint8_t led_id)
     bus_.send_frame(frame);
 }
 
-void LEDControlClient::set_color_type_led_id(uint8_t led_id, const RGB& rgb, ShowTypeLED show_type)
+void LEDControlClient::set_color_type_led_id(
+    uint8_t led_id, const RGB& rgb_config, ShowTypeLED show_type
+)
 {
     FDCANFrame frame = FDCANFrame::make(id::DeviceType::LED, device_id_, id::MsgTypeLED::ColorID);
     converter::pack(frame.data, 0, led_id);
-    converter::pack(frame.data, sizeof(uint8_t), rgb);
+    converter::pack(frame.data, sizeof(uint8_t), rgb_config);
     converter::pack(frame.data, sizeof(uint8_t) + sizeof(RGB), show_type);
     frame.dlc = sizeof(uint8_t) + sizeof(RGB) + sizeof(ShowTypeLED);
     bus_.send_frame(frame);
 }
 
 void LEDControlClient::set_color_type_led_tape(
-    uint8_t led_tape, const RGB& rgb, ShowTypeLED show_type
+    uint8_t led_tape, const RGB& rgb_config, ShowTypeLED show_type
 )
 {
     FDCANFrame frame = FDCANFrame::make(id::DeviceType::LED, device_id_, id::MsgTypeLED::ColorTape);
     converter::pack(frame.data, 0, led_tape);
-    converter::pack(frame.data, sizeof(uint8_t), rgb);
+    converter::pack(frame.data, sizeof(uint8_t), rgb_config);
     converter::pack(frame.data, sizeof(uint8_t) + sizeof(RGB), show_type);
     frame.dlc = sizeof(uint8_t) + sizeof(RGB) + sizeof(ShowTypeLED);
     bus_.send_frame(frame);
 }
 
-void LEDControlClient::set_color_type_led_all(const RGB& rgb, ShowTypeLED show_type)
+void LEDControlClient::set_color_type_led_all(const RGB& rgb_config, ShowTypeLED show_type)
 {
     FDCANFrame frame = FDCANFrame::make(id::DeviceType::LED, device_id_, id::MsgTypeLED::ColorAll);
-    converter::pack(frame.data, 0, rgb);
+    converter::pack(frame.data, 0, rgb_config);
     converter::pack(frame.data, sizeof(RGB), show_type);
     frame.dlc = sizeof(RGB) + sizeof(ShowTypeLED);
     bus_.send_frame(frame);
