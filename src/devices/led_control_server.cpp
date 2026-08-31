@@ -94,6 +94,6 @@ void LEDControlServer::on_receive(const FDCANFrame& frame)
             clear_command_ = true;
         }
     }
-
+}
 }  // namespace devices
 }  // namespace gn10_can
