@@ -69,7 +69,7 @@ void MotorDriverServer::on_receive(const CANFrame& frame)
             target_ = val;
         }
     } else if (id_fields.is_command(id::MsgTypeMotorDriver::Gain)) {
-        if (frame.dlc >= 5) {
+        if (frame.dlc != 5) {
             uint8_t type_val = frame.data[0];
             float gain_val;
             if (type_val < static_cast<uint8_t>(GainType::Count) &&
