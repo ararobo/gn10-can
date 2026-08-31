@@ -8,13 +8,21 @@ LEDControlServer::LEDControlServer(FDCANBus& bus, uint8_t device_id)
 {
 }
 bool LEDControlServer::get_new_init(RGB& rgb) {}
-bool LEDControlServer::get_pixel_id(uint8_t led_tape, uint16_t led_num_min, uint16_t led_num_max) {}
-bool LEDControlServer::reset_reset_id(uint16_t led_id) {}
-bool LEDControlServer::get_color_type_led_id(uint8_t led_id, RGB rgb, ShowTypeLED show_type) {}
-bool LEDControlServer::get_color_type_led_tape(uint8_t led_tape, RGB rgb, ShowTypeLED show_type) {}
-bool LEDControlServer::get_color_type_led_all(RGB rgb, ShowTypeLED show_type) {}
+bool LEDControlServer::get_pixel_id(const LEDScopeSetting& led_setting, uint8_t led_id) {}
+bool LEDControlServer::reset_pixels_id(uint8_t led_id) {}
+bool LEDControlServer::get_color_type_led_id(uint8_t led_id, const RGB& rgb, ShowTypeLED show_type)
+{
+}
+bool LEDControlServer::get_color_type_led_tape(
+    uint8_t led_tape, const RGB& rgb, ShowTypeLED show_type
+)
+{
+}
+bool LEDControlServer::get_color_type_led_all(const RGB& rgb, ShowTypeLED show_type) {}
 bool LEDControlServer::get_show_all() {}
 bool LEDControlServer::get_clear_all() {}
+
+void LEDControlServer::on_receive(const FDCANFrame& frame) {}
 
 }  // namespace devices
 }  // namespace gn10_can

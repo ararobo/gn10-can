@@ -94,10 +94,7 @@ public:
     void on_receive(const FDCANFrame& frame) override;
 
 private:
-    std::optional<uint16_t> led_num_max_;
-    std::optional<uint16_t> led_num_sum_;
-
-    // uint16_t以上の場合led_idをfalseでかえす
+    std::optional<RGB> rgb_;
 };
 }  // namespace devices
 }  // namespace gn10_can
