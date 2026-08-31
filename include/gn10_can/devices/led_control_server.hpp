@@ -95,6 +95,12 @@ public:
 
 private:
     std::optional<RGB> rgb_;
+    std::optional<LEDScopeSetting> led_scope_;
+    std::optional<uint8_t> led_id_;
+    std::optional<ShowTypeLED> show_type_;
+    std::optional<uint8_t> led_tape_;
+    bool show_command_;
+    bool clear_command_;
 };
 }  // namespace devices
 }  // namespace gn10_can
