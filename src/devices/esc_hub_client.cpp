@@ -62,7 +62,7 @@ void ESCHubClient::on_receive(const FDCANFrame& frame)
     if (id_fields.is_command(id::MsgTypeESCHub::Feedbacks)) {
         if (frame.dlc != sizeof(Feedbacks)) return;
         Feedbacks feedbacks;
-        if (converter::unpack(frame.data.data(), frame.dlc, 0, feedbacks)) {
+        if (converter::unpack(frame.data, 0, feedbacks)) {
             feedbacks_ = feedbacks;
         }
     }
