@@ -52,18 +52,18 @@ void PowerManagerServer::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
     if (id_fields.is_command(id::MsgTypePowerManager::Init)) {
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(bool) + sizeof(uint16_t))) return;
         power_manager::Config config{};
-        if (converter::unpack(
-                frame.data.data(), frame.data_length, 0, config.use_remote_emergency_stop
-            ) &&
-            converter::unpack(frame.data.data(), frame.data_length, 1, config.sensor_rate_ms)) {
+        if (converter::unpack(frame.data.data(), frame.dlc, 0, config.use_remote_emergency_stop) &&
+            converter::unpack(frame.data.data(), frame.dlc, 1, config.sensor_rate_ms)) {
             config_         = power_manager::Config{};
             config_.value() = config;
         }
     }
     if (id_fields.is_command(id::MsgTypePowerManager::Stop)) {
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(bool))) return;
         bool enable_stop;
-        if (converter::unpack(frame.data.data(), frame.data_length, 0, enable_stop)) {
+        if (converter::unpack(frame.data.data(), frame.dlc, 0, enable_stop)) {
             enable_stop_.value() = enable_stop;
         }
     }
