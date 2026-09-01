@@ -6,7 +6,7 @@
 
 namespace gn10_can {
 
-namespace detail {
+namespace dlc {
 
 /**
  * @brief CAN FDのデータ長(0~64)を対応するDLCコード(0~15)に変換
@@ -60,5 +60,5 @@ namespace detail {
     return dlc_to_data_length(data_length_to_dlc(length));
 }
 
-}  // namespace detail
+}  // namespace dlc
 }  // namespace gn10_can
