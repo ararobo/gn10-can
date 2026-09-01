@@ -11,37 +11,31 @@ ESCHubClient::ESCHubClient(FDCANBus& bus, uint8_t device_id)
 void ESCHubClient::set_init(const uint8_t motor_id, const MotorConfig& config)
 {
     if (motor_id > 3) return;
-    FDCANFrame frame =
-        FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::Init);
-    converter::pack(frame.data, 0, motor_id);
-    converter::pack(frame.data, 1, config);
-    frame.set_data_length(sizeof(motor_id) + sizeof(config));
-    bus_.send_frame(frame);
+    std::array<uint8_t, sizeof(MotorConfig) + 1> data;
+    converter::pack(data, 0, motor_id);
+    converter::pack(data, 1, config);
+    send(id::MsgTypeESCHub::Init, data);
 }
 
 void ESCHubClient::set_gains(const uint8_t motor_id, float kp, float ki, float kd, float ff)
 {
     if (motor_id > 3) return;
-    FDCANFrame frame =
-        FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::Gain);
-    converter::pack(frame.data, 0, motor_id);
-    converter::pack(frame.data, 1, kp);
-    converter::pack(frame.data, 1 + sizeof(float) * 1, ki);
-    converter::pack(frame.data, 1 + sizeof(float) * 2, kd);
-    converter::pack(frame.data, 1 + sizeof(float) * 3, ff);
-    frame.set_data_length(sizeof(motor_id) + sizeof(kp) + sizeof(ki) + sizeof(kd) + sizeof(ff));
-    bus_.send_frame(frame);
+    std::array<uint8_t, sizeof(float) * 4 + 1> data;
+    converter::pack(data, 0, motor_id);
+    converter::pack(data, 1, kp);
+    converter::pack(data, 1 + sizeof(float) * 1, ki);
+    converter::pack(data, 1 + sizeof(float) * 2, kd);
+    converter::pack(data, 1 + sizeof(float) * 3, ff);
+    send(id::MsgTypeESCHub::Gains, data);
 }
 
 void ESCHubClient::set_targets(const float targets[4])
 {
-    FDCANFrame frame =
-        FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::Targets);
+    std::array<uint8_t, sizeof(float) * 4> data;
     for (int i = 0; i < 4; i++) {
-        converter::pack(frame.data, i * sizeof(float), targets[i]);
+        converter::pack(data, i * sizeof(float), targets[i]);
     }
-    frame.set_data_length(sizeof(float) * 4);
-    bus_.send_frame(frame);
+    send(id::MsgTypeESCHub::Targets, data);
 }
 
 bool ESCHubClient::get_feedbacks(float feedbacks[4])
