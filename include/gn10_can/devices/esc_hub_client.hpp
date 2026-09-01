@@ -78,7 +78,7 @@ public:
     void on_receive(const FDCANFrame& frame) override;
 
 private:
-    // feedba
+    // feedbackを4つ格納するデータ構造体
     struct Feedbacks {
         float feedback[4];
     };
