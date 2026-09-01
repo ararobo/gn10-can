@@ -46,23 +46,19 @@ public:
 
     void send_feedback(const Feedback& feedback)
     {
-        FDCANFrame frame = FDCANFrame::make(
-            id::DeviceType::RobotControlHub, device_id_, id::MsgTypeRobotControlHub::Feedback
-        );
-        converter::pack(frame.data, 0, feedback);
-        frame.data_length = sizeof(Feedback);
-        bus_.send_frame(frame);
+        std::array<uint8_t, sizeof(Feedback)> data{};
+        converter::pack(data, 0, feedback);
+        FDCANDevice::send_frame(data);
     }
 
     void on_receive(const FDCANFrame& frame) override
     {
         auto id_fields = id::unpack(frame.id);
         if (id_fields.is_command(id::MsgTypeRobotControlHub::Command)) {
-            if (frame.data_length == sizeof(Command)) {
-                Command command;
-                if (converter::unpack(frame.data.data(), frame.data_length, 0, command)) {
-                    command_ = command;
-                }
+            if (frame.dlc != dlc::data_length_to_dlc(sizeof(Command))) return;
+            Command command;
+            if (converter::unpack(frame.data.data(), frame.data_length, 0, command)) {
+                command_ = command;
             }
         }
     }
