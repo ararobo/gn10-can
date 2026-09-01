@@ -53,7 +53,7 @@ void ESCHubServer::set_feedbacks(const float feedbacks[4])
     for (int i = 0; i < 4; i++) {
         converter::pack(frame.data, i * sizeof(float), feedbacks[i]);
     }
-    frame.dlc = 16;
+    frame.data_length = 16;
     bus_.send_frame(frame);
 }
 
@@ -62,7 +62,7 @@ void ESCHubServer::on_receive(const FDCANFrame& frame)
     auto id_fields = id::unpack(frame.id);
 
     if (id_fields.is_command(id::MsgTypeESCHub::Init)) {
-        if (frame.dlc < 16) return;
+        if (frame.data_length < 16) return;
         MotorConfig config;
         uint8_t motor_id;
         bool success_unpack = true;
@@ -72,7 +72,7 @@ void ESCHubServer::on_receive(const FDCANFrame& frame)
         config_[motor_id] = config;
 
     } else if (id_fields.is_command(id::MsgTypeESCHub::Gain)) {
-        if (frame.dlc < 32) return;
+        if (frame.data_length < 32) return;
         Gains gains;
         uint8_t motor_id;
         bool success_unpack = true;
@@ -85,7 +85,7 @@ void ESCHubServer::on_receive(const FDCANFrame& frame)
         gains_[motor_id] = gains;
 
     } else if (id_fields.is_command(id::MsgTypeESCHub::Targets)) {
-        if (frame.dlc < 16) return;
+        if (frame.data_length < 16) return;
         Targets config;
         if (converter::unpack(frame.data, 0, config)) {
             targets_ = config;

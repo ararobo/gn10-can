@@ -45,12 +45,12 @@ void SolenoidDriverServer::on_receive(const CANFrame& frame)
 
     if (id_fields.is_command(id::MsgTypeSolenoidDriver::Init)) {
         uint8_t value;
-        if (converter::unpack(frame.data.data(), frame.dlc, 0, value)) {
+        if (converter::unpack(frame.data.data(), frame.data_length, 0, value)) {
             init_ = value;
         }
     } else if (id_fields.is_command(id::MsgTypeSolenoidDriver::Target)) {
         uint8_t value;
-        if (converter::unpack(frame.data.data(), frame.dlc, 0, value)) {
+        if (converter::unpack(frame.data.data(), frame.data_length, 0, value)) {
             target_ = value;
         }
     }

@@ -40,7 +40,7 @@ public:
             id::DeviceType::RobotControlHub, device_id_, id::MsgTypeRobotControlHub::Command
         );
         converter::pack(frame.data, 0, command);
-        frame.dlc = sizeof(Command);
+        frame.data_length = sizeof(Command);
         bus_.send_frame(frame);
     }
 
@@ -58,9 +58,9 @@ public:
     {
         auto id_fields = id::unpack(frame.id);
         if (id_fields.is_command(id::MsgTypeRobotControlHub::Feedback)) {
-            if (frame.dlc == sizeof(Feedback)) {
+            if (frame.data_length == sizeof(Feedback)) {
                 Feedback feedback;
-                if (converter::unpack(frame.data.data(), frame.dlc, 0, feedback)) {
+                if (converter::unpack(frame.data.data(), frame.data_length, 0, feedback)) {
                     feedback_ = feedback;
                 }
             }

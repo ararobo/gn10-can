@@ -31,8 +31,8 @@ struct CANFrame {
 
     uint32_t id = 0;                     // CAN ID
     std::array<uint8_t, MaxDLC> data{};  // データ配列
-    uint8_t dlc      = 0;                // データ長 (DLC)
-    bool is_extended = false;
+    uint8_t data_length = 0;             // データ長[Byte]
+    bool is_extended    = false;
 
     CANFrame() = default;
 
@@ -104,7 +104,7 @@ struct CANFrame {
             std::fill(data.begin() + size, data.end(), static_cast<uint8_t>(0));
         }
 
-        dlc = static_cast<uint8_t>(size);
+        data_length = static_cast<uint8_t>(size);
     }
 
     /**
@@ -130,11 +130,12 @@ struct CANFrame {
      */
     bool operator==(const CANFrame& other) const noexcept
     {
-        if (id != other.id || dlc != other.dlc || is_extended != other.is_extended) {
+        if (id != other.id || data_length != other.data_length ||
+            is_extended != other.is_extended) {
             return false;
         }
 
-        for (std::size_t i = 0; i < static_cast<std::size_t>(dlc); ++i) {
+        for (std::size_t i = 0; i < static_cast<std::size_t>(data_length); ++i) {
             if (data[i] != other.data[i]) return false;
         }
         return true;

@@ -9,7 +9,7 @@ TEST(CANFrameTest, DefaultConstructor)
 {
     CANFrame frame;
     EXPECT_EQ(frame.id, 0);
-    EXPECT_EQ(frame.dlc, 0);
+    EXPECT_EQ(frame.data_length, 0);
     EXPECT_FALSE(frame.is_extended);
 }
 
@@ -22,7 +22,7 @@ TEST(CANFrameTest, MakeWithPointer)
     // Verify ID packing (implementation dependent, but checking non-zero is a start)
     EXPECT_NE(frame.id, 0);
 
-    EXPECT_EQ(frame.dlc, 3);
+    EXPECT_EQ(frame.data_length, 3);
     EXPECT_EQ(frame.data[0], 0x01);
     EXPECT_EQ(frame.data[1], 0x02);
     EXPECT_EQ(frame.data[2], 0x03);
@@ -34,7 +34,7 @@ TEST(CANFrameTest, MakeWithInitializerList)
         id::DeviceType::SolenoidDriver, 2, id::MsgTypeSolenoidDriver::Target, {0xAA, 0xBB}
     );
 
-    EXPECT_EQ(frame.dlc, 2);
+    EXPECT_EQ(frame.data_length, 2);
     EXPECT_EQ(frame.data[0], 0xAA);
     EXPECT_EQ(frame.data[1], 0xBB);
 }
@@ -48,6 +48,6 @@ TEST(CANFrameTest, SetData)
 
     frame.set_data(data, 9);
 
-    EXPECT_EQ(frame.dlc, 8);
+    EXPECT_EQ(frame.data_length, 8);
     EXPECT_EQ(frame.data[7], 0x80);
 }
