@@ -38,7 +38,7 @@ public:
     {
         std::array<uint8_t, sizeof(Command)> data{};
         converter::pack(data, 0, command);
-        FDCANDevice::send_frame(data);
+        send(id::MsgTypeRobotControlHub::Command, data);
     }
 
     bool get_feedback(Feedback& feedback)

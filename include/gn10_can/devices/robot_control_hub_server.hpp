@@ -48,7 +48,7 @@ public:
     {
         std::array<uint8_t, sizeof(Feedback)> data{};
         converter::pack(data, 0, feedback);
-        FDCANDevice::send_frame(data);
+        send(id::MsgTypeRobotControlHub::Feedback, data);
     }
 
     void on_receive(const FDCANFrame& frame) override

@@ -33,7 +33,7 @@ public:
     {
         std::array<uint8_t, sizeof(ControllerData)> data{};
         converter::pack(data, 0, controller_data);
-        FDCANDevice::send(id::MsgTypeCommunicationModule::ControllerData, data);
+        send(id::MsgTypeCommunicationModule::ControllerData, data);
     }
 
     void on_receive(const FDCANFrame& frame) override {}
