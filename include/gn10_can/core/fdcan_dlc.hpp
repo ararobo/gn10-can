@@ -52,7 +52,7 @@ namespace detail {
 }
 
 /**
- * @brief 任意のデータ長をCAN FDで送信可能な「有効バイト数」に切り上げる
+ * @brief 任意のデータ長をCAN FDで送信可能な有効バイト数に切り上げる
  */
 [[nodiscard]] constexpr std::size_t pad_data_length(std::size_t length) noexcept
 {
