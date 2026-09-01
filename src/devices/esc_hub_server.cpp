@@ -48,13 +48,11 @@ bool ESCHubServer::get_targets(float targets[4])
 
 void ESCHubServer::set_feedbacks(const float feedbacks[4])
 {
-    FDCANFrame frame =
-        FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::Feedbacks);
+    std::array<uint8_t, sizeof(float) * 4> data;
     for (int i = 0; i < 4; i++) {
-        converter::pack(frame.data, i * sizeof(float), feedbacks[i]);
+        converter::pack(data, i * sizeof(float), feedbacks[i]);
     }
-    frame.set_data_length(sizeof(float) * 4);
-    bus_.send_frame(frame);
+    send(id::MsgTypeESCHub::Feedbacks, data);
 }
 
 void ESCHubServer::on_receive(const FDCANFrame& frame)
@@ -71,7 +69,7 @@ void ESCHubServer::on_receive(const FDCANFrame& frame)
         if (motor_id > 3 || !success_unpack) return;
         config_[motor_id] = config;
 
-    } else if (id_fields.is_command(id::MsgTypeESCHub::Gain)) {
+    } else if (id_fields.is_command(id::MsgTypeESCHub::Gains)) {
         if (frame.dlc != dlc::data_length_to_dlc(sizeof(uint8_t) + sizeof(Gains))) return;
         Gains gains;
         uint8_t motor_id;
