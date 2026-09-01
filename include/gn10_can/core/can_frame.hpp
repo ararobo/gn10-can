@@ -15,6 +15,7 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "gn10_can/core/can_dlc.hpp"
 #include "gn10_can/core/can_id.hpp"
 
 namespace gn10_can {
@@ -31,8 +32,8 @@ struct CANFrame {
 
     uint32_t id = 0;                     // CAN ID
     std::array<uint8_t, MaxDLC> data{};  // データ配列
-    uint8_t data_length = 0;             // データ長[Byte]
-    bool is_extended    = false;
+    uint8_t dlc      = 0;                // Data Length Code(データ長ではないことに注意)
+    bool is_extended = false;
 
     CANFrame() = default;
 
@@ -105,6 +106,16 @@ struct CANFrame {
         }
 
         data_length = static_cast<uint8_t>(size);
+    }
+
+    /**
+     * @brief データ長をData Length Codeに変換して格納
+     *
+     * @param data_length データ長
+     */
+    void set_data_length(uint8_t data_length)
+    {
+        dlc = data_length_to_dlc(data_length);
     }
 
     /**
