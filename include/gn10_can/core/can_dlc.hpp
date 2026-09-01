@@ -5,6 +5,7 @@
 #include <cstdint>
 
 namespace gn10_can {
+
 namespace detail {
 
 /**
