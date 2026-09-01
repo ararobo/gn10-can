@@ -49,6 +49,7 @@ void PowerManagerClient::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
     if (id_fields.is_command(id::MsgTypePowerManager::Status)) {
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(bool) * 4)) return;
         bool emergency_stop_enabled;
         bool remote_emergency_stop_connected;
         bool remote_emergency_stop_enabled;
@@ -64,6 +65,7 @@ void PowerManagerClient::on_receive(const FDCANFrame& frame)
             status_.value().over_current                    = over_current;
         }
     } else if (id_fields.is_command(id::MsgTypePowerManager::Sensor)) {
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(float) * 2)) return;
         float voltage;
         float current;
         if (converter::unpack(frame.data.data(), frame.dlc, 0, voltage) &&

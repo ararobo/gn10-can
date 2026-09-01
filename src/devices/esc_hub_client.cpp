@@ -15,7 +15,7 @@ void ESCHubClient::set_init(const uint8_t motor_id, const MotorConfig& config)
         FDCANFrame::make(id::DeviceType::ESCHub, device_id_, id::MsgTypeESCHub::Init);
     converter::pack(frame.data, 0, motor_id);
     converter::pack(frame.data, 1, config);
-    frame.dlc = 16;
+    frame.set_data_length(sizeof(motor_id) + sizeof(config));
     bus_.send_frame(frame);
 }
 
@@ -29,7 +29,7 @@ void ESCHubClient::set_gains(const uint8_t motor_id, float kp, float ki, float k
     converter::pack(frame.data, 1 + sizeof(float) * 1, ki);
     converter::pack(frame.data, 1 + sizeof(float) * 2, kd);
     converter::pack(frame.data, 1 + sizeof(float) * 3, ff);
-    frame.dlc = 32;
+    frame.set_data_length(sizeof(motor_id) + sizeof(kp) + sizeof(ki) + sizeof(kd) + sizeof(ff));
     bus_.send_frame(frame);
 }
 
@@ -40,7 +40,7 @@ void ESCHubClient::set_targets(const float targets[4])
     for (int i = 0; i < 4; i++) {
         converter::pack(frame.data, i * sizeof(float), targets[i]);
     }
-    frame.dlc = 16;
+    frame.set_data_length(sizeof(float) * 4);
     bus_.send_frame(frame);
 }
 
@@ -60,7 +60,7 @@ void ESCHubClient::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
     if (id_fields.is_command(id::MsgTypeESCHub::Feedbacks)) {
-        if (frame.dlc != sizeof(Feedbacks)) return;
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(Feedbacks))) return;
         Feedbacks feedbacks;
         if (converter::unpack(frame.data.data(), frame.dlc, 0, feedbacks)) {
             feedbacks_ = feedbacks;
