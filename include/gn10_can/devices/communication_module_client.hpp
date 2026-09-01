@@ -32,7 +32,7 @@ public:
     void set_init()
     {
         std::array<uint8_t, 1> data{0};
-        FDCANDevice::send(id::MsgTypeCommunicationModule::Init, data);
+        send(id::MsgTypeCommunicationModule::Init, data);
     }
 
     bool get_controller_data(ControllerData& controller_data)
