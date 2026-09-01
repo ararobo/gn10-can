@@ -57,7 +57,7 @@ public:
         if (id_fields.is_command(id::MsgTypeRobotControlHub::Command)) {
             if (frame.dlc != dlc::data_length_to_dlc(sizeof(Command))) return;
             Command command;
-            if (converter::unpack(frame.data.data(), frame.data_length, 0, command)) {
+            if (converter::unpack(frame.data.data(), frame.dlc, 0, command)) {
                 command_ = command;
             }
         }
