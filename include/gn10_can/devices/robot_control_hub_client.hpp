@@ -57,7 +57,7 @@ public:
         if (id_fields.is_command(id::MsgTypeRobotControlHub::Feedback)) {
             if (frame.dlc != dlc::data_length_to_dlc(sizeof(Feedback))) return;
             Feedback feedback;
-            if (converter::unpack(frame.data.data(), frame.dlc, 0, feedback)) {
+            if (converter::unpack(frame.data 0, feedback)) {
                 feedback_ = feedback;
             }
         }

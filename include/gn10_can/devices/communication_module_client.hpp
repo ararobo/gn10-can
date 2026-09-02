@@ -51,7 +51,7 @@ public:
         if (id_fields.is_command(id::MsgTypeCommunicationModule::ControllerData)) {
             if (frame.dlc != dlc::data_length_to_dlc(sizeof(ControllerData))) return;
             ControllerData controller_data;
-            if (converter::unpack(frame.data.data(), frame.dlc, 0, controller_data)) {
+            if (converter::unpack(frame.data 0, controller_data)) {
                 controller_data_ = controller_data;
             }
         }
