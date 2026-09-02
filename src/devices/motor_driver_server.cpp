@@ -62,20 +62,21 @@ void MotorDriverServer::on_receive(const CANFrame& frame)
     auto id_fields = id::unpack(frame.id);
 
     if (id_fields.is_command(id::MsgTypeMotorDriver::Init)) {
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(config_.value()))) return;
         config_ = MotorConfig::from_bytes(frame.data);
     } else if (id_fields.is_command(id::MsgTypeMotorDriver::Target)) {
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(float))) return;
         float val;
         if (converter::unpack(frame.data, 0, val)) {
             target_ = val;
         }
     } else if (id_fields.is_command(id::MsgTypeMotorDriver::Gain)) {
-        if (frame.dlc >= 5) {
-            uint8_t type_val = frame.data[0];
-            float gain_val;
-            if (type_val < static_cast<uint8_t>(GainType::Count) &&
-                converter::unpack(frame.data, 1, gain_val)) {
-                gains_[type_val] = gain_val;
-            }
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(uint8_t) + sizeof(float))) return;
+        uint8_t type_val = frame.data[0];
+        float gain_val;
+        if (type_val < static_cast<uint8_t>(GainType::Count) &&
+            converter::unpack(frame.data, 1, gain_val)) {
+            gains_[type_val] = gain_val;
         }
     }
 }

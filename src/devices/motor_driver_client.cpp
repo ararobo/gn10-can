@@ -35,22 +35,24 @@ void MotorDriverClient::on_receive(const CANFrame& frame)
     auto id_fields = id::unpack(frame.id);
 
     if (id_fields.is_command(id::MsgTypeMotorDriver::Feedback)) {
-        float val;
-        uint8_t sw;
-        if (converter::unpack(frame.data, 0, val)) {
-            feedback_value_ = val;
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(float) + sizeof(uint8_t))) return;
+        float feedback_val;
+        uint8_t limit_sw;
+        if (converter::unpack(frame.data, 0, feedback_val)) {
+            feedback_value_ = feedback_val;
         }
-        if (converter::unpack(frame.data, 4, sw)) {
-            limit_switches_ = sw;
+        if (converter::unpack(frame.data, 4, limit_sw)) {
+            limit_switches_ = limit_sw;
         }
     } else if (id_fields.is_command(id::MsgTypeMotorDriver::HardwareStatus)) {
-        float curr;
-        int8_t temp;
-        if (converter::unpack(frame.data, 0, curr)) {
-            load_current_ = curr;
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(float) + sizeof(int8_t))) return;
+        float current;
+        int8_t temperature;
+        if (converter::unpack(frame.data, 0, current)) {
+            load_current_ = current;
         }
-        if (converter::unpack(frame.data, 4, temp)) {
-            temperature_ = temp;
+        if (converter::unpack(frame.data, 4, temperature)) {
+            temperature_ = temperature;
         }
     }
 }
