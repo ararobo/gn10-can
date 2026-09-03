@@ -41,10 +41,11 @@ enum class DeviceType : uint8_t {
  *
  */
 enum class MsgTypePowerManager : uint8_t {
-    Init   = 0,
-    Stop   = 1,
-    Status = 2,
-    Sensor = 3,
+    Init     = 0,
+    Stop     = 1,
+    Status   = 2,
+    Sensor   = 3,
+    Voltages = 4,
 };
 
 /**

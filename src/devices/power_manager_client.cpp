@@ -45,6 +45,16 @@ bool PowerManagerClient::get_new_sensor(power_manager::Sensor& sensor)
     return false;
 }
 
+bool PowerManagerClient::get_new_voltages(std::array<float, 4>& voltages)
+{
+    if (voltages_.has_value()) {
+        voltages = voltages_.value();
+        voltages_.reset();
+        return true;
+    }
+    return false;
+}
+
 void PowerManagerClient::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
@@ -73,6 +83,12 @@ void PowerManagerClient::on_receive(const FDCANFrame& frame)
             sensor_                 = power_manager::Sensor{};
             sensor_.value().voltage = voltage;
             sensor_.value().current = current;
+        }
+    } else if (id_fields.is_command(id::MsgTypePowerManager::Voltages)) {
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(std::array<float, 4>))) return;
+        std::array<float, 4> voltages{};
+        if (converter::unpack(frame.data, 0, voltages)) {
+            voltages_ = voltages;
         }
     }
 }

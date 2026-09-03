@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <optional>
 
 #include "gn10_can/core/fdcan_device.hpp"
@@ -19,6 +20,8 @@ public:
     void set_status(power_manager::Status status);
 
     void set_sensor(power_manager::Sensor sensor);
+
+    void set_voltages(const std::array<float, 4>& voltages);
 
     void on_receive(const FDCANFrame& frame) override;
 

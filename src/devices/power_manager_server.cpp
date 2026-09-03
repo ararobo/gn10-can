@@ -48,6 +48,13 @@ void PowerManagerServer::set_sensor(power_manager::Sensor sensor)
     send(id::MsgTypePowerManager::Sensor, payload);
 }
 
+void PowerManagerServer::set_voltages(const std::array<float, 4>& voltages)
+{
+    std::array<uint8_t, sizeof(voltages)> payload{};
+    converter::pack(payload, 0, voltages);
+    send(id::MsgTypePowerManager::Voltages, payload);
+}
+
 void PowerManagerServer::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
