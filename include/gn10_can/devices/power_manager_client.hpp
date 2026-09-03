@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <optional>
 
 #include "gn10_can/core/fdcan_device.hpp"
@@ -20,11 +21,14 @@ public:
 
     bool get_new_sensor(power_manager::Sensor& sensor);
 
+    bool get_new_voltages(std::array<float, 4>& voltages);
+
     void on_receive(const FDCANFrame& frame) override;
 
 private:
     std::optional<power_manager::Status> status_{};
     std::optional<power_manager::Sensor> sensor_{};
+    std::optional<std::array<float, 4>> voltages_{};
 };
 }  // namespace devices
 }  // namespace gn10_can
