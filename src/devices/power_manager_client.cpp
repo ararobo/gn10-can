@@ -69,10 +69,10 @@ void PowerManagerClient::on_receive(const FDCANFrame& frame)
             converter::unpack(frame.data, 2, remote_emergency_stop_enabled) &&
             converter::unpack(frame.data, 3, over_current)) {
             status_ = power_manager::Status{
-                .emergency_stop_enabled          = emergency_stop_enabled,
-                .remote_emergency_stop_connected = remote_emergency_stop_connected,
-                .remote_emergency_stop_enabled   = remote_emergency_stop_enabled,
-                .over_current                    = over_current
+                emergency_stop_enabled,
+                remote_emergency_stop_connected,
+                remote_emergency_stop_enabled,
+                over_current
             };
         }
     } else if (id_fields.is_command(id::MsgTypePowerManager::Sensor)) {
@@ -81,7 +81,7 @@ void PowerManagerClient::on_receive(const FDCANFrame& frame)
         float current;
         if (converter::unpack(frame.data, 0, voltage) &&
             converter::unpack(frame.data, 4, current)) {
-            sensor_ = power_manager::Sensor{.voltage = voltage, .current = current};
+            sensor_ = power_manager::Sensor{voltage, current};
         }
     } else if (id_fields.is_command(id::MsgTypePowerManager::Voltages)) {
         if (frame.dlc != dlc::data_length_to_dlc(sizeof(std::array<float, 4>))) return;
