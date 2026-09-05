@@ -3,8 +3,8 @@
 #include "gn10_can/utils/can_converter.hpp"
 namespace gn10_can {
 namespace devices {
-ESCHubClient::ESCHubClient(FDCANBus& bus, uint8_t device_id)
-    : FDCANDevice(bus, id::DeviceType::ESCHub, device_id)
+ESCHubClient::ESCHubClient(FDCANBus& bus, uint8_t dev_id)
+    : FDCANDevice(bus, id::DeviceType::ESCHub, dev_id)
 {
 }
 

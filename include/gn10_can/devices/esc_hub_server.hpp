@@ -17,7 +17,7 @@ public:
      * @brief ESCHubServerのコンストラクタ
      * @details CANbusの登録とdevice_idの割り振りを行う
      */
-    ESCHubServer(FDCANBus& bus, uint8_t device_id);
+    ESCHubServer(FDCANBus& bus, uint8_t dev_id);
 
     /**
      * @brief 各モータの設定を取得する関数

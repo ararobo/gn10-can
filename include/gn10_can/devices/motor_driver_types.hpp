@@ -119,7 +119,9 @@ public:
 
     /**
      * @brief 設定されたフィードバック送信周期を取得する
-     * @return uint8_t 送信周期 (ミリ秒)
+     * @return uint8_t pe::LED, device_id_, id::MsgTypeLED::LEDIDRelease);
+    converter::pack(frame.data, 0, led_id);
+    frame.dlc = 送信周期 (ミリ秒)
      */
     uint8_t get_feedback_cycle() const;
 
