@@ -32,7 +32,7 @@ public:
      * @return true IDと紐付けられた範囲を取得することができた
      * @return false IDと紐付けられた範囲を取得することができなかった
      */
-    bool get_pixel_id(const LEDScopeSetting& led_setting, uint8_t led_id);
+    bool get_pixel_id(LEDScopeSetting& led_setting, uint8_t& led_id);
 
     /**
      * @brief LEDの識別番号設定を開放司令を取得する関数
@@ -41,7 +41,7 @@ public:
      * @return true 指定した範囲とLEDIDを開放することができた
      * @return false  指定した範囲とLEDIDを開放することができた
      */
-    bool reset_pixels_id(uint8_t led_id);
+    bool reset_pixels_id(uint8_t& led_id);
 
     /**
      * @brief LEDの色と光らせ方を取得する関数（範囲：指定LEDID)
@@ -53,7 +53,7 @@ public:
      * @return true led_idに対して光らせる色を取得することができた
      * @return false led_idに対して光らせる色を取得することができた
      */
-    bool get_color_type_led_id(uint8_t led_id, const RGB& rgb, ShowTypeLED show_type);
+    bool get_color_type_led_id(uint8_t& led_id, RGB& rgb, ShowTypeLED& show_type);
 
     /**
      * @brief LEDの色と光らせ方を取得する関数（範囲：LEDテープ)
@@ -65,7 +65,7 @@ public:
      * @return true led_tapeに対して光らせる色を取得することができた
      * @return false led_tapeに対して光らせる色を取得することができた
      */
-    bool get_color_type_led_tape(uint8_t led_tape, const RGB& rgb, ShowTypeLED show_type);
+    bool get_color_type_led_tape(uint8_t& led_tape, RGB& rgb, ShowTypeLED& show_type);
 
     /**
      * @brief LEDの色と光らせ方を取得する関数（範囲：すべてのLED)
@@ -76,7 +76,7 @@ public:
      * @return true すべてのLEDに対して光らせる色を取得することができた
      * @return false すべてのLEDに対して光らせる色を取得することができた
      */
-    bool get_color_type_led_all(const RGB& rgb, ShowTypeLED show_type);
+    bool get_color_type_led_all(RGB& rgb, ShowTypeLED& show_type);
 
     /**
      * @brief LEDの点灯支持を受信する関数
@@ -99,8 +99,8 @@ private:
     std::optional<uint8_t> led_id_;
     std::optional<ShowTypeLED> show_type_;
     std::optional<uint8_t> led_tape_;
-    bool show_command_;
-    bool clear_command_;
+    bool show_command_  = false;
+    bool clear_command_ = false;
 };
 }  // namespace devices
 }  // namespace gn10_can
