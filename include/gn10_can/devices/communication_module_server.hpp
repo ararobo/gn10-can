@@ -31,14 +31,9 @@ public:
 
     void send_controller_data(const ControllerData& controller_data)
     {
-        FDCANFrame frame = FDCANFrame::make(
-            id::DeviceType::CommunicationModule,
-            device_id_,
-            id::MsgTypeCommunicationModule::ControllerData
-        );
-        converter::pack(frame.data, 0, controller_data);
-        frame.dlc = sizeof(ControllerData);
-        bus_.send_frame(frame);
+        std::array<uint8_t, sizeof(ControllerData)> data{};
+        converter::pack(data, 0, controller_data);
+        send(id::MsgTypeCommunicationModule::ControllerData, data);
     }
 
     void on_receive(const FDCANFrame& frame) override {}

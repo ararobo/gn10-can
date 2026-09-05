@@ -48,21 +48,30 @@ void PowerManagerServer::set_sensor(power_manager::Sensor sensor)
     send(id::MsgTypePowerManager::Sensor, payload);
 }
 
+void PowerManagerServer::set_voltages(const std::array<float, 4>& voltages)
+{
+    std::array<uint8_t, sizeof(voltages)> payload{};
+    converter::pack(payload, 0, voltages);
+    send(id::MsgTypePowerManager::Voltages, payload);
+}
+
 void PowerManagerServer::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
     if (id_fields.is_command(id::MsgTypePowerManager::Init)) {
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(bool) + sizeof(uint16_t))) return;
         power_manager::Config config{};
-        if (converter::unpack(frame.data.data(), frame.dlc, 0, config.use_remote_emergency_stop) &&
-            converter::unpack(frame.data.data(), frame.dlc, 1, config.sensor_rate_ms)) {
-            config_         = power_manager::Config{};
-            config_.value() = config;
+        if (converter::unpack(frame.data, 0, config.use_remote_emergency_stop) &&
+            converter::unpack(frame.data, 1, config.sensor_rate_ms)) {
+            config_ = power_manager::Config{};
+            config_ = config;
         }
     }
     if (id_fields.is_command(id::MsgTypePowerManager::Stop)) {
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(bool))) return;
         bool enable_stop;
-        if (converter::unpack(frame.data.data(), frame.dlc, 0, enable_stop)) {
-            enable_stop_.value() = enable_stop;
+        if (converter::unpack(frame.data, 0, enable_stop)) {
+            enable_stop_ = enable_stop;
         }
     }
 }

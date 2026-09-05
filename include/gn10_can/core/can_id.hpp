@@ -41,10 +41,11 @@ enum class DeviceType : uint8_t {
  *
  */
 enum class MsgTypePowerManager : uint8_t {
-    Init   = 0,
-    Stop   = 1,
-    Status = 2,
-    Sensor = 3,
+    Init     = 0,
+    Stop     = 1,
+    Status   = 2,
+    Sensor   = 3,
+    Voltages = 4,
 };
 
 /**
@@ -74,10 +75,10 @@ enum class MsgTypeServoMotor : uint8_t {
  *
  */
 enum class MsgTypeESCHub : uint8_t {
-    Init                       = 0,
-    Gain                       = 1,
-    AngularVelocities          = 2,
-    AngularVelocitiesFeedbacks = 3,
+    Init      = 0,
+    Gains     = 1,
+    Targets   = 2,
+    Feedbacks = 3,
 };
 
 /**

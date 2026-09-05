@@ -31,11 +31,8 @@ public:
 
     void set_init()
     {
-        FDCANFrame frame = FDCANFrame::make(
-            id::DeviceType::CommunicationModule, device_id_, id::MsgTypeCommunicationModule::Init
-        );
-        frame.dlc = 1;
-        bus_.send_frame(frame);
+        std::array<uint8_t, 1> data{0};
+        send(id::MsgTypeCommunicationModule::Init, data);
     }
 
     bool get_controller_data(ControllerData& controller_data)
@@ -52,11 +49,10 @@ public:
     {
         auto id_fields = id::unpack(frame.id);
         if (id_fields.is_command(id::MsgTypeCommunicationModule::ControllerData)) {
-            if (frame.dlc == sizeof(ControllerData)) {
-                ControllerData controller_data;
-                if (converter::unpack(frame.data.data(), frame.dlc, 0, controller_data)) {
-                    controller_data_ = controller_data;
-                }
+            if (frame.dlc != dlc::data_length_to_dlc(sizeof(ControllerData))) return;
+            ControllerData controller_data;
+            if (converter::unpack(frame.data 0, controller_data)) {
+                controller_data_ = controller_data;
             }
         }
     }

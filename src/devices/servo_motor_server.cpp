@@ -35,17 +35,17 @@ void ServoMotorServer::on_receive(const CANFrame& frame)
     auto id_fields = id::unpack(frame.id);
 
     if (id_fields.is_command(id::MsgTypeServoMotor::Init)) {
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(uint16_t) * 2)) return;
         uint16_t min_us = 0;
         uint16_t max_us = 0;
-        if (converter::unpack(frame.data.data(), frame.dlc, 0, min_us) &&
-            converter::unpack(frame.data.data(), frame.dlc, 2, max_us)) {
+        if (converter::unpack(frame.data, 0, min_us) && converter::unpack(frame.data, 2, max_us)) {
             pulse_set_ = PulseSet{min_us, max_us};
         }
     } else if (id_fields.is_command(id::MsgTypeServoMotor::AngleRad)) {
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(float) * 2)) return;
         float angle1 = 0.0f;
         float angle2 = 0.0f;
-        if (converter::unpack(frame.data.data(), frame.dlc, 0, angle1) &&
-            converter::unpack(frame.data.data(), frame.dlc, 4, angle2)) {
+        if (converter::unpack(frame.data, 0, angle1) && converter::unpack(frame.data, 4, angle2)) {
             angles_rad_ = std::array<float, 2>{angle1, angle2};
         }
     }

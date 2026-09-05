@@ -36,12 +36,9 @@ public:
 
     void send_command(const Command& command)
     {
-        FDCANFrame frame = FDCANFrame::make(
-            id::DeviceType::RobotControlHub, device_id_, id::MsgTypeRobotControlHub::Command
-        );
-        converter::pack(frame.data, 0, command);
-        frame.dlc = sizeof(Command);
-        bus_.send_frame(frame);
+        std::array<uint8_t, sizeof(Command)> data{};
+        converter::pack(data, 0, command);
+        send(id::MsgTypeRobotControlHub::Command, data);
     }
 
     bool get_feedback(Feedback& feedback)
@@ -58,11 +55,10 @@ public:
     {
         auto id_fields = id::unpack(frame.id);
         if (id_fields.is_command(id::MsgTypeRobotControlHub::Feedback)) {
-            if (frame.dlc == sizeof(Feedback)) {
-                Feedback feedback;
-                if (converter::unpack(frame.data.data(), frame.dlc, 0, feedback)) {
-                    feedback_ = feedback;
-                }
+            if (frame.dlc != dlc::data_length_to_dlc(sizeof(Feedback))) return;
+            Feedback feedback;
+            if (converter::unpack(frame.data 0, feedback)) {
+                feedback_ = feedback;
             }
         }
     }
