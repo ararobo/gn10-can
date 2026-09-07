@@ -34,6 +34,7 @@ enum class DeviceType : uint8_t {
     LED                 = 6,
     ESCHub              = 7,
     RobotControlHub     = 8,
+    Launcher            = 9,
 };
 
 /**
@@ -126,6 +127,18 @@ enum class MsgTypeSensorHub : uint8_t {
 enum class MsgTypeLED : uint8_t {
     Init        = 0,
     DisplayInfo = 1,
+};
+
+/**
+ * @brief 射出機構
+ *
+ */
+enum class MsgTypeLauncher : uint8_t {
+    Init         = 0,
+    Fire         = 1,
+    ReleasePoint = 2,
+    InitialPoint = 3,
+    FeedbackVel  = 4,
 };
 
 /**

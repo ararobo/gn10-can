@@ -24,6 +24,8 @@ set(SOURCES
     src/devices/solenoid_driver_server.cpp
     src/devices/power_manager_client.cpp
     src/devices/power_manager_server.cpp
+    src/devices/launcher_client.cpp
+    src/devices/launcher_server.cpp
 )
 
 # Option to enable STM32 drivers (Requires HAL headers)
