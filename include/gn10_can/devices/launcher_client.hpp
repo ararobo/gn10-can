@@ -9,6 +9,8 @@ namespace devices {
 class LauncherClient : public FDCANDevice
 {
 public:
+    LauncherClient(FDCANBus& bus, uint8_t device_id);
+
     void set_init();
 
     void send_fire_command(float target_velocity);

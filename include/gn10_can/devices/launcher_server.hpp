@@ -8,6 +8,8 @@ namespace devices {
 class LauncherServer : public FDCANDevice
 {
 public:
+    LauncherServer(FDCANBus& bus, uint8_t device_id);
+
     void get_init();
 
     bool get_fire_command(float& target_velocity) const;
