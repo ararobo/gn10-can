@@ -26,6 +26,7 @@ enum class EncoderType : uint8_t {
     IncrementalSpeed = 1,  ///< @brief インクリメンタルエンコーダー (速度制御)
     Absolute         = 2,  ///< @brief アブソリュートエンコーダー
     IncrementalTotal = 3,  ///< @brief インクリメンタルエンコーダー (位置制御)
+    InternalEncoder  = 4,  ///< @brief モーター内部エンコーダー(M2006, M3508を想定)
 };
 
 /**
