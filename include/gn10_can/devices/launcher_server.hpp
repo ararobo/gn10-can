@@ -10,18 +10,18 @@ class LauncherServer : public FDCANDevice
 public:
     void get_init();
 
-    bool get_fire_command(float& target_rpm_ratio) const;
+    bool get_fire_command(float& target_velocity) const;
 
-    void send_release_point_speed(float release_speed);
+    void send_release_point(float release_speed);
 
-    void send_initial_point_angle(float initial_angle);
+    void send_initial_point(float initial_angle);
 
-    void send_feedback_velocity(float feedback_velocity);
+    void send_velocity_feedback(float feedback_velocity);
 
     void on_receive(const FDCANFrame& frame) override;
 
 private:
-    std::optional<float> rpm_ratio_;
+    std::optional<float> target_velocity_;
 };
 }  // namespace devices
 }  // namespace gn10_can

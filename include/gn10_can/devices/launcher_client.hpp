@@ -11,20 +11,20 @@ class LauncherClient : public FDCANDevice
 public:
     void set_init();
 
-    void send_fire_command(float target_rpm_ratio);
+    void send_fire_command(float target_velocity);
 
-    bool get_release_point_speed(float& release_speed) const;
+    bool get_release_point(float& release_speed) const;
 
-    bool get_initial_point_angle(float& initial_angle) const;
+    bool get_initial_point(float& initial_angle) const;
 
     bool get_velocity_feedback(float& feedback_velocity) const;
 
     void on_receive(const FDCANFrame& frame) override;
 
 private:
-    std::optional<float> angle_;
-    std::optional<float> speed_;
-    std::optional<float> velocity_;
+    std::optional<float> release_speed_;
+    std::optional<float> initial_angle_;
+    std::optional<float> feedback_velocity_;
 };
 
 }  // namespace devices
