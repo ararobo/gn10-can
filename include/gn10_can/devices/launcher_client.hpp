@@ -6,18 +6,20 @@
 
 namespace gn10_can {
 namespace devices {
-class LauncherClient
+class LauncherClient : public FDCANDevice
 {
 public:
-    void init();
+    void set_init();
 
     void send_fire_command(float target_rpm_ratio);
 
-    void get_release_point_speed(float& release_point_speed) const;
+    bool get_release_point_speed(float& release_speed) const;
 
-    void get_inital_point_angle(float& inital_point_angle) const;
+    bool get_initial_point_angle(float& initial_angle) const;
 
-    void get_feedback_velocity(float& feedback_velocity) const;
+    bool get_velocity_feedback(float& feedback_velocity) const;
+
+    void on_receive(const FDCANFrame& frame) override;
 
 private:
     std::optional<float> angle_;
