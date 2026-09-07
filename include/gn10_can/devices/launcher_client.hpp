@@ -11,11 +11,14 @@ class LauncherClient : public FDCANDevice
 public:
     LauncherClient(FDCANBus& bus, uint8_t device_id);
 
+    /**
+     * @brief 初期化処理用送信関数
+     */
     void set_init();
 
     /**
      * @brief 射出司令を送る
-     * @param target_velocity 射出のときの目標角速度
+     * @param target_velocity 射出時の目標角速度
      */
     void send_fire_command(float target_velocity);
 
