@@ -10,7 +10,7 @@ class LauncherServer : public FDCANDevice
 public:
     LauncherServer(FDCANBus& bus, uint8_t device_id);
 
-    void get_init();
+    bool get_init();
 
     bool get_fire_command(float& target_velocity);
 
@@ -24,6 +24,7 @@ public:
 
 private:
     std::optional<float> target_velocity_;
+    bool init_received_;
 };
 }  // namespace devices
 }  // namespace gn10_can

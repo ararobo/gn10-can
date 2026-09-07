@@ -10,8 +10,7 @@ LauncherClient::LauncherClient(FDCANBus& bus, uint8_t device_id)
 
 void LauncherClient::set_init()
 {
-    std::array<uint8_t, sizeof(uint8_t)> data{};
-    send(id::MsgTypeLauncher::Init, data);
+    send(id::MsgTypeLauncher::Init);
 }
 
 void LauncherClient::send_fire_command(float target_velocity)
