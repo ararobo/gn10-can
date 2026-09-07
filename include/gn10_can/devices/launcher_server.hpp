@@ -12,7 +12,7 @@ public:
 
     void get_init();
 
-    bool get_fire_command(float& target_velocity) const;
+    bool get_fire_command(float& target_velocity);
 
     void send_release_point(float release_speed);
 

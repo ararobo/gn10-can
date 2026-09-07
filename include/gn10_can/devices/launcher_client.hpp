@@ -13,13 +13,13 @@ public:
 
     void set_init();
 
-    void send_fire_command(float target_velocity);
+    void send_fire_command(const float target_velocity);
 
-    bool get_release_point(float& release_speed) const;
+    bool get_release_point(float& release_speed);
 
-    bool get_initial_point(float& initial_angle) const;
+    bool get_initial_point(float& initial_angle);
 
-    bool get_velocity_feedback(float& feedback_velocity) const;
+    bool get_velocity_feedback(float& feedback_velocity);
 
     void on_receive(const FDCANFrame& frame) override;
 
