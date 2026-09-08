@@ -27,10 +27,10 @@ bool LauncherServer::get_fire_command(float& target_velocity)
     return false;
 }
 
-void LauncherServer::send_release_point(float release_speed)
+void LauncherServer::send_release_point(float release_velocity)
 {
     std::array<uint8_t, sizeof(float)> data{};
-    converter::pack(data, 0, release_speed);
+    converter::pack(data, 0, release_velocity);
     send(id::MsgTypeLauncher::ReleasePoint, data);
 }
 

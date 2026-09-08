@@ -20,11 +20,11 @@ void LauncherClient::send_fire_command(float target_velocity)
     send(id::MsgTypeLauncher::Fire, data);
 }
 
-bool LauncherClient::get_release_point(float& release_speed)
+bool LauncherClient::get_release_point(float& release_velocity)
 {
-    if (release_speed_.has_value()) {
-        release_speed = release_speed_.value();
-        release_speed_.reset();
+    if (release_velocity_.has_value()) {
+        release_velocity = release_velocity_.value();
+        release_velocity_.reset();
         return true;
     }
     return false;
@@ -54,9 +54,9 @@ void LauncherClient::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
     if (id_fields.is_command(id::MsgTypeLauncher::ReleasePoint)) {
-        float release_speed;
-        if (converter::unpack(frame.data, 0, release_speed)) {
-            release_speed_ = release_speed;
+        float release_velocity;
+        if (converter::unpack(frame.data, 0, release_velocity)) {
+            release_velocity_ = release_velocity;
         }
     } else if (id_fields.is_command(id::MsgTypeLauncher::InitialPoint)) {
         float initial_angle;
