@@ -54,9 +54,9 @@ void LauncherClient::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
     if (id_fields.is_command(id::MsgTypeLauncher::ReleasePoint)) {
-        float release_speed;
-        if (converter::unpack(frame.data, 0, release_speed)) {
-            release_velocity_ = release_speed;
+        float release_velocity;
+        if (converter::unpack(frame.data, 0, release_velocity)) {
+            release_velocity_ = release_velocity;
         }
     } else if (id_fields.is_command(id::MsgTypeLauncher::InitialPoint)) {
         float initial_angle;
