@@ -17,15 +17,15 @@ public:
 
     /**
      * @brief 射出司令医を受け取る
-     * @param target_velocity 射出時の目標角速度
+     * @param target_velocity 射出時の目標速度
      */
     bool get_fire_command(float& target_velocity);
 
     /**
      * @brief 射出完了を送信する
-     * @param release_speed 射出点の速度
+     * @param release_velocity 射出点の速度
      */
-    void send_release_point(float release_speed);
+    void send_release_point(float release_velocity);
 
     /**
      * @brief 初期化完了を送信する
@@ -35,7 +35,7 @@ public:
 
     /**
      * @brief 角速度を送信する
-     * @param feedback_velocity 送信されてきた角速度
+     * @param feedback_velocity 送信されてきた速度
      */
     void send_velocity_feedback(float feedback_velocity);
 
