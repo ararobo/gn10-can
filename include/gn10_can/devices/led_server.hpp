@@ -47,7 +47,7 @@ public:
         if (id_fields.is_command(id::MsgTypeLED::DisplayInfo)) {
             if (frame.dlc != dlc::data_length_to_dlc(sizeof(DisplayInfo))) return;
             DisplayInfo display_info;
-            if (converter::unpack(frame.data.data(), frame.dlc, 0, display_info)) {
+            if (converter::unpack(frame.data, 0, display_info)) {
                 display_info_ = display_info;
             }
         }
