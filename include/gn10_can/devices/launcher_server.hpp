@@ -22,6 +22,18 @@ public:
     bool get_fire_command(float& target_velocity);
 
     /**
+     * @param 前方のジャム解消用司令を受け取る
+     * @param rotate_veloity ジャム解消時に回す目標速度
+     */
+    bool get_unjam_forward_command(float& rotate_velocity);
+
+    /**
+     * @brief 後方のジャム解消用司令を受け取る
+     * @param rotate_veloity ジャム解消時に回す目標速度
+     */
+    bool get_unjam_reverse_command(float& rotate_velocity);
+
+    /**
      * @brief 射出完了を送信する
      * @param release_velocity 射出点の速度
      */
