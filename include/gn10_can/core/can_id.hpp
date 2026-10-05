@@ -139,8 +139,7 @@ enum class MsgTypeLauncher : uint8_t {
     ReleasePoint = 2,
     InitialPoint = 3,
     FeedbackVel  = 4,
-    UnjamForward = 5,
-    UnjamReverse = 6,
+    Unjam        = 5,
 };
 
 /**

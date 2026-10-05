@@ -23,16 +23,10 @@ public:
     void send_fire_command(float target_velocity);
 
     /**
-     * @brief 前方のジャム解消用司令を送る
+     * @brief ジャム解消用司令を送る
      * @param rotate_veloity ジャム解消時に回す目標速度
      */
-    void send_unjam_forward_command(float rotate_velocity);
-
-    /**
-     * @brief 後方のジャム解消用司令を送る
-     * @param rotate_velocity ジャム解消時に回す目標速度
-     */
-    void send_umjam_reverse_command(float rotate_velocity);
+    void send_unjam_command(float rotate_velocity);
 
     /**
      * @brief 射出完了を受信する
