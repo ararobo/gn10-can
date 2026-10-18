@@ -12,7 +12,7 @@ FDCANBus::FDCANBus(drivers::IFDCANDriver& driver) : driver_(driver), devices_{},
 void FDCANBus::update()
 {
     FDCANFrame frame;
-    while (driver_.receive(frame)) {
+    if (driver_.receive(frame)) {
         dispatch(frame);
     }
 }

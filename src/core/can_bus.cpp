@@ -12,7 +12,7 @@ CANBus::CANBus(drivers::ICANDriver& driver) : driver_(driver), devices_{}, devic
 void CANBus::update()
 {
     CANFrame frame;
-    while (driver_.receive(frame)) {
+    if (driver_.receive(frame)) {
         dispatch(frame);
     }
 }
