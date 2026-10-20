@@ -27,6 +27,16 @@ bool LauncherServer::get_fire_command(float& target_velocity)
     return false;
 }
 
+bool LauncherServer::get_unjam_command(float& rotate_velocity)
+{
+    if (rotate_velocity_.has_value()) {
+        rotate_velocity = rotate_velocity_.value();
+        rotate_velocity_.reset();
+        return true;
+    }
+    return false;
+}
+
 void LauncherServer::send_release_point(float release_velocity)
 {
     std::array<uint8_t, sizeof(float)> data{};
@@ -57,6 +67,11 @@ void LauncherServer::on_receive(const FDCANFrame& frame)
         float target_velocity;
         if (converter::unpack(frame.data, 0, target_velocity)) {
             target_velocity_ = target_velocity;
+        }
+    } else if (id_fields.is_command(id::MsgTypeLauncher::Unjam)) {
+        float rotate_velocity;
+        if (converter::unpack(frame.data, 0, rotate_velocity)) {
+            rotate_velocity_ = rotate_velocity;
         }
     }
 }

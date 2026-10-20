@@ -20,6 +20,13 @@ void LauncherClient::send_fire_command(float target_velocity)
     send(id::MsgTypeLauncher::Fire, data);
 }
 
+void LauncherClient::send_unjam_command(float rotate_velocity)
+{
+    std::array<uint8_t, sizeof(float)> data{};
+    converter::pack(data, 0, rotate_velocity);
+    send(id::MsgTypeLauncher::Unjam, data);
+}
+
 bool LauncherClient::get_release_point(float& release_velocity)
 {
     if (release_velocity_.has_value()) {
