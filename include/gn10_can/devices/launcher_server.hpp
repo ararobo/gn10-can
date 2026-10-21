@@ -40,10 +40,12 @@ public:
     void send_initial_point(float initial_angle);
 
     /**
-     * @brief 角速度を送信する
-     * @param feedback_velocity 送信されてきた速度
+     * @brief フィードバックデータを送信する
+     * @param velocity 速度
+     * @param current 電流
+     * @param voltage 電圧
      */
-    void send_velocity_feedback(float feedback_velocity);
+    void send_feedbacks(float velocity, float current, float voltage);
 
     void on_receive(const FDCANFrame& frame) override;
 

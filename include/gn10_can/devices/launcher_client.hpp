@@ -41,10 +41,12 @@ public:
     bool get_initial_point(float& initial_angle);
 
     /**
-     * @brief 速度を取得する
-     * @param feedback_velocity 送信されてきた速度
+     * @brief フィードバックデータを取得する
+     * @param velocity 速度
+     * @param current 電流
+     * @param voltage 電圧
      */
-    bool get_velocity_feedback(float& feedback_velocity);
+    bool get_feedbacks(float& velocity, float& current, float& voltage);
 
     void on_receive(const FDCANFrame& frame) override;
 
