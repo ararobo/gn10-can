@@ -53,7 +53,9 @@ public:
 private:
     std::optional<float> release_velocity_;
     std::optional<float> initial_angle_;
-    std::optional<float> feedback_velocity_;
+    std::optional<float> velocity_;
+    std::optional<float> current_;
+    std::optional<float> voltage_;
 };
 
 }  // namespace devices

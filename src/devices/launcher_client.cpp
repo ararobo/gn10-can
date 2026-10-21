@@ -47,11 +47,15 @@ bool LauncherClient::get_initial_point(float& initial_angle)
     return false;
 }
 
-bool LauncherClient::get_velocity_feedback(float& feedback_velocity)
+bool LauncherClient::get_feedbacks(float& velocity, float& current, float& voltage)
 {
-    if (feedback_velocity_.has_value()) {
-        feedback_velocity = feedback_velocity_.value();
-        feedback_velocity_.reset();
+    if (velocity_.has_value() && current_.has_value() && voltage_.has_value()) {
+        velocity = velocity_.value();
+        current  = current_.value();
+        voltage  = voltage_.value();
+        velocity_.reset();
+        current_.reset();
+        voltage_.reset();
         return true;
     }
     return false;
@@ -70,10 +74,18 @@ void LauncherClient::on_receive(const FDCANFrame& frame)
         if (converter::unpack(frame.data, 0, initial_angle)) {
             initial_angle_ = initial_angle;
         }
-    } else if (id_fields.is_command(id::MsgTypeLauncher::FeedbackVel)) {
-        float feedback_velocity;
-        if (converter::unpack(frame.data, 0, feedback_velocity)) {
-            feedback_velocity_ = feedback_velocity;
+    } else if (id_fields.is_command(id::MsgTypeLauncher::Feedbacks)) {
+        float velocity;
+        float current;
+        float voltage;
+        if (converter::unpack(frame.data, 0, velocity)) {
+            velocity_ = velocity;
+        }
+        if (converter::unpack(frame.data, sizeof(float), current)) {
+            current_ = current;
+        }
+        if (converter::unpack(frame.data, sizeof(float) * 2, voltage)) {
+            voltage_ = voltage;
         }
     }
 }
