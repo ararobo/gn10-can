@@ -17,30 +17,30 @@ bool LauncherServer::get_init()
     return false;
 }
 
-bool LauncherServer::get_fire_command(float& target_velocity)
+bool LauncherServer::get_fire_command(float& target_erpm)
 {
-    if (target_velocity_.has_value()) {
-        target_velocity = target_velocity_.value();
-        target_velocity_.reset();
+    if (target_erpm_.has_value()) {
+        target_erpm = target_erpm_.value();
+        target_erpm_.reset();
         return true;
     }
     return false;
 }
 
-bool LauncherServer::get_unjam_command(float& rotate_velocity)
+bool LauncherServer::get_unjam_command(float& rotate_erpm)
 {
-    if (rotate_velocity_.has_value()) {
-        rotate_velocity = rotate_velocity_.value();
-        rotate_velocity_.reset();
+    if (rotate_erpm_.has_value()) {
+        rotate_erpm = rotate_erpm_.value();
+        rotate_erpm_.reset();
         return true;
     }
     return false;
 }
 
-void LauncherServer::send_release_point(float release_velocity)
+void LauncherServer::send_release_point(float release_erpm)
 {
     std::array<uint8_t, sizeof(float)> data{};
-    converter::pack(data, 0, release_velocity);
+    converter::pack(data, 0, release_erpm);
     send(id::MsgTypeLauncher::ReleasePoint, data);
 }
 
@@ -66,14 +66,14 @@ void LauncherServer::on_receive(const FDCANFrame& frame)
     if (id_fields.is_command(id::MsgTypeLauncher::Init)) {
         init_received_ = true;
     } else if (id_fields.is_command(id::MsgTypeLauncher::Fire)) {
-        float target_velocity;
-        if (converter::unpack(frame.data, 0, target_velocity)) {
-            target_velocity_ = target_velocity;
+        float target_erpm;
+        if (converter::unpack(frame.data, 0, target_erpm)) {
+            target_erpm_ = target_erpm;
         }
     } else if (id_fields.is_command(id::MsgTypeLauncher::Unjam)) {
-        float rotate_velocity;
-        if (converter::unpack(frame.data, 0, rotate_velocity)) {
-            rotate_velocity_ = rotate_velocity;
+        float rotate_erpm;
+        if (converter::unpack(frame.data, 0, rotate_erpm)) {
+            rotate_erpm_ = rotate_erpm;
         }
     }
 }

@@ -13,25 +13,25 @@ void LauncherClient::set_init()
     send(id::MsgTypeLauncher::Init);
 }
 
-void LauncherClient::send_fire_command(float target_velocity)
+void LauncherClient::send_fire_command(float target_erpm)
 {
     std::array<uint8_t, sizeof(float)> data{};
-    converter::pack(data, 0, target_velocity);
+    converter::pack(data, 0, target_erpm);
     send(id::MsgTypeLauncher::Fire, data);
 }
 
-void LauncherClient::send_unjam_command(float rotate_velocity)
+void LauncherClient::send_unjam_command(float rotate_erpm)
 {
     std::array<uint8_t, sizeof(float)> data{};
-    converter::pack(data, 0, rotate_velocity);
+    converter::pack(data, 0, rotate_erpm);
     send(id::MsgTypeLauncher::Unjam, data);
 }
 
-bool LauncherClient::get_release_point(float& release_velocity)
+bool LauncherClient::get_release_point(float& release_erpm)
 {
-    if (release_velocity_.has_value()) {
-        release_velocity = release_velocity_.value();
-        release_velocity_.reset();
+    if (release_erpm_.has_value()) {
+        release_erpm = release_erpm_.value();
+        release_erpm_.reset();
         return true;
     }
     return false;
@@ -61,9 +61,9 @@ void LauncherClient::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
     if (id_fields.is_command(id::MsgTypeLauncher::ReleasePoint)) {
-        float release_velocity;
-        if (converter::unpack(frame.data, 0, release_velocity)) {
-            release_velocity_ = release_velocity;
+        float release_erpm;
+        if (converter::unpack(frame.data, 0, release_erpm)) {
+            release_erpm_ = release_erpm;
         }
     } else if (id_fields.is_command(id::MsgTypeLauncher::InitialPoint)) {
         float initial_angle;
