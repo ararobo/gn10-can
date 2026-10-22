@@ -47,15 +47,11 @@ bool LauncherClient::get_initial_point(float& initial_angle)
     return false;
 }
 
-bool LauncherClient::get_feedbacks(float& velocity, float& current, float& voltage)
+bool LauncherClient::get_feedbacks(launcher_feedbacks::Sensors sensors)
 {
-    if (velocity_.has_value() && current_.has_value() && voltage_.has_value()) {
-        velocity = velocity_.value();
-        current  = current_.value();
-        voltage  = voltage_.value();
-        velocity_.reset();
-        current_.reset();
-        voltage_.reset();
+    if (sensors_.has_value()) {
+        sensors = sensors_.value();
+        sensors_.reset();
         return true;
     }
     return false;
@@ -77,9 +73,14 @@ void LauncherClient::on_receive(const FDCANFrame& frame)
     } else if (id_fields.is_command(id::MsgTypeLauncher::Feedbacks)) {
         if (frame.dlc != dlc::data_length_to_dlc(sizeof(float) * 3)) return;
         float erpm;
-        float current;
         float voltage;
-        if (converter::unpack(frame.data, 0, )) }
+        float current;
+        if (converter::unpack(frame.data, 0, erpm) &&
+            converter::unpack(frame.data, sizeof(float), voltage) &&
+            converter::unpack(frame.data, sizeof(float) * 2, current)) {
+            sensors_ = launcher_feedbacks::Sensors{erpm, voltage, current};
+        }
+    }
 }
 
 }  // namespace devices

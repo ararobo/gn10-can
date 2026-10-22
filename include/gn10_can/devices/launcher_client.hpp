@@ -10,8 +10,8 @@ namespace devices {
 namespace launcher_feedbacks {
 struct Sensors {
     float erpm_;
-    float current_;
     float voltage_;
+    float current_;
 };
 }  // namespace launcher_feedbacks
 
