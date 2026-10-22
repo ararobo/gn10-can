@@ -51,12 +51,12 @@ void LauncherServer::send_initial_point(float initial_angle)
     send(id::MsgTypeLauncher::InitialPoint, data);
 }
 
-void LauncherServer::send_feedbacks(float velocity, float current, float voltage)
+void LauncherServer::send_feedbacks(float erpm, float voltage, float current)
 {
     std::array<uint8_t, sizeof(float) * 3> data{};
-    converter::pack(data, 0, velocity);
-    converter::pack(data, sizeof(float), current);
-    converter::pack(data, sizeof(float) * 2, voltage);
+    converter::pack(data, 0, erpm);
+    converter::pack(data, sizeof(float), voltage);
+    converter::pack(data, sizeof(float) * 2, current);
     send(id::MsgTypeLauncher::Feedbacks, data);
 }
 
