@@ -41,11 +41,11 @@ public:
 
     /**
      * @brief フィードバックデータを送信する
-     * @param velocity 速度
-     * @param current 電流
+     * @param erpm vescの生データERPM
      * @param voltage 電圧
+     * @param current 電流
      */
-    void send_feedbacks(float velocity, float current, float voltage);
+    void send_feedbacks(float erpm, float voltage, float current);
 
     void on_receive(const FDCANFrame& frame) override;
 

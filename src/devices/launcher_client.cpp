@@ -75,19 +75,11 @@ void LauncherClient::on_receive(const FDCANFrame& frame)
             initial_angle_ = initial_angle;
         }
     } else if (id_fields.is_command(id::MsgTypeLauncher::Feedbacks)) {
-        float velocity;
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(float) * 3)) return;
+        float erpm;
         float current;
         float voltage;
-        if (converter::unpack(frame.data, 0, velocity)) {
-            velocity_ = velocity;
-        }
-        if (converter::unpack(frame.data, sizeof(float), current)) {
-            current_ = current;
-        }
-        if (converter::unpack(frame.data, sizeof(float) * 2, voltage)) {
-            voltage_ = voltage;
-        }
-    }
+        if (converter::unpack(frame.data, 0, )) }
 }
 
 }  // namespace devices
