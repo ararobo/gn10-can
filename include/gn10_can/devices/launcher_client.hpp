@@ -27,21 +27,21 @@ public:
 
     /**
      * @brief 射出司令を送る
-     * @param target_velocity 射出時の目標速度
+     * @param target_erpm 射出時のERPM
      */
-    void send_fire_command(float target_velocity);
+    void send_fire_command(float target_erpm);
 
     /**
      * @brief ジャム解消用司令を送る
-     * @param rotate_veloity ジャム解消時に回す目標速度
+     * @param rotate_erpm ジャム解消時に回すERPM
      */
-    void send_unjam_command(float rotate_velocity);
+    void send_unjam_command(float rotate_erpm);
 
     /**
      * @brief 射出完了を受信する
-     * @param release_velocity 射出点の速度
+     * @param release_erpm 射出点のERPM
      */
-    bool get_release_point(float& release_velocity);
+    bool get_release_point(float& release_erpm);
 
     /**
      * @brief 初期化完了を受信する
@@ -57,7 +57,7 @@ public:
     void on_receive(const FDCANFrame& frame) override;
 
 private:
-    std::optional<float> release_velocity_;
+    std::optional<float> release_erpm_;
     std::optional<float> initial_angle_;
     std::optional<launcher_feedbacks::Sensors> sensors_;
 };
