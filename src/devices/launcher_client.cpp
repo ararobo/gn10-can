@@ -47,10 +47,12 @@ bool LauncherClient::get_initial_point(float& initial_angle)
     return false;
 }
 
-bool LauncherClient::get_feedbacks(launcher_feedbacks::Sensors sensors)
+bool LauncherClient::get_feedbacks(float& erpm, float& voltage, float& current)
 {
     if (sensors_.has_value()) {
-        sensors = sensors_.value();
+        erpm    = sensors_->erpm;
+        voltage = sensors_->voltage;
+        current = sensors_->current;
         sensors_.reset();
         return true;
     }
@@ -78,7 +80,7 @@ void LauncherClient::on_receive(const FDCANFrame& frame)
         if (converter::unpack(frame.data, 0, erpm) &&
             converter::unpack(frame.data, sizeof(float), voltage) &&
             converter::unpack(frame.data, sizeof(float) * 2, current)) {
-            sensors_ = launcher_feedbacks::Sensors{erpm, voltage, current};
+            sensors_ = Sensors{erpm, voltage, current};
         }
     }
 }

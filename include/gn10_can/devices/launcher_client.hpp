@@ -7,14 +7,6 @@
 namespace gn10_can {
 namespace devices {
 
-namespace launcher_feedbacks {
-struct Sensors {
-    float erpm_;
-    float voltage_;
-    float current_;
-};
-}  // namespace launcher_feedbacks
-
 class LauncherClient : public FDCANDevice
 {
 public:
@@ -52,14 +44,19 @@ public:
     /**
      * @brief フィードバックデータを取得する
      */
-    bool get_feedbacks(launcher_feedbacks::Sensors sensors);
+    bool get_feedbacks(float& erpm, float& voltage, float& current);
 
     void on_receive(const FDCANFrame& frame) override;
 
 private:
+    struct Sensors {
+        float erpm;
+        float voltage;
+        float current;
+    };
     std::optional<float> release_erpm_;
     std::optional<float> initial_angle_;
-    std::optional<launcher_feedbacks::Sensors> sensors_;
+    std::optional<Sensors> sensors_;
 };
 
 }  // namespace devices
