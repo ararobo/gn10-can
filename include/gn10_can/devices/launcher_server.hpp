@@ -17,21 +17,21 @@ public:
 
     /**
      * @brief 射出司令医を受け取る
-     * @param target_velocity 射出時の目標速度
+     * @param target_erpm 射出時のERPM
      */
-    bool get_fire_command(float& target_velocity);
+    bool get_fire_command(float& target_erpm);
 
     /**
      * @param のジャム解消用司令を受け取る
-     * @param rotate_veloity ジャム解消時に回す目標速度
+     * @param rotate_erpm ジャム解消時に回すERPM
      */
-    bool get_unjam_command(float& rotate_velocity);
+    bool get_unjam_command(float& rotate_erpm);
 
     /**
      * @brief 射出完了を送信する
-     * @param release_velocity 射出点の速度
+     * @param release_erpm 射出点のERPM
      */
-    void send_release_point(float release_velocity);
+    void send_release_point(float release_erpm);
 
     /**
      * @brief 初期化完了を送信する
@@ -40,16 +40,18 @@ public:
     void send_initial_point(float initial_angle);
 
     /**
-     * @brief 角速度を送信する
-     * @param feedback_velocity 送信されてきた速度
+     * @brief フィードバックデータを送信する
+     * @param erpm vescの生データERPM
+     * @param voltage 電圧
+     * @param current 電流
      */
-    void send_velocity_feedback(float feedback_velocity);
+    void send_feedbacks(float erpm, float voltage, float current);
 
     void on_receive(const FDCANFrame& frame) override;
 
 private:
-    std::optional<float> target_velocity_;
-    std::optional<float> rotate_velocity_;
+    std::optional<float> target_erpm_;
+    std::optional<float> rotate_erpm_;
     bool init_received_;
 };
 }  // namespace devices

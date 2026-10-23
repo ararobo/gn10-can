@@ -6,6 +6,7 @@
 
 namespace gn10_can {
 namespace devices {
+
 class LauncherClient : public FDCANDevice
 {
 public:
@@ -18,21 +19,21 @@ public:
 
     /**
      * @brief 射出司令を送る
-     * @param target_velocity 射出時の目標速度
+     * @param target_erpm 射出時のERPM
      */
-    void send_fire_command(float target_velocity);
+    void send_fire_command(float target_erpm);
 
     /**
      * @brief ジャム解消用司令を送る
-     * @param rotate_veloity ジャム解消時に回す目標速度
+     * @param rotate_erpm ジャム解消時に回すERPM
      */
-    void send_unjam_command(float rotate_velocity);
+    void send_unjam_command(float rotate_erpm);
 
     /**
      * @brief 射出完了を受信する
-     * @param release_velocity 射出点の速度
+     * @param release_erpm 射出点のERPM
      */
-    bool get_release_point(float& release_velocity);
+    bool get_release_point(float& release_erpm);
 
     /**
      * @brief 初期化完了を受信する
@@ -41,17 +42,21 @@ public:
     bool get_initial_point(float& initial_angle);
 
     /**
-     * @brief 速度を取得する
-     * @param feedback_velocity 送信されてきた速度
+     * @brief フィードバックデータを取得する
      */
-    bool get_velocity_feedback(float& feedback_velocity);
+    bool get_feedbacks(float& erpm, float& voltage, float& current);
 
     void on_receive(const FDCANFrame& frame) override;
 
 private:
-    std::optional<float> release_velocity_;
+    struct Sensors {
+        float erpm;
+        float voltage;
+        float current;
+    };
+    std::optional<float> release_erpm_;
     std::optional<float> initial_angle_;
-    std::optional<float> feedback_velocity_;
+    std::optional<Sensors> sensors_;
 };
 
 }  // namespace devices
