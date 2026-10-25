@@ -13,25 +13,25 @@ void LauncherClient::set_init()
     send(id::MsgTypeLauncher::Init);
 }
 
-void LauncherClient::send_fire_command(float target_velocity)
+void LauncherClient::send_fire_command(float target_erpm)
 {
     std::array<uint8_t, sizeof(float)> data{};
-    converter::pack(data, 0, target_velocity);
+    converter::pack(data, 0, target_erpm);
     send(id::MsgTypeLauncher::Fire, data);
 }
 
-void LauncherClient::send_unjam_command(float rotate_velocity)
+void LauncherClient::send_unjam_command(float rotate_erpm)
 {
     std::array<uint8_t, sizeof(float)> data{};
-    converter::pack(data, 0, rotate_velocity);
+    converter::pack(data, 0, rotate_erpm);
     send(id::MsgTypeLauncher::Unjam, data);
 }
 
-bool LauncherClient::get_release_point(float& release_velocity)
+bool LauncherClient::get_release_point(float& release_erpm)
 {
-    if (release_velocity_.has_value()) {
-        release_velocity = release_velocity_.value();
-        release_velocity_.reset();
+    if (release_erpm_.has_value()) {
+        release_erpm = release_erpm_.value();
+        release_erpm_.reset();
         return true;
     }
     return false;
@@ -47,11 +47,13 @@ bool LauncherClient::get_initial_point(float& initial_angle)
     return false;
 }
 
-bool LauncherClient::get_velocity_feedback(float& feedback_velocity)
+bool LauncherClient::get_feedbacks(float& erpm, float& voltage, float& current)
 {
-    if (feedback_velocity_.has_value()) {
-        feedback_velocity = feedback_velocity_.value();
-        feedback_velocity_.reset();
+    if (sensors_.has_value()) {
+        erpm    = sensors_->erpm;
+        voltage = sensors_->voltage;
+        current = sensors_->current;
+        sensors_.reset();
         return true;
     }
     return false;
@@ -61,19 +63,24 @@ void LauncherClient::on_receive(const FDCANFrame& frame)
 {
     auto id_fields = id::unpack(frame.id);
     if (id_fields.is_command(id::MsgTypeLauncher::ReleasePoint)) {
-        float release_velocity;
-        if (converter::unpack(frame.data, 0, release_velocity)) {
-            release_velocity_ = release_velocity;
+        float release_erpm;
+        if (converter::unpack(frame.data, 0, release_erpm)) {
+            release_erpm_ = release_erpm;
         }
     } else if (id_fields.is_command(id::MsgTypeLauncher::InitialPoint)) {
         float initial_angle;
         if (converter::unpack(frame.data, 0, initial_angle)) {
             initial_angle_ = initial_angle;
         }
-    } else if (id_fields.is_command(id::MsgTypeLauncher::FeedbackVel)) {
-        float feedback_velocity;
-        if (converter::unpack(frame.data, 0, feedback_velocity)) {
-            feedback_velocity_ = feedback_velocity;
+    } else if (id_fields.is_command(id::MsgTypeLauncher::Feedbacks)) {
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(float) * 3)) return;
+        float erpm;
+        float voltage;
+        float current;
+        if (converter::unpack(frame.data, 0, erpm) &&
+            converter::unpack(frame.data, sizeof(float), voltage) &&
+            converter::unpack(frame.data, sizeof(float) * 2, current)) {
+            sensors_ = Sensors{erpm, voltage, current};
         }
     }
 }

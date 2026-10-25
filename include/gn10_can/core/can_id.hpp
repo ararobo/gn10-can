@@ -138,7 +138,7 @@ enum class MsgTypeLauncher : uint8_t {
     Fire         = 1,
     ReleasePoint = 2,
     InitialPoint = 3,
-    FeedbackVel  = 4,
+    Feedbacks    = 4,
     Unjam        = 5,
 };
 
