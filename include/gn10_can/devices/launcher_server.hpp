@@ -58,7 +58,7 @@ public:
 private:
     std::optional<float> target_erpm_;
     std::optional<float> rotate_erpm_;
-    bool init_received_ = false;
+    bool init_received_{false};
 };
 }  // namespace devices
 }  // namespace gn10_can
