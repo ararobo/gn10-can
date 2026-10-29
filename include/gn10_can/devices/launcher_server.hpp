@@ -35,7 +35,7 @@ public:
 
     /**
      * @brief 初期化完了を送信する
-     * @param inital_angle 初期化が完了したところの角度
+     * @param initial_angle 初期化が完了したところの角度
      */
     void send_initial_point(float initial_angle);
 

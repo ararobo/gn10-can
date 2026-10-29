@@ -37,7 +37,7 @@ public:
 
     /**
      * @brief 初期化完了を受信する
-     * @param inital_angle 初期化が完了したところの角度
+     * @param initial_angle 初期化が完了したところの角度
      */
     bool get_initial_point(float& initial_angle);
 
