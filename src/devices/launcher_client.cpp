@@ -76,9 +76,12 @@ void LauncherClient::on_receive(const FDCANFrame& frame)
             initial_angle_ = initial_angle;
         }
     } else if (id_fields.is_command(id::MsgTypeLauncher::Feedbacks)) {
-        if (frame.dlc != dlc::data_length_to_dlc(sizeof(float) * 3)) return;
+        if (frame.dlc != dlc::data_length_to_dlc(sizeof(float) * 4)) return;
         Feedbacks feedbacks{};
-        if (converter::unpack(frame.data, 0, feedbacks)) {
+        if (converter::unpack(frame.data, 0, feedbacks.command_erpm) &&
+            converter::unpack(frame.data, sizeof(float), feedbacks.current_erpm) &&
+            converter::unpack(frame.data, sizeof(float) * 2, feedbacks.voltage) &&
+            converter::unpack(frame.data, sizeof(float) * 3, feedbacks.current)) {
             feedbacks_ = feedbacks;
         }
     }
