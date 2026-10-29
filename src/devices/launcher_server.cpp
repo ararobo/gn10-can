@@ -51,12 +51,15 @@ void LauncherServer::send_initial_point(float initial_angle)
     send(id::MsgTypeLauncher::InitialPoint, data);
 }
 
-void LauncherServer::send_feedbacks(float erpm, float voltage, float current)
+void LauncherServer::send_feedbacks(
+    const float& command_erpm, const float& current_erpm, const float& voltage, const float& current
+)
 {
     std::array<uint8_t, sizeof(float) * 3> data{};
-    converter::pack(data, 0, erpm);
-    converter::pack(data, sizeof(float), voltage);
-    converter::pack(data, sizeof(float) * 2, current);
+    converter::pack(data, 0, command_erpm);
+    converter::pack(data, sizeof(float), current_erpm);
+    converter::pack(data, sizeof(float) * 2, voltage);
+    converter::pack(data, sizeof(float) * 3, current);
     send(id::MsgTypeLauncher::Feedbacks, data);
 }
 

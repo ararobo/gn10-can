@@ -43,20 +43,25 @@ public:
 
     /**
      * @brief フィードバックデータを取得する
+     * @param command_erpm 指令値
+     * @param current_erpm 現在値
+     * @param voltage 電圧
+     * @param current 電流
      */
-    bool get_feedbacks(float& erpm, float& voltage, float& current);
+    bool get_feedbacks(float& command_erpm, float& current_erpm, float& voltage, float& current);
 
     void on_receive(const FDCANFrame& frame) override;
 
 private:
-    struct Sensors {
-        float erpm;
+    struct Feedbacks {
+        float command_erpm;
+        float current_erpm;
         float voltage;
         float current;
     };
     std::optional<float> release_erpm_;
     std::optional<float> initial_angle_;
-    std::optional<Sensors> sensors_;
+    std::optional<Feedbacks> feedbacks_;
 };
 
 }  // namespace devices
