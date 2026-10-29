@@ -55,7 +55,7 @@ void LauncherServer::send_feedbacks(
     const float& command_erpm, const float& current_erpm, const float& voltage, const float& current
 )
 {
-    std::array<uint8_t, sizeof(float) * 3> data{};
+    std::array<uint8_t, sizeof(float) * 4> data{};
     converter::pack(data, 0, command_erpm);
     converter::pack(data, sizeof(float), current_erpm);
     converter::pack(data, sizeof(float) * 2, voltage);
