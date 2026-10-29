@@ -35,24 +35,30 @@ public:
 
     /**
      * @brief 初期化完了を送信する
-     * @param inital_angle 初期化が完了したところの角度
+     * @param initial_angle 初期化が完了したところの角度
      */
     void send_initial_point(float initial_angle);
 
     /**
      * @brief フィードバックデータを送信する
-     * @param erpm vescの生データERPM
+     * @param command_erpm 指令値
+     * @param current_erpm 現在値
      * @param voltage 電圧
      * @param current 電流
      */
-    void send_feedbacks(float erpm, float voltage, float current);
+    void send_feedbacks(
+        const float& command_erpm,
+        const float& current_erpm,
+        const float& voltage,
+        const float& current
+    );
 
     void on_receive(const FDCANFrame& frame) override;
 
 private:
     std::optional<float> target_erpm_;
     std::optional<float> rotate_erpm_;
-    bool init_received_;
+    bool init_received_{false};
 };
 }  // namespace devices
 }  // namespace gn10_can
